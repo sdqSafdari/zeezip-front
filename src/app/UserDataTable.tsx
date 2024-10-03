@@ -1,11 +1,14 @@
 "use client"
 import {useState, useEffect} from "react";
+import {QueryClient, useQuery, useQueryClient} from "@tanstack/react-query";
 
 export default function UserDataTable(props){
-    let [data,setData] = useState();
-    useEffect(()=> {
-        fetch("http://192.168.8.103/mock/student.json").then(res => res.json()).then(data => setData(data));
-    },[]);
+    console.log("USER_DATA_TABLE re-renders!");
+    const queryClient:QueryClient = useQueryClient();
+    const {data} = useQuery({
+        queryKey: ['userData'],
+        queryFn: () => fetch("http://192.168.8.103/mock/student.json",{cache:'no-store'}).then(res => res.json())
+    });
     return (
         <table className="table-auto border border-slate-900">
             <thead>
