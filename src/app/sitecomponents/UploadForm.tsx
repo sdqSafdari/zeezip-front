@@ -12,6 +12,7 @@ function formatFileSize(bytes: number): string {
     const i = Math.floor(Math.log(bytes) / Math.log(k))
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
+
 export default function UploadForm() {
     const [files, setFiles] = React.useState<File[]>([])
     const [uploading, setUploading] = React.useState(false)
@@ -50,6 +51,8 @@ export default function UploadForm() {
         }
     }
 
+    const totalSize = files.reduce((acc, file) => acc + file.size, 0)
+
     return (
         <Card className="w-full max-w-md">
             <CardHeader>
@@ -82,14 +85,12 @@ export default function UploadForm() {
                     {files.length > 0 && (
                         <div className="space-y-2">
                             <h3 className="text-sm font-medium">Selected Files:</h3>
-                            <ul className="space-y-1">
+                            <ul className="space-y-2">
                                 {files.map((file, index) => (
-                                    <li key={index}
-                                        className="flex items-center justify-between text-sm text-muted-foreground bg-secondary rounded-md p-2">
+                                    <li key={index} className="flex items-start justify-between text-sm bg-secondary rounded-md p-2">
                                         <div className="flex flex-col">
                                             <span className="font-medium truncate max-w-[200px]">{file.name}</span>
-                                            <span
-                                                className="text-xs text-muted-foreground">{formatFileSize(file.size)}</span>
+                                            <span className="text-xs text-muted-foreground">{formatFileSize(file.size)}</span>
                                         </div>
                                         <Button
                                             type="button"
@@ -98,7 +99,7 @@ export default function UploadForm() {
                                             onClick={() => handleRemoveFile(file)}
                                             className="h-6 w-6 p-0 mt-1"
                                         >
-                                            <X className="h-4 w-4"/>
+                                            <X className="h-4 w-4" />
                                             <span className="sr-only">Remove {file.name}</span>
                                         </Button>
                                     </li>
@@ -109,7 +110,7 @@ export default function UploadForm() {
                 </CardContent>
                 <CardFooter>
                     <Button type="submit" className="w-full" disabled={files.length === 0 || uploading}>
-                        {uploading ? "Uploading..." : "Upload"}
+                        {uploading ? "Uploading..." : `Upload (${formatFileSize(totalSize)})`}
                     </Button>
                 </CardFooter>
             </form>
