@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
     <ServerClientQueryClientProvider>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased mr-4 ml-4`}>
       <ThemeProvider
           attribute="class"
           defaultTheme="system"
