@@ -17,8 +17,6 @@ export default function Home() {
                   }}>refresh
                   </button>
               </div>
-              {queryClient.getQueryCache().getAll().map((value, index, array) => <h2
-                  key={value.queryHash}>{JSON.stringify(value)}</h2>)}
           </div>
       </>
   );
