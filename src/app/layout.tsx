@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
+import localFont from "next/font/local";
 import ServerClientQueryClientProvider from '@/provider/ServerClientQueryClientProvider';
 import {ThemeProvider} from "@/provider/ThemeProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
 
 export const metadata: Metadata = {
   title: "ZeeZip",
@@ -22,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
     <ServerClientQueryClientProvider>
-      <body className={inter.className}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <ThemeProvider
           attribute="class"
           defaultTheme="system"
