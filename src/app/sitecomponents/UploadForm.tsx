@@ -84,20 +84,20 @@ export default function UploadForm() {
                     </div>
                     {files.length > 0 && (
                         <div className="space-y-2">
-                            <h3 className="text-sm font-medium">Selected Files:</h3>
+                            <h3 className="font-medium">Selected Files:</h3>
                             <ul className="space-y-2">
                                 {files.map((file, index) => (
                                     <li key={index} className="flex items-start justify-between text-sm bg-secondary rounded-md p-2">
                                         <div className="flex flex-col">
                                             <span className="font-medium truncate max-w-[200px]">{file.name}</span>
-                                            <span className="text-xs text-muted-foreground">{formatFileSize(file.size)}</span>
+                                            <span className="text-muted-foreground">{formatFileSize(file.size)}</span>
                                         </div>
                                         <Button
                                             type="button"
                                             variant="ghost"
                                             size="sm"
                                             onClick={() => handleRemoveFile(file)}
-                                            className="h-6 w-6 p-0 mt-1"
+                                            className="h-6 w-6 p-0 my-auto"
                                         >
                                             <X className="h-4 w-4" />
                                             <span className="sr-only">Remove {file.name}</span>
