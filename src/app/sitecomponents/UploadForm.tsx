@@ -20,7 +20,9 @@ export default function UploadForm() {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            setFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files || [])])
+            const fileNames = new Set(files.map(file=>file.name));
+            const filteredFiles = Array.from(event.target.files || []).filter(file=>!fileNames.has(file.name));
+            setFiles(prevFiles => [...prevFiles, ...filteredFiles])
         }
     }
 
