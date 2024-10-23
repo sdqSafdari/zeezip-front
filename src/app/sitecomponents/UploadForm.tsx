@@ -4,6 +4,10 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, X } from "lucide-react"
+import UploadProgressBar from "@/app/sitecomponents/UploadProgressBar";
+import {useMutation} from "@tanstack/react-query";
+import axios from "axios";
+import {useState} from "react";
 
 function formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes'
@@ -16,8 +20,25 @@ function formatFileSize(bytes: number): string {
 export default function UploadForm() {
     const [files, setFiles] = React.useState<File[]>([])
     const [uploading, setUploading] = React.useState(false)
+    const [uploadProgress, setUploadProgress] = useState(0 );
     const fileInputRef = React.useRef<HTMLInputElement>(null)
 
+
+    const uploadFilesMutation = useMutation({
+        mutationFn: (formData:FormData) => {
+           return  axios.post("/bff/upload",formData,{
+               onUploadProgress:(progressEvent)=>{
+                   const total = progressEvent.total;
+                   const current = progressEvent.loaded;
+                   const percentage = Math.round((current / total) * 100);
+                   setUploadProgress(percentage);
+               }});
+
+        },
+        onSuccess: data => {
+            // pass data to FileMetadataTable
+        }
+    });
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const fileNames = new Set(files.map(file=>file.name));
@@ -34,23 +55,15 @@ export default function UploadForm() {
         fileInputRef.current?.click()
     }
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (files.length === 0) return
 
-        setUploading(true)
+        setUploading(true);
 
-        // Simulating file upload
-        await new Promise(resolve => setTimeout(resolve, 2000))
-
-        // Here you would typically send the files to your server
-        console.log("Files uploaded:", files.map(file => file.name))
-
-        setUploading(false)
-        setFiles([])
-        if (fileInputRef.current) {
-            fileInputRef.current.value = ''
-        }
+        const formData:FormData = new FormData();
+        files.forEach(file=>formData.append("files",file))
+        uploadFilesMutation.mutate(formData);
     }
 
     const totalSize = files.reduce((acc, file) => acc + file.size, 0)
@@ -63,6 +76,8 @@ export default function UploadForm() {
             <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-4">
                     <div className="flex flex-col items-center justify-center space-y-2">
+                        {uploading ? <UploadProgressBar progress={uploadProgress}/> :
+                            <>
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -83,6 +98,7 @@ export default function UploadForm() {
                                 <span>Click to upload files</span>
                             </div>
                         </Button>
+                            </> }
                     </div>
                     {files.length > 0 && (
                         <div className="space-y-2">
@@ -117,5 +133,34 @@ export default function UploadForm() {
                 </CardFooter>
             </form>
         </Card>
+    )
+}
+function  uploadInputMarkup(fileInputRef,handleFileChange){
+    const handleUploadClick = () => {
+        fileInputRef.current?.click()
+    }
+    return (
+        <>
+            <input
+                ref={fileInputRef}
+                type="file"
+                onChange={handleFileChange}
+                className="hidden"
+                multiple
+                id="file-upload"
+            />
+            <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                className="w-full h-32 border-dashed"
+                onClick={handleUploadClick}
+            >
+                <div className="flex flex-col items-center space-y-2">
+                    <Upload className="h-8 w-8"/>
+                    <span>Click to upload files</span>
+                </div>
+            </Button>
+        </>
     )
 }
