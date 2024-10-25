@@ -20,7 +20,7 @@ export default function Home() {
                 <ThemeButton/>
             </div>
             <div className='flex justify-between'>
-                <UploadForm setGroupId={setGroupId}/>
+                <UploadForm />
                 <div className='basis-1/4 border-2 rounded-md p-4'>
                     <Button
                         className='rounded-full'
@@ -31,7 +31,7 @@ export default function Home() {
                         }}>
                         <RotateCw className="h-4 w-4"/>
                     </Button>
-                    <FileMetadataTable groupId={groupId}/>
+                    <FileMetadataTable />
                 </div>
             </div>
         </>

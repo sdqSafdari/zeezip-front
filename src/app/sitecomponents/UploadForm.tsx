@@ -17,7 +17,7 @@ function formatFileSize(bytes: number): string {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
-export default function UploadForm({setGroupId}) {
+export default function UploadForm() {
     const [files, setFiles] = React.useState<File[]>([])
     const [uploading, setUploading] = React.useState(false)
     const [uploadProgress, setUploadProgress] = useState(0 );
@@ -40,9 +40,8 @@ export default function UploadForm({setGroupId}) {
             setUploading(false);
             setFiles([]);
             // pass data to FileMetadataTable
-
-            setGroupId(data.groupId);
-            queryClient.invalidateQueries({queryKey:['fileData']});
+            queryClient.setQueryData(['files_'],(oldData)=>{return {groupId:data.groupId}});
+            queryClient.refetchQueries({queryKey:['fileData']});
         }
     });
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
