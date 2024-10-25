@@ -25,13 +25,15 @@ interface FileMetadata{
     size:string;
     type:string;
 }
-export default function UserTable() {
-    const groupId = 'lg34l1gx0';
+export default function UserTable({groupId}:{groupId:string}) {
     const queryClient = useQueryClient()
     console.log("UserTable re-render!")
     const {data}:{data:FileMetadata[]} = useQuery({
-        queryKey: ['fileData'],
-        queryFn: () => fetch(`http://localhost:9080/file/metadata/${groupId}`).then(res => res.json())
+        queryKey: ['fileData',groupId],
+        queryFn: ({queryKey}) => {
+            const [_key, groupId] = queryKey;
+            return fetch(`/bff/file/metadata/${groupId}`).then(res => res.json());
+        }
     });
     const tempData = data ? data : [] ;
     const [currentPage, setCurrentPage] = useState(1)

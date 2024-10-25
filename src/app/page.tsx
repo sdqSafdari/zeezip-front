@@ -9,7 +9,7 @@ import { RotateCw } from 'lucide-react';
 import UploadForm from "@/app/sitecomponents/UploadForm";
 
 export default function Home() {
-    const [re, setRe] = useState(0);
+    const [groupId, setGroupId] = useState('nichts');
     const queryClient:QueryClient = useQueryClient();
     return (
         <>
@@ -20,7 +20,7 @@ export default function Home() {
                 <ThemeButton/>
             </div>
             <div className='flex justify-between'>
-                <UploadForm />
+                <UploadForm setGroupId={setGroupId}/>
                 <div className='basis-1/4 border-2 rounded-md p-4'>
                     <Button
                         className='rounded-full'
@@ -31,7 +31,7 @@ export default function Home() {
                         }}>
                         <RotateCw className="h-4 w-4"/>
                     </Button>
-                    <FileMetadataTable/>
+                    <FileMetadataTable groupId={groupId}/>
                 </div>
             </div>
         </>

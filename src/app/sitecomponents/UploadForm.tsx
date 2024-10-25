@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, X } from "lucide-react"
 import UploadProgressBar from "@/app/sitecomponents/UploadProgressBar";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
 import {useState} from "react";
 
@@ -17,16 +17,16 @@ function formatFileSize(bytes: number): string {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
-export default function UploadForm() {
+export default function UploadForm({setGroupId}) {
     const [files, setFiles] = React.useState<File[]>([])
     const [uploading, setUploading] = React.useState(false)
     const [uploadProgress, setUploadProgress] = useState(0 );
     const fileInputRef = React.useRef<HTMLInputElement>(null)
-
+    const queryClient = useQueryClient();
 
     const uploadFilesMutation = useMutation({
         mutationFn: (formData:FormData) => {
-           return  axios.post("/bff/upload",formData,{
+           return  axios.post("/bff/file/upload",formData,{
                onUploadProgress:(progressEvent)=>{
                    const total = progressEvent.total;
                    const current = progressEvent.loaded;
@@ -35,8 +35,14 @@ export default function UploadForm() {
                }});
 
         },
-        onSuccess: data => {
+        onSuccess: responseEntity => {
+            const {data}=responseEntity;
+            setUploading(false);
+            setFiles([]);
             // pass data to FileMetadataTable
+
+            setGroupId(data.groupId);
+            queryClient.invalidateQueries({queryKey:['fileData']});
         }
     });
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
