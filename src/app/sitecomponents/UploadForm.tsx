@@ -39,6 +39,7 @@ export default function UploadForm() {
             const {data}=responseEntity;
             setUploading(false);
             setFiles([]);
+            setUploadProgress(0);
             // pass data to FileMetadataTable
             queryClient.setQueryData(['files_'],(oldData)=>{return {groupId:data.groupId}});
             queryClient.refetchQueries({queryKey:['fileData']});
