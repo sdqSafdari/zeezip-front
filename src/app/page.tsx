@@ -7,6 +7,7 @@ import HyperText from "@/components/ui/hyper-text";
 import {Button} from "@/components/ui/button";
 import { RotateCw } from 'lucide-react';
 import UploadForm from "@/app/sitecomponents/UploadForm";
+import TypingAnimation from "@/components/ui/typing-animation";
 
 export default function Home() {
     const [groupId, setGroupId] = useState('nichts');
@@ -19,6 +20,10 @@ export default function Home() {
                     </span>
                 <ThemeButton/>
             </div>
+            <TypingAnimation
+                className="text-4xl font-bold text-green-600 dark:text-white mb-4"
+                text="Fast, Modern, Secure"
+            />
             <div className='flex justify-between'>
                 <UploadForm />
                 <div className='basis-1/4 border-2 rounded-md p-4'>
