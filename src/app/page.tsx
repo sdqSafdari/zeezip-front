@@ -25,15 +25,7 @@ export default function Home() {
                 <UploadForm />
                 <SiteIntro />
                 <div className='basis-1/4 border-2 rounded-md p-4'>
-                    <Button
-                        className='rounded-full'
-                        variant="ghost"
-                        size='icon'
-                        onClick={() => {
-                            invalidateUserDataQuery(queryClient);
-                        }}>
-                        <RotateCw className="h-4 w-4"/>
-                    </Button>
+                   <h6 className='text-2xl font-semibold leading-none tracking-tight mb-3'>Download Box</h6>
                     <FileMetadataTable />
                 </div>
             </div>
