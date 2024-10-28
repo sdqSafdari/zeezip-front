@@ -8,24 +8,22 @@ import {Button} from "@/components/ui/button";
 import { RotateCw } from 'lucide-react';
 import UploadForm from "@/app/sitecomponents/UploadForm";
 import TypingAnimation from "@/components/ui/typing-animation";
+import SiteIntro from "@/app/sitecomponents/SiteIntro";
 
 export default function Home() {
     const [groupId, setGroupId] = useState('nichts');
     const queryClient:QueryClient = useQueryClient();
     return (
         <>
-            <div className='flex justify-between items-center'>
+            <div className='flex justify-between items-center mb-6'>
                 <span className='mx-auto'>
                 <HyperText text='ZEEZIP Project' className='text-3xl font-black text-green-600'/>
                     </span>
                 <ThemeButton/>
             </div>
-            <TypingAnimation
-                className="text-4xl font-bold text-green-600 dark:text-white mb-4"
-                text="Fast, Modern, Secure"
-            />
-            <div className='flex justify-between'>
+            <div className='flex gap-4 items-start'>
                 <UploadForm />
+                <SiteIntro />
                 <div className='basis-1/4 border-2 rounded-md p-4'>
                     <Button
                         className='rounded-full'
