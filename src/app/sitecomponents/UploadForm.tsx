@@ -19,7 +19,7 @@ export default function UploadForm() {
 
     const uploadFilesMutation = useMutation({
         mutationFn: (formData:FormData) => {
-           return  axios.post("/bff/file/upload",formData,{
+           return  axios.post("/bff/file/store",formData,{
                onUploadProgress:(progressEvent)=>{
                    const total = progressEvent.total;
                    const current = progressEvent.loaded;
