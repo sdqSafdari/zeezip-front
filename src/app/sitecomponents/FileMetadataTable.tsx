@@ -18,12 +18,12 @@ import { Button } from "@/components/ui/button"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
+import {formatFileSize} from "@/app/utils/FileUtils";
 
 interface FileMetadata{
-    id:string;
     name:string;
-    size:string;
-    type:string;
+    size:number;
+    lastModified:string;
 }
 export default function UserTable() {
     const queryClient = useQueryClient()
@@ -57,10 +57,10 @@ export default function UserTable() {
                     </TableHeader>
                     <TableBody>
                         {currentFiles.map((fileMetadata) => (
-                            <TableRow key={fileMetadata.id}>
+                            <TableRow key={fileMetadata.name}>
                                 <TableCell>{fileMetadata.name}</TableCell>
-                                <TableCell>{fileMetadata.size}</TableCell>
-                                <TableCell>{fileMetadata.type}</TableCell>
+                                <TableCell>{formatFileSize(fileMetadata.size)}</TableCell>
+                                <TableCell>{fileMetadata.lastModified}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
