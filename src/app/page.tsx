@@ -11,7 +11,7 @@ import TypingAnimation from "@/components/ui/typing-animation";
 import SiteIntro from "@/app/sitecomponents/SiteIntro";
 
 export default function Home() {
-    const [groupId, setGroupId] = useState('nichts');
+    const [show, setShow] = useState(false);
     const queryClient:QueryClient = useQueryClient();
     return (
         <>
