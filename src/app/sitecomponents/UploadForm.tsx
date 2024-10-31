@@ -68,7 +68,7 @@ export default function UploadForm() {
     const totalSize = files.reduce((acc, file) => acc + file.size, 0)
 
     return (
-        <Card className="w-full max-w-md basis-1/4">
+        <Card className="w-full max-w-md basis-1/4 bg-transparent">
             <CardHeader>
                 <CardTitle>Upload Files</CardTitle>
             </CardHeader>

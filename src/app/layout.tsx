@@ -3,6 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import ServerClientQueryClientProvider from '@/provider/ServerClientQueryClientProvider';
 import {ThemeProvider} from "@/provider/ThemeProvider";
+import FooterBackground from "@/app/sitecomponents/FooterBackground";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,13 +32,16 @@ export default function RootLayout({
   return (
     <html lang="en">
     <ServerClientQueryClientProvider>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased mr-4 ml-4`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange>
-        {children}
+          <div className='relative z-10 mr-4 ml-4'>
+          {children}
+          </div>
+          <FooterBackground />
       </ThemeProvider>
       </body>
     </ServerClientQueryClientProvider>
