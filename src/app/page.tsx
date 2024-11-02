@@ -15,16 +15,18 @@ export default function Home() {
     const queryClient:QueryClient = useQueryClient();
     return (
         <>
-            <div className='flex justify-between items-center mb-6'>
-                <span className='mx-auto'>
-                <HyperText text='ZEEZIP Project' className='text-3xl font-black text-green-600'/>
-                    </span>
-                <ThemeButton/>
+            <div className='relative h-16 mt-1'>
+                <span className='absolute left-1/2 transform -translate-x-1/2'>
+                    <HyperText text='ZEEZIP Project' className='text-3xl font-black text-green-600'/>
+                </span>
+                <span className='absolute right-0'>
+                    <ThemeButton/>
+                </span>
             </div>
             <div className='flex gap-4 items-start'>
                 <UploadForm />
                 <SiteIntro />
-                <div className='basis-1/4 border-2 rounded-md p-4'>
+                <div className='w-1/4 basis-1/4 border-2 rounded-md p-4'>
                    <h6 className='text-2xl font-semibold leading-none tracking-tight mb-3'>Download Box</h6>
                     <FileMetadataTable />
                 </div>
