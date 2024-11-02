@@ -58,7 +58,7 @@ export default function UserTable() {
                     <TableBody>
                         {currentFiles.map((fileMetadata) => (
                             <TableRow key={fileMetadata.name}>
-                                <TableCell>{fileMetadata.name}</TableCell>
+                                <TableCell>{fileMetadata.name.split('/').slice(-1)}</TableCell>
                                 <TableCell>{formatFileSize(fileMetadata.size)}</TableCell>
                                 <TableCell>{fileMetadata.lastModified}</TableCell>
                             </TableRow>

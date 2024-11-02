@@ -9,11 +9,13 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
 import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
+import SuccessfulTick from "@/app/sitecomponents/SuccessfulTick";
 
 export default function UploadForm() {
     const [files, setFiles] = React.useState<File[]>([])
     const [uploading, setUploading] = React.useState(false)
     const [uploadProgress, setUploadProgress] = useState(0 );
+    const [successfulUpload,setSuccessfulUpload] = useState(false);
     const fileInputRef = React.useRef<HTMLInputElement>(null)
     const queryClient = useQueryClient();
 
@@ -36,6 +38,7 @@ export default function UploadForm() {
             // pass data to FileMetadataTable
             queryClient.setQueryData(['files_'],(oldData)=>{return {groupId:data.groupId}});
             queryClient.refetchQueries({queryKey:['fileData']});
+            setSuccessfulUpload(true);
         }
     });
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,14 +71,15 @@ export default function UploadForm() {
     const totalSize = files.reduce((acc, file) => acc + file.size, 0)
 
     return (
-        <Card className="w-full max-w-md basis-1/4 bg-transparent">
+        <Card className="w-1/4 max-w-md basis-1/4 bg-transparent">
             <CardHeader>
                 <CardTitle>Upload Files</CardTitle>
             </CardHeader>
             <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-4">
                     <div className="flex flex-col items-center justify-center space-y-2">
-                        {uploading ? <UploadProgressBar progress={uploadProgress}/> :
+                        {successfulUpload ? <SuccessfulTick toggleUpload={()=>setSuccessfulUpload(false)}/> :
+                            uploading ? <UploadProgressBar progress={uploadProgress}/> :
                             <>
                         <input
                             ref={fileInputRef}
