@@ -15,12 +15,13 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import {ChevronLeftIcon, ChevronRightIcon, CloudDownload} from "lucide-react"
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 
 interface FileMetadata{
+    id:string;
     name:string;
     size:number;
     lastModified:string;
@@ -35,6 +36,10 @@ export default function UserTable() {
             return fetch(`/bff/file/metadata/${groupId}`).then(res => res.json());
         }
     });
+    const baseURL:string=window.location.origin;
+    const createDirectDownloadLink = (fileId:string):string=>{
+    return `${baseURL}/bff/file/download/${fileId}`;
+    };
     const tempData = data ? data : [] ;
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(3)
@@ -52,15 +57,25 @@ export default function UserTable() {
                         <TableRow>
                             <TableHead>Name</TableHead>
                             <TableHead>Size</TableHead>
-                            <TableHead>Type</TableHead>
+                            <TableHead>Direct Link</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {currentFiles.map((fileMetadata) => (
-                            <TableRow key={fileMetadata.name}>
-                                <TableCell>{fileMetadata.name.split('/').slice(-1)}</TableCell>
+                            <TableRow key={fileMetadata.id}>
+                                <TableCell>{fileMetadata.name}</TableCell>
                                 <TableCell>{formatFileSize(fileMetadata.size)}</TableCell>
-                                <TableCell>{fileMetadata.lastModified}</TableCell>
+                                <TableCell>
+                                    <Button
+                                    variant='link'
+                                    size='icon'
+                                    asChild
+                                    className='hover:text-green-600'>
+                                        <a href={createDirectDownloadLink(fileMetadata.id)} download>
+                                            <CloudDownload />
+                                        </a>
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
