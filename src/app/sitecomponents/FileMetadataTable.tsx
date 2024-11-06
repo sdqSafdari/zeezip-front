@@ -15,7 +15,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import {ChevronLeftIcon, ChevronRightIcon, CloudDownload} from "lucide-react"
+import {Check, ChevronLeftIcon, ChevronRightIcon, CloudDownload, Copy, FileArchive} from "lucide-react"
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
@@ -27,19 +27,37 @@ interface FileMetadata{
     lastModified:string;
 }
 export default function UserTable() {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
+    const [isCopied, setIsCopied] = useState(false);
+
     console.log("UserTable re-render!")
     const {data}:{data:FileMetadata[]} = useQuery({
         queryKey: ['fileData'],
         queryFn: ({queryKey}) => {
-            const {groupId} = queryClient.getQueryData(['files_']);
+            const {groupId} = queryClient.getQueryData(['files_']);//necessary for re-rendering
             return fetch(`/bff/file/metadata/${groupId}`).then(res => res.json());
         }
     });
+
+    const groupIdObj = queryClient.getQueryData(['files_']);
     const baseURL:string=window.location.origin;
     const createDirectDownloadLink = (fileId:string):string=>{
     return `${baseURL}/bff/file/download/${fileId}`;
     };
+    const createZipDirectDownloadLink = ():string=>{
+    return `${baseURL}/bff/file/download/zip/${groupIdObj.groupId}`;
+    };
+
+    const handleCopyLink = (e: React.MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        navigator.clipboard.writeText(createZipDirectDownloadLink()).then(() => {
+            setIsCopied(true)
+            setTimeout(() => setIsCopied(false), 2000)
+        })
+    }
+
     const tempData = data ? data : [] ;
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(3)
@@ -118,6 +136,26 @@ export default function UserTable() {
                         </Button>
                     </div>
                 </div>
+                {groupIdObj ?
+                    <div className="mt-6 flex justify-end">
+                        <div className="flex w-64 rounded-md overflow-hidden">
+                            <Button
+                                className="flex-grow bg-green-500 hover:bg-green-600 text-white rounded-r-none"
+                            >
+                                <a href={createZipDirectDownloadLink()} download>
+                                    <FileArchive className="mr-2 h-4 w-4"/>
+                                    Download All
+                                </a>
+                            </Button>
+                            <Button
+                                onClick={handleCopyLink}
+                                className="w-1/5 bg-green-600 hover:bg-green-700 text-white rounded-l-none border-l border-green-400"
+                            >
+                                {isCopied ? <Check className="h-4 w-4"/> : <Copy className="h-4 w-4"/>}
+                            </Button>
+                        </div>
+                    </div>
+                    :<></>}
             </div>
         </>
     );
