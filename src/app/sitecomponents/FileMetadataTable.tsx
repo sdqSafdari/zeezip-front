@@ -137,19 +137,20 @@ export default function UserTable() {
                     </div>
                 </div>
                 {groupIdObj ?
-                    <div className="mt-6 flex justify-end">
-                        <div className="flex w-64 rounded-md overflow-hidden">
+                    <div className="mt-6 flex">
+                        <div className="flex w-3/4 rounded-md overflow-hidden">
                             <Button
-                                className="flex-grow bg-green-500 hover:bg-green-600 text-white rounded-r-none"
+                                className="flex-grow text-green-600 bg-secondary hover:text-white hover:bg-green-700 text-lg rounded-r-none"
                             >
                                 <a href={createZipDirectDownloadLink()} download>
-                                    <FileArchive className="mr-2 h-4 w-4"/>
+                                    <FileArchive className="mr-2 h-4 w-4 inline"/>
                                     Download All
                                 </a>
                             </Button>
                             <Button
                                 onClick={handleCopyLink}
-                                className="w-1/5 bg-green-600 hover:bg-green-700 text-white rounded-l-none border-l border-green-400"
+                                size='icon'
+                                className="w-1/4 bg-secondary text-green-600 hover:bg-green-700 hover:text-white rounded-l-none border-l border-green-400"
                             >
                                 {isCopied ? <Check className="h-4 w-4"/> : <Copy className="h-4 w-4"/>}
                             </Button>
