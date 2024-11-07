@@ -26,7 +26,7 @@ interface FileMetadata{
     size:number;
     lastModified:string;
 }
-export default function UserTable() {
+export default function UserTable({groupId}:{groupId?:string|null}) {
     const queryClient = useQueryClient();
     const [isCopied, setIsCopied] = useState(false);
 
@@ -34,12 +34,13 @@ export default function UserTable() {
     const {data}:{data:FileMetadata[]} = useQuery({
         queryKey: ['fileData'],
         queryFn: ({queryKey}) => {
-            const {groupId} = queryClient.getQueryData(['files_']);//necessary for re-rendering
-            return fetch(`/bff/file/metadata/${groupId}`).then(res => res.json());
+            const searchedGroupId = groupId ? groupId : queryClient.getQueryData(['files_']).groupId ;
+            // const {groupId} = queryClient.getQueryData(['files_']);//necessary for re-rendering
+            return fetch(`/bff/file/metadata/${searchedGroupId}`).then(res => res.json());
         }
     });
 
-    const groupIdObj = queryClient.getQueryData(['files_']);
+    const groupIdObj = groupId ? {groupId} : queryClient.getQueryData(['files_']);
     const baseURL:string=window.location.origin;
     const createDirectDownloadLink = (fileId:string):string=>{
     return `${baseURL}/bff/file/download/${fileId}`;
