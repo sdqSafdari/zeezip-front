@@ -26,7 +26,7 @@ export default function Home() {
             <div className='flex gap-4 items-start flex-col-on-mobile'>
                 <UploadForm />
                 <SiteIntro />
-                <div className='sm:w-1/4 sm:basis-1/4 border-2 rounded-md p-4'>
+                <div className='w-full sm:w-1/4 sm:basis-1/4 border-2 rounded-md p-4'>
                    <h6 className='text-2xl font-semibold leading-none tracking-tight mb-3'>Download Box</h6>
                     <FileMetadataTable />
                 </div>
