@@ -41,8 +41,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                 return null;// to prevent isStale=true and status=error
             return axios.get(`/bff/file/metadata/${searchedGroupIdObj.groupId}`).then(res=> res.data);
         },
-        staleTime: 60*1000,
-        refetchInterval: 5*60*1000,
+        staleTime: Infinity,
         retry: false
     });
     console.log(JSON.stringify(useQueryReturnedValue));
