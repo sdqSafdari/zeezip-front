@@ -10,12 +10,14 @@ import axios from "axios";
 import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 import SuccessfulTick from "@/app/sitecomponents/SuccessfulTick";
+import DownloadPageLinkComponent from "@/app/sitecomponents/DownloadPageLinkComponent";
 
 export default function UploadForm() {
     const [files, setFiles] = React.useState<File[]>([])
     const [uploading, setUploading] = React.useState(false)
     const [uploadProgress, setUploadProgress] = useState(0 );
     const [successfulUpload,setSuccessfulUpload] = useState(false);
+    const [groupId, setGroupId] = useState(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null)
     const queryClient = useQueryClient();
 
@@ -38,6 +40,7 @@ export default function UploadForm() {
             // pass data to FileMetadataTable
             queryClient.setQueryData(['files_'],(oldData)=>{return {groupId:data.groupId}});
             queryClient.refetchQueries({queryKey:['fileData']});
+            setGroupId(data.groupId);
             setSuccessfulUpload(true);
         }
     });
@@ -130,40 +133,13 @@ export default function UploadForm() {
                     )}
                 </CardContent>
                 <CardFooter>
+                    { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
                     <Button type="submit" className="w-full" disabled={files.length === 0 || uploading}>
                         {uploading ? "Uploading..." : `Upload (${formatFileSize(totalSize)})`}
                     </Button>
+                    }
                 </CardFooter>
             </form>
         </Card>
-    )
-}
-function  uploadInputMarkup(fileInputRef,handleFileChange){
-    const handleUploadClick = () => {
-        fileInputRef.current?.click()
-    }
-    return (
-        <>
-            <input
-                ref={fileInputRef}
-                type="file"
-                onChange={handleFileChange}
-                className="hidden"
-                multiple
-                id="file-upload"
-            />
-            <Button
-                type="button"
-                variant="outline"
-                size="lg"
-                className="w-full h-32 border-dashed"
-                onClick={handleUploadClick}
-            >
-                <div className="flex flex-col items-center space-y-2">
-                    <Upload className="h-8 w-8"/>
-                    <span>Click to upload files</span>
-                </div>
-            </Button>
-        </>
     )
 }
