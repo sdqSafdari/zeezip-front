@@ -15,11 +15,12 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import {Check, ChevronLeftIcon, ChevronRightIcon, CloudDownload, Copy, FileArchive} from "lucide-react"
+import {AlertTriangle, Check, ChevronLeftIcon, ChevronRightIcon, CloudDownload, Copy, FileArchive} from "lucide-react"
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 import axios from "axios";
+import {Alert, AlertDescription} from "@/components/ui/alert";
 
 interface FileMetadata{
     id:string;
@@ -144,7 +145,10 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                     </div>
                 </div>
                 {status==='error'?
-                <h2>Data Not found!</h2>
+                    <Alert variant="destructive" className="w-3/4 mt-3">
+                        <AlertTriangle className='h-4 w-4' />
+                        <AlertDescription>No files available for download.</AlertDescription>
+                    </Alert>
                     :
                     data && status === 'success' ?
                     <div className="mt-6 flex">
