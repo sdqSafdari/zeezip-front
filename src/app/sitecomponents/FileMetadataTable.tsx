@@ -19,6 +19,7 @@ import {Check, ChevronLeftIcon, ChevronRightIcon, CloudDownload, Copy, FileArchi
 import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
+import axios from "axios";
 
 interface FileMetadata{
     id:string;
@@ -30,15 +31,20 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
     const queryClient = useQueryClient();
     const [isCopied, setIsCopied] = useState(false);
 
-    console.log("UserTable re-render!")
-    const {data}:{data:FileMetadata[]} = useQuery({
+    const useQueryReturnedValue = useQuery({
         queryKey: ['fileData'],
         queryFn: ({queryKey}) => {
-            const searchedGroupId = groupId ? groupId : queryClient.getQueryData(['files_']).groupId ;
+            const searchedGroupIdObj = groupId ? {groupId} : queryClient.getQueryData(['files_']) ;
             // const {groupId} = queryClient.getQueryData(['files_']);//necessary for re-rendering
-            return fetch(`/bff/file/metadata/${searchedGroupId}`).then(res => res.json());
-        }
+            if (!searchedGroupIdObj)
+                return null;// to prevent isStale=true and status=error
+            return axios.get(`/bff/file/metadata/${searchedGroupIdObj.groupId}`).then(res=> res.data);
+        },
+        staleTime: 60*1000,
+        retry: false
     });
+    console.log(JSON.stringify(useQueryReturnedValue));
+    const {data,status}:{data:FileMetadata[],status:string} = useQueryReturnedValue;
 
     const groupIdObj = groupId ? {groupId} : queryClient.getQueryData(['files_']);
     const baseURL:string=window.location.origin;
@@ -137,7 +143,10 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                         </Button>
                     </div>
                 </div>
-                {groupIdObj ?
+                {status==='error'?
+                <h2>Data Not found!</h2>
+                    :
+                    data && status === 'success' ?
                     <div className="mt-6 flex">
                         <div className="flex w-3/4 rounded-md overflow-hidden">
                             <Button
