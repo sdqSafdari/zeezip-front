@@ -42,6 +42,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
             return axios.get(`/bff/file/metadata/${searchedGroupIdObj.groupId}`).then(res=> res.data);
         },
         staleTime: 60*1000,
+        refetchInterval: 5*60*1000,
         retry: false
     });
     console.log(JSON.stringify(useQueryReturnedValue));
@@ -66,7 +67,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
         })
     }
 
-    const tempData = data ? data : [] ;
+    const tempData = data && status === 'success' ? data : [] ;
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(3)
 
