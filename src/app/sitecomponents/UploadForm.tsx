@@ -20,6 +20,7 @@ export default function UploadForm() {
     const [groupId, setGroupId] = useState(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null)
     const queryClient = useQueryClient();
+    let limit_violated = false;
 
     const uploadFilesMutation = useMutation({
         mutationFn: (formData:FormData) => {
@@ -53,6 +54,7 @@ export default function UploadForm() {
     }
 
     const handleRemoveFile = (fileToRemove: File) => {
+        fileInputRef.current.value='';
         setFiles(prevFiles => prevFiles.filter(file => file !== fileToRemove))
     }
 
@@ -72,7 +74,9 @@ export default function UploadForm() {
     }
 
     const totalSize = files.reduce((acc, file) => acc + file.size, 0)
-
+    if (totalSize > 209_715_200){
+         limit_violated = true;
+    }
     return (
         <Card className="w-full sm:w-1/4 sm:basis-1/4  bg-transparent">
             <CardHeader>
@@ -128,13 +132,18 @@ export default function UploadForm() {
                                         </Button>
                                     </li>
                                 ))}
+                                {limit_violated ?
+                                    <li className="flex items-center justify-center text-lg bg-destructive rounded-md p-3">
+                                            <span className="font-medium truncate max-w-[200px]">200MG limit violated!</span>
+                                    </li>
+                                    :<></>}
                             </ul>
                         </div>
                     )}
                 </CardContent>
                 <CardFooter>
                     { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
-                    <Button type="submit" className="w-full" disabled={files.length === 0 || uploading}>
+                    <Button type="submit" className="w-full" disabled={files.length === 0 || uploading || limit_violated}>
                         {uploading ? "Uploading..." : `Upload (${formatFileSize(totalSize)})`}
                     </Button>
                     }
