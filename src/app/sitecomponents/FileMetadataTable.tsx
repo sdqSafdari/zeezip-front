@@ -159,6 +159,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                                 <a href={createZipDirectDownloadLink()} download>
                                     <FileArchive className="mr-2 h-4 w-4 inline"/>
                                     Download All
+                                    <span className='text-xs italic p-1'>(zip)</span>
                                 </a>
                             </Button>
                             <Button
