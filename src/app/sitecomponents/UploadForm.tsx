@@ -64,7 +64,8 @@ export default function UploadForm() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (files.length === 0) return
+        if (files.length === 0) return;
+        if (limit_violated) return;
 
         setUploading(true);
 
