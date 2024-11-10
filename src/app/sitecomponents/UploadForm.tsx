@@ -135,7 +135,7 @@ export default function UploadForm() {
                                 ))}
                                 {limit_violated ?
                                     <li className="flex items-center justify-center text-lg bg-destructive rounded-md p-3">
-                                            <span className="font-medium truncate max-w-[200px]">200MG limit violated!</span>
+                                            <span className="font-medium truncate max-w-[200px]">200MB limit reached!</span>
                                     </li>
                                     :<></>}
                             </ul>
