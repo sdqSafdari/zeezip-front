@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button"
 import {AlertTriangle, Check, ChevronLeftIcon, ChevronRightIcon, CloudDownload, Copy, FileArchive} from "lucide-react"
 import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {useState} from "react";
+import {MutableRefObject, useRef, useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 import axios from "axios";
 import {Alert, AlertDescription} from "@/components/ui/alert";
@@ -32,6 +32,7 @@ interface FileMetadata{
 export default function UserTable({groupId}:{groupId?:string|null}) {
     const queryClient = useQueryClient();
     const [isCopied, setIsCopied] = useState(false);
+    const downloadZipButtonElement:MutableRefObject<HTMLButtonElement|null> = useRef<HTMLButtonElement|null>(null);
 
     const useQueryReturnedValue = useQuery({
         queryKey: ['fileData'],
@@ -149,7 +150,12 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                     <div className="mt-6 flex">
                         <div className="flex w-3/4 rounded-md overflow-hidden">
                             <Button
+                                ref={downloadZipButtonElement}
                                 className="flex-grow text-green-600 bg-secondary hover:text-white hover:bg-green-700 text-lg rounded-r-none"
+                                onClick={()=>{
+                                    downloadZipButtonElement.current.disabled = true;
+                                    setTimeout(()=>downloadZipButtonElement.current.disabled=false,5000);
+                                }}
                             >
                                 <a href={createDirectDownloadLinkZip(groupIdObj.groupId)} download>
                                     <FileArchive className="mr-2 h-4 w-4 inline"/>
