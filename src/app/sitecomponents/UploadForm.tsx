@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, X } from "lucide-react"
 import UploadProgressBar from "@/app/sitecomponents/UploadProgressBar";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
 import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 import SuccessfulTick from "@/app/sitecomponents/SuccessfulTick";
 import DownloadPageLinkComponent from "@/app/sitecomponents/DownloadPageLinkComponent";
-import {createHttpClientStoreFilesURL} from "@/app/utils/LinkUtils";
+import {createHttpClientCaptchaURL, createHttpClientStoreFilesURL} from "@/app/utils/LinkUtils";
 
 export default function UploadForm() {
     const [files, setFiles] = React.useState<File[]>([])
@@ -20,6 +20,8 @@ export default function UploadForm() {
     const [successfulUpload,setSuccessfulUpload] = useState(false);
     const [groupId, setGroupId] = useState(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null)
+    const submitButtonRef = React.useRef<HTMLButtonElement>();
+
     const queryClient = useQueryClient();
     let limit_violated = false;
 
@@ -46,6 +48,19 @@ export default function UploadForm() {
             setSuccessfulUpload(true);
         }
     });
+
+    const {data} = useQuery({
+        queryKey:['captcha'],
+        queryFn:(queryContext)=>{
+            if (!submitButtonRef.current){
+                return null;
+            }
+            const captchaWidth:number = Math.round(submitButtonRef.current?.clientWidth /3 );
+            return axios.get(createHttpClientCaptchaURL(),{params:{width:captchaWidth,height:submitButtonRef.current?.clientHeight}}).then(res=>res.data);
+        },
+        staleTime:Infinity,
+        retry:false
+    })
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const fileNames = new Set(files.map(file=>file.name));
@@ -145,9 +160,18 @@ export default function UploadForm() {
                 </CardContent>
                 <CardFooter>
                     { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
-                    <Button type="submit" className="w-full" disabled={files.length === 0 || uploading || limit_violated}>
+                        <div className='w-full'>
+                            <div className='my-2'>
+                            <img src={data?.captcha} className='rounded-md'  alt='captcha'/>
+                            </div>
+                    <Button type="submit"
+                            className="w-full"
+                            disabled={files.length === 0 || uploading || limit_violated}
+                            ref={submitButtonRef}
+                    >
                         {uploading ? "Uploading..." : `Upload (${formatFileSize(totalSize)})`}
                     </Button>
+                        </div>
                     }
                 </CardFooter>
             </form>

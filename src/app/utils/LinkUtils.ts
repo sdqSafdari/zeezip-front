@@ -19,3 +19,7 @@ export function createHttpClientListFilesMetadataURL(groupId:string):string{
 export function createHttpClientStoreFilesURL():string{
     return "/bff/public/file/store";
 }
+
+export function createHttpClientCaptchaURL():string{
+    return "/bff/captcha/string";
+}
