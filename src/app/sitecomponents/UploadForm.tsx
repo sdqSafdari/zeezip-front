@@ -11,6 +11,7 @@ import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 import SuccessfulTick from "@/app/sitecomponents/SuccessfulTick";
 import DownloadPageLinkComponent from "@/app/sitecomponents/DownloadPageLinkComponent";
+import {createHttpClientStoreFilesURL} from "@/app/utils/LinkUtils";
 
 export default function UploadForm() {
     const [files, setFiles] = React.useState<File[]>([])
@@ -24,7 +25,7 @@ export default function UploadForm() {
 
     const uploadFilesMutation = useMutation({
         mutationFn: (formData:FormData) => {
-           return  axios.post("/bff/file/store",formData,{
+           return  axios.post(createHttpClientStoreFilesURL(),formData,{
                onUploadProgress:(progressEvent)=>{
                    const total = progressEvent.total;
                    const current = progressEvent.loaded;

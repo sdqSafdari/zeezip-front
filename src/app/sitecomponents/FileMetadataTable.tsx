@@ -21,6 +21,7 @@ import {useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 import axios from "axios";
 import {Alert, AlertDescription} from "@/components/ui/alert";
+import {createDirectDownloadLink, createDirectDownloadLinkZip, createHttpClientListFilesMetadataURL} from "@/app/utils/LinkUtils";
 
 interface FileMetadata{
     id:string;
@@ -39,7 +40,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
             // const {groupId} = queryClient.getQueryData(['files_']);//necessary for re-rendering
             if (!searchedGroupIdObj)
                 return null;// to prevent isStale=true and status=error
-            return axios.get(`/bff/file/metadata/${searchedGroupIdObj.groupId}`).then(res=> res.data);
+            return axios.get(createHttpClientListFilesMetadataURL(searchedGroupIdObj.groupId)).then(res=> res.data);
         },
         staleTime: Infinity,
         retry: false
@@ -49,18 +50,12 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
 
     const groupIdObj = groupId ? {groupId} : queryClient.getQueryData(['files_']);
     const baseURL:string=window.location.origin;
-    const createDirectDownloadLink = (fileId:string):string=>{
-    return `${baseURL}/bff/file/download/${fileId}`;
-    };
-    const createZipDirectDownloadLink = ():string=>{
-    return `${baseURL}/bff/file/download/zip/${groupIdObj.groupId}`;
-    };
 
     const handleCopyLink = (e: React.MouseEvent) => {
         e.preventDefault()
         e.stopPropagation()
 
-        navigator.clipboard.writeText(createZipDirectDownloadLink()).then(() => {
+        navigator.clipboard.writeText(createDirectDownloadLinkZip(groupIdObj.groupId)).then(() => {
             setIsCopied(true)
             setTimeout(() => setIsCopied(false), 2000)
         })
@@ -156,7 +151,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                             <Button
                                 className="flex-grow text-green-600 bg-secondary hover:text-white hover:bg-green-700 text-lg rounded-r-none"
                             >
-                                <a href={createZipDirectDownloadLink()} download>
+                                <a href={createDirectDownloadLinkZip(groupIdObj.groupId)} download>
                                     <FileArchive className="mr-2 h-4 w-4 inline"/>
                                     Download All
                                     <span className='text-xs italic p-1'>(zip)</span>
