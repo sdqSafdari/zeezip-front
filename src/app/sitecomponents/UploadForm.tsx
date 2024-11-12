@@ -6,34 +6,47 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Upload, X } from "lucide-react"
 import UploadProgressBar from "@/app/sitecomponents/UploadProgressBar";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import axios from "axios";
-import {useState} from "react";
+import axios, {AxiosHeaders, AxiosRequestConfig} from "axios";
+import {MutableRefObject, useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 import SuccessfulTick from "@/app/sitecomponents/SuccessfulTick";
 import DownloadPageLinkComponent from "@/app/sitecomponents/DownloadPageLinkComponent";
 import {createHttpClientCaptchaURL, createHttpClientStoreFilesURL} from "@/app/utils/LinkUtils";
+import CaptchaWithBase64 from "@/app/sitecomponents/CaptchaWithBase64";
+import CaptchaDto from "@/app/sitecomponents/CaptchaDto";
 
+class UploadProperties{
+    formData:FormData;
+    captcha:CaptchaDto;
+}
 export default function UploadForm() {
     const [files, setFiles] = React.useState<File[]>([])
     const [uploading, setUploading] = React.useState(false)
     const [uploadProgress, setUploadProgress] = useState(0 );
     const [successfulUpload,setSuccessfulUpload] = useState(false);
+    const [captcha, setCaptcha] = useState<CaptchaDto>(null);
+    const [captchaNumber, setCaptchaNumber] = useState<number>(0);
     const [groupId, setGroupId] = useState(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null)
-    const submitButtonRef = React.useRef<HTMLButtonElement>();
 
     const queryClient = useQueryClient();
     let limit_violated = false;
-
+    function createAxiosRequestConfig(captcha:CaptchaDto):AxiosRequestConfig{
+        const axiosRequestConfig :AxiosRequestConfig= {};
+        axiosRequestConfig.headers = {'X-Captcha':captcha.buildHeaderValue()};
+        axiosRequestConfig.onUploadProgress= (progressEvent)=>{
+            const total = progressEvent.total;
+            const current = progressEvent.loaded;
+            const percentage = Math.round((current / total) * 100);
+            setUploadProgress(percentage);
+        };
+        return axiosRequestConfig;
+    }
     const uploadFilesMutation = useMutation({
-        mutationFn: (formData:FormData) => {
-           return  axios.post(createHttpClientStoreFilesURL(),formData,{
-               onUploadProgress:(progressEvent)=>{
-                   const total = progressEvent.total;
-                   const current = progressEvent.loaded;
-                   const percentage = Math.round((current / total) * 100);
-                   setUploadProgress(percentage);
-               }});
+        mutationFn: (uploadProperties:UploadProperties) => {
+           return  axios.post(createHttpClientStoreFilesURL()
+               ,uploadProperties.formData,
+               createAxiosRequestConfig(uploadProperties.captcha));
 
         },
         onSuccess: responseEntity => {
@@ -46,21 +59,15 @@ export default function UploadForm() {
             queryClient.refetchQueries({queryKey:['fileData']});
             setGroupId(data.groupId);
             setSuccessfulUpload(true);
+        },
+        onError: error => {
+            console.log(JSON.stringify(error.response));
+            setUploading(false);
+            setUploadProgress(0);
+            setCaptchaNumber(captchaNumber+1);
         }
     });
 
-    const {data} = useQuery({
-        queryKey:['captcha'],
-        queryFn:(queryContext)=>{
-            if (!submitButtonRef.current){
-                return null;
-            }
-            const captchaWidth:number = Math.round(submitButtonRef.current?.clientWidth /3 );
-            return axios.get(createHttpClientCaptchaURL(),{params:{width:captchaWidth,height:submitButtonRef.current?.clientHeight}}).then(res=>res.data);
-        },
-        staleTime:Infinity,
-        retry:false
-    })
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const fileNames = new Set(files.map(file=>file.name));
@@ -87,7 +94,10 @@ export default function UploadForm() {
 
         const formData:FormData = new FormData();
         files.forEach(file=>formData.append("files",file))
-        uploadFilesMutation.mutate(formData);
+        const uploadProperties = new UploadProperties();
+        uploadProperties.formData = formData;
+        uploadProperties.captcha = captcha;
+        uploadFilesMutation.mutate(uploadProperties);
     }
 
     const totalSize = files.reduce((acc, file) => acc + file.size, 0)
@@ -161,13 +171,10 @@ export default function UploadForm() {
                 <CardFooter>
                     { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
                         <div className='w-full'>
-                            <div className='my-2'>
-                            <img src={data?.captcha} className='rounded-md'  alt='captcha'/>
-                            </div>
+                            <CaptchaWithBase64 setCaptcha={setCaptcha} captchaNumber={captchaNumber} />
                     <Button type="submit"
                             className="w-full"
                             disabled={files.length === 0 || uploading || limit_violated}
-                            ref={submitButtonRef}
                     >
                         {uploading ? "Uploading..." : `Upload (${formatFileSize(totalSize)})`}
                     </Button>
