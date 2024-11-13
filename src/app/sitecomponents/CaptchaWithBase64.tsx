@@ -54,6 +54,7 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptch
 
     return (
         <div ref={captchaContainerElement} className='my-2 flex justify-between'>
+            <img src={data?.captcha} className='rounded-md' alt='captcha'/>
             <Button
                 size='icon'
                 type="button"
@@ -61,7 +62,6 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptch
                 className='rounded-full bg-transparent text-green-700'>
                 <RotateCw />
             </Button>
-            <img src={data?.captcha} className='rounded-md' alt='captcha'/>
             <Input ref={captchaInputElement}
                    className='w-1/4'
                    onChange={()=>setNewCaptcha(captchaInputElement.current.value)}

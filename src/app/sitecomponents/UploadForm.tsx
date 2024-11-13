@@ -68,6 +68,7 @@ export default function UploadForm() {
             toast({
                 title: "Error uploading Files[s]!",
                 description: error.response.data?.message,
+                className:'text-red-600'
             })
             setUploading(false);
             setUploadProgress(0);
