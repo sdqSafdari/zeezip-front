@@ -54,6 +54,7 @@ export default function UploadForm() {
             setUploading(false);
             setFiles([]);
             setUploadProgress(0);
+            setCaptchaNumber(captchaNumber+1);
             // pass data to FileMetadataTable
             queryClient.setQueryData(['files_'],(oldData)=>{return {groupId:data.groupId}});
             queryClient.refetchQueries({queryKey:['fileData']});

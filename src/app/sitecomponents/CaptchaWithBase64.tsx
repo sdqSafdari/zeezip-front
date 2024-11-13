@@ -21,10 +21,11 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptch
     const queryClient:QueryClient = useQueryClient();
 
     function refreshCaptcha(){
-        queryClient.refetchQueries({queryKey:['captcha']});
+        queryClient.invalidateQueries({queryKey:['captcha']});
     }
     if (captchaNumberLocal < captchaNumber){
         refreshCaptcha();
+        setTimeout(()=>captchaInputElement.current.value='',0);
         setCaptchaNumberLocal(captchaNumber);
     }
     const {data}:{data:CaptchaResponse} = useQuery({
@@ -47,6 +48,9 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptch
         captchaDto.key = data.key;
         setCaptcha(captchaDto);
     }
+    function typeEnglishNumbersOnly(event){
+        event.target.value = event.target.value.replace(/[^0-9]/g, "");
+    }
 
     return (
         <div ref={captchaContainerElement} className='my-2 flex justify-between'>
@@ -61,7 +65,9 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptch
             <Input ref={captchaInputElement}
                    className='w-1/4'
                    onChange={()=>setNewCaptcha(captchaInputElement.current.value)}
+                   onInput={typeEnglishNumbersOnly}
                    maxLength='3'
+                   inputMode='numeric'
             />
         </div>
     )
