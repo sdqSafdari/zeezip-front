@@ -85,7 +85,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                     <TableBody>
                         {currentFiles.map((fileMetadata) => (
                             <TableRow key={fileMetadata.id}>
-                                <TableCell>{fileMetadata.name}</TableCell>
+                                <TableCell className='whitespace-normal break-all overflow-hidden'>{fileMetadata.name}</TableCell>
                                 <TableCell>{formatFileSize(fileMetadata.size)}</TableCell>
                                 <TableCell>
                                     <Button
