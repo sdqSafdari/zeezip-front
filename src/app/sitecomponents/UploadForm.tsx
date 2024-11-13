@@ -14,6 +14,8 @@ import DownloadPageLinkComponent from "@/app/sitecomponents/DownloadPageLinkComp
 import {createHttpClientCaptchaURL, createHttpClientStoreFilesURL} from "@/app/utils/LinkUtils";
 import CaptchaWithBase64 from "@/app/sitecomponents/CaptchaWithBase64";
 import CaptchaDto from "@/app/sitecomponents/CaptchaDto";
+import {Toaster} from "@/components/ui/toaster";
+import {useToast} from "@/hooks/use-toast";
 
 class UploadProperties{
     formData:FormData;
@@ -27,13 +29,14 @@ export default function UploadForm() {
     const [captcha, setCaptcha] = useState<CaptchaDto>(null);
     const [captchaNumber, setCaptchaNumber] = useState<number>(0);
     const [groupId, setGroupId] = useState(null);
+    const {toast} = useToast();
     const fileInputRef = React.useRef<HTMLInputElement>(null)
 
     const queryClient = useQueryClient();
     let limit_violated = false;
     function createAxiosRequestConfig(captcha:CaptchaDto):AxiosRequestConfig{
         const axiosRequestConfig :AxiosRequestConfig= {};
-        axiosRequestConfig.headers = {'X-Captcha':captcha.buildHeaderValue()};
+        axiosRequestConfig.headers = {'X-Captcha':captcha?.buildHeaderValue()};
         axiosRequestConfig.onUploadProgress= (progressEvent)=>{
             const total = progressEvent.total;
             const current = progressEvent.loaded;
@@ -62,7 +65,10 @@ export default function UploadForm() {
             setSuccessfulUpload(true);
         },
         onError: error => {
-            console.log(JSON.stringify(error.response));
+            toast({
+                title: "Error uploading Files[s]!",
+                description: error.response.data?.message,
+            })
             setUploading(false);
             setUploadProgress(0);
             setCaptchaNumber(captchaNumber+1);
@@ -165,6 +171,7 @@ export default function UploadForm() {
                                             <span className="font-medium truncate max-w-[200px]">200MB limit reached!</span>
                                     </li>
                                     :<></>}
+                                <Toaster />
                             </ul>
                         </div>
                     )}
