@@ -16,6 +16,7 @@ import CaptchaWithBase64 from "@/app/sitecomponents/CaptchaWithBase64";
 import CaptchaDto from "@/app/sitecomponents/CaptchaDto";
 import {Toaster} from "@/components/ui/toaster";
 import {useToast} from "@/hooks/use-toast";
+import TurnstileCloudflareCaptcha from "@/app/sitecomponents/TurnstileCloudflareCaptcha";
 
 class UploadProperties{
     formData:FormData;
@@ -66,7 +67,7 @@ export default function UploadForm() {
         },
         onError: error => {
             toast({
-                title: "Error uploading Files[s]!",
+                title: "Error uploading File[s]!",
                 description: error.response.data?.message,
                 className:'text-red-600'
             })
@@ -160,6 +161,7 @@ export default function UploadForm() {
                                             variant="ghost"
                                             size="sm"
                                             onClick={() => handleRemoveFile(file)}
+                                            disabled={uploading}
                                             className="h-6 w-6 p-0 my-auto"
                                         >
                                             <X className="h-4 w-4" />

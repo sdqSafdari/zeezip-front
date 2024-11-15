@@ -14,7 +14,7 @@ interface CaptchaResponse{
     captcha:string;
     key:string;
 }
-export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptcha:(captcha:CaptchaDto)=>void,captchaNumber:number}){
+export default function  CaptchaWithBase64({setCaptcha,captchaNumber,uploading}:{setCaptcha:(captcha:CaptchaDto)=>void,captchaNumber:number,uploading:boolean}){
     const captchaContainerElement:MutableRefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
     const captchaInputElement :MutableRefObject<HTMLInputElement>= useRef<HTMLInputElement>(null);
     const [captchaNumberLocal, setCaptchaNumberLocal] = useState(0);
@@ -46,6 +46,7 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptch
         const captchaDto = new CaptchaDto();
         captchaDto.value = value;
         captchaDto.key = data.key;
+        captchaDto.type = "base64";
         setCaptcha(captchaDto);
     }
     function typeEnglishNumbersOnly(event){
@@ -59,13 +60,15 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptch
                 size='icon'
                 type="button"
                 onClick={() => refreshCaptcha()}
+                disabled={uploading}
                 className='rounded-full bg-transparent text-green-700'>
                 <RotateCw />
             </Button>
             <Input ref={captchaInputElement}
-                   className='w-1/4'
+                   className='w-1/4 bg-transparent'
                    onChange={()=>setNewCaptcha(captchaInputElement.current.value)}
                    onInput={typeEnglishNumbersOnly}
+                   disabled={uploading}
                    maxLength='3'
                    inputMode='numeric'
             />
