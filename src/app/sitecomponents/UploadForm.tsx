@@ -17,6 +17,8 @@ import CaptchaDto from "@/app/sitecomponents/CaptchaDto";
 import {Toaster} from "@/components/ui/toaster";
 import {useToast} from "@/hooks/use-toast";
 import TurnstileCloudflareCaptcha from "@/app/sitecomponents/TurnstileCloudflareCaptcha";
+import {Switch} from "@/components/ui/switch";
+import {Label} from "@/components/ui/label";
 
 class UploadProperties{
     formData:FormData;
@@ -29,6 +31,7 @@ export default function UploadForm() {
     const [successfulUpload,setSuccessfulUpload] = useState(false);
     const [captcha, setCaptcha] = useState<CaptchaDto>(null);
     const [captchaNumber, setCaptchaNumber] = useState<number>(0);
+    const [cloudflareCaptcha, setCloudflareCaptcha] = useState(false);
     const [groupId, setGroupId] = useState(null);
     const {toast} = useToast();
     const fileInputRef = React.useRef<HTMLInputElement>(null)
@@ -37,7 +40,7 @@ export default function UploadForm() {
     let limit_violated = false;
     function createAxiosRequestConfig(captcha:CaptchaDto):AxiosRequestConfig{
         const axiosRequestConfig :AxiosRequestConfig= {};
-        axiosRequestConfig.headers = {'X-Captcha':captcha?.buildHeaderValue()};
+        axiosRequestConfig.headers = captcha?.buildHttpHeaders();
         axiosRequestConfig.onUploadProgress= (progressEvent)=>{
             const total = progressEvent.total;
             const current = progressEvent.loaded;
@@ -191,7 +194,18 @@ export default function UploadForm() {
                 <CardFooter>
                     { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
                         <div className='w-full'>
-                            <CaptchaWithBase64 setCaptcha={setCaptcha} captchaNumber={captchaNumber} />
+                            <div>
+                                {cloudflareCaptcha ?
+                                    <TurnstileCloudflareCaptcha setCaptcha={setCaptcha} captchaNumber={captchaNumber} uploading={uploading}/>
+                                    :
+                                    <CaptchaWithBase64 setCaptcha={setCaptcha} captchaNumber={captchaNumber} uploading={uploading}/>
+                                }
+                                <div className='flex gap-2 items-start my-2'>
+                                    <Switch id="captcha-mode" checked={cloudflareCaptcha}
+                                            onCheckedChange={setCloudflareCaptcha}/>
+                                    <Label htmlFor="captcha-mode" className='my-auto text-sm'>Cloudflare Captcha</Label>
+                                </div>
+                            </div>
                     <Button type="submit"
                             className="w-full"
                             disabled={files.length === 0 || uploading || limit_violated}

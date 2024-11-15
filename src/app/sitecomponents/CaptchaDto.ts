@@ -10,4 +10,8 @@ export default class CaptchaDto{
         else
             return "";
     }
+    buildHttpHeaders(){
+       return  {'X-Captcha':this.buildHeaderValue()
+               ,"X-Captcha-Type":this.type};
+    }
 }
