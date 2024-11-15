@@ -31,7 +31,7 @@ export default function UploadForm() {
     const [successfulUpload,setSuccessfulUpload] = useState(false);
     const [captcha, setCaptcha] = useState<CaptchaDto>(null);
     const [captchaNumber, setCaptchaNumber] = useState<number>(0);
-    const [cloudflareCaptcha, setCloudflareCaptcha] = useState(false);
+    const [cloudflareCaptcha, setCloudflareCaptcha] = useState(true);
     const [groupId, setGroupId] = useState(null);
     const {toast} = useToast();
     const fileInputRef = React.useRef<HTMLInputElement>(null)
@@ -202,7 +202,7 @@ export default function UploadForm() {
                                 }
                                 <div className='flex gap-2 items-start my-2'>
                                     <Switch id="captcha-mode" checked={cloudflareCaptcha}
-                                            onCheckedChange={setCloudflareCaptcha}/>
+                                            onCheckedChange={setCloudflareCaptcha} className="data-[state=checked]:bg-green-700 data-[state=unchecked]:bg-secondary" />
                                     <Label htmlFor="captcha-mode" className='my-auto text-sm'>Cloudflare Captcha</Label>
                                 </div>
                             </div>
