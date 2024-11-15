@@ -59,6 +59,7 @@ export default function UploadForm() {
             setFiles([]);
             setUploadProgress(0);
             setCaptchaNumber(captchaNumber+1);
+            setCaptcha(null);
             // pass data to FileMetadataTable
             queryClient.setQueryData(['files_'],(oldData)=>{return {groupId:data.groupId}});
             queryClient.refetchQueries({queryKey:['fileData']});
@@ -74,6 +75,7 @@ export default function UploadForm() {
             setUploading(false);
             setUploadProgress(0);
             setCaptchaNumber(captchaNumber+1);
+            setCaptcha(null);
         }
     });
 
@@ -98,6 +100,13 @@ export default function UploadForm() {
         event.preventDefault()
         if (files.length === 0) return;
         if (limit_violated) return;
+        if (!captcha){
+            toast({
+                title: "Please complete the CAPTCHA!",
+                className:'text-red-600'
+            })
+            return;
+        }
 
         setUploading(true);
 
