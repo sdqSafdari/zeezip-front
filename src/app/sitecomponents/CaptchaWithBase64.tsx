@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {QueryClient, useQuery, useQueryClient} from "@tanstack/react-query";
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 import {createHttpClientCaptchaURL} from "@/app/utils/LinkUtils";
 import {MutableRefObject, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
@@ -35,7 +35,8 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber,uploading}:
                 return null;
             }
             const captchaWidth:number = Math.round(captchaContainerElement.current?.clientWidth /3 );
-            return axios.get(createHttpClientCaptchaURL(),{params:{width:captchaWidth,height:captchaContainerElement.current?.clientHeight}}).then(res=>res.data);
+            const axiosConfig:AxiosRequestConfig = {params:{width:captchaWidth,height:captchaContainerElement.current?.clientHeight}}
+            return axios.get(createHttpClientCaptchaURL(),axiosConfig).then(res=>res.data);
         },
         staleTime:Infinity,
         retry:false
