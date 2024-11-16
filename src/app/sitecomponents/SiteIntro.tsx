@@ -14,6 +14,12 @@ export default function SiteIntro(){
             >
                 Share your files up to 200MB per upload
             </h1>
+            <h1
+                className='font-display text-2xl leading-[5rem] tracking-[-0.02em] drop-shadow-sm
+                 dark:text-white'
+            >
+                Links are valid for 1 day
+            </h1>
             <div className='hidden'>
             <h1>اشتراک فایل رایگان تا سقف ۲۰۰ مگابایت</h1>
             </div>
