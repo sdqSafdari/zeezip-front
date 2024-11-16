@@ -1,13 +1,19 @@
 export function createDownloadPageLink(groupId:string){
+    if (!window)
+        return "";
     const baseURL:string=window.location.origin;
     return `${baseURL}/download?groupId=${groupId ?? "1"}`;
 }
 export function createDirectDownloadLink(fileId:string):string {
+    if (!window)
+        return "";
     const baseURL:string=window.location.origin;
     return `${baseURL}/bff/public/file/download/${fileId}`;
 }
 
 export function createDirectDownloadLinkZip(groupId:string):string{
+    if (!window)
+        return "";
     const baseURL:string=window.location.origin;
     return `${baseURL}/bff/public/file/download/zip/${groupId}`;
 }

@@ -50,7 +50,6 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
     const {data,status}:{data:FileMetadata[],status:string} = useQueryReturnedValue;
 
     const groupIdObj = groupId ? {groupId} : queryClient.getQueryData(['files_']);
-    const baseURL:string=window.location.origin;
 
     const handleCopyLink = (e: React.MouseEvent) => {
         e.preventDefault()
