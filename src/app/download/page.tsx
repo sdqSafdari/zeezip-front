@@ -8,17 +8,13 @@ import FileTableWithParam from "@/app/download/FileTableWithParam";
 export default function Download() {
     return (
         <>
-            <div className='relative h-16 mt-1'>
-                <span className='absolute left-1/2 transform -translate-x-1/2'>
-                    <HyperText text='ZEEZIP Project' className='text-3xl font-black text-green-600'/>
-                </span>
-                <span className='absolute right-0'>
-                    <ThemeButton/>
-                </span>
+            <div className='flex justify-between my-2'>
+                <HyperText text='ZEEZIP Project' className='text-3xl font-black text-green-600'/>
+                <ThemeButton/>
             </div>
             <div className='flex gap-4 items-start flex-col-on-mobile'>
                 <Suspense>
-                    <FileTableWithParam />
+                    <FileTableWithParam/>
                 </Suspense>
                 <SiteIntro/>
             </div>
