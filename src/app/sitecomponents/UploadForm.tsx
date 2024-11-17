@@ -126,7 +126,7 @@ export default function UploadForm() {
          limit_violated = true;
     }
     return (
-        <Card className="w-full sm:w-1/4 sm:basis-1/4  bg-transparent">
+        <Card className="w-full md:w-1/3 md:basis-2/5 bg-transparent">
             <CardHeader>
                 <CardTitle>Upload Files</CardTitle>
             </CardHeader>
