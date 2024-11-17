@@ -13,7 +13,7 @@ export default function SuccessfulTick({toggleUpload}:{toggleUpload:()=>void}) {
         }
     }
     return (
-        <div className='w-1/2' onClick={()=>toggleUpload()}>
+        <div className='w-2/5' onClick={()=>toggleUpload()}>
             <Lottie options={defaultOptions} isClickToPauseDisabled={true}/>
         </div>
     )

@@ -46,7 +46,6 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
         staleTime: Infinity,
         retry: false
     });
-    console.log(JSON.stringify(useQueryReturnedValue));
     const {data,status}:{data:FileMetadata[],status:string} = useQueryReturnedValue;
 
     const groupIdObj = groupId ? {groupId} : queryClient.getQueryData(['files_']);
