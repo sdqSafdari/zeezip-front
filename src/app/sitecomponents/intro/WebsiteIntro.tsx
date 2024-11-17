@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function WebsiteIntro() {
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold text-center mb-6">Welcome to ZeeZip</h1>
+            <h1 className="text-4xl font-bold text-center mb-6">Welcome to <span className='text-green-700'>ZeeZip</span></h1>
             <p className="text-xl text-center mb-12 text-muted-foreground">
                 Fast, secure, and easy file sharing with 24-hour download links
             </p>
