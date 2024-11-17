@@ -1,7 +1,7 @@
 import {Suspense, useState} from "react";
 import ThemeButton from '@/app/sitecomponents/ThemeButton';
 import HyperText from "@/components/ui/hyper-text";
-import SiteIntro from "@/app/sitecomponents/SiteIntro";
+import SiteIntro from "@/app/sitecomponents/intro/SiteIntro";
 import {useSearchParams} from "next/navigation";
 import FileTableWithParam from "@/app/download/FileTableWithParam";
 
