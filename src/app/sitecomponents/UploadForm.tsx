@@ -148,12 +148,18 @@ export default function UploadForm() {
                             type="button"
                             variant="outline"
                             size="lg"
-                            className="w-full h-32 border-dashed"
+                            className="w-full h-32 border-2 border-dashed"
                             onClick={handleUploadClick}
                         >
                             <div className="flex flex-col items-center space-y-2">
-                                <Upload className="h-8 w-8" />
-                                <span>Click to upload files</span>
+                                {files.length > 0 ?
+                                    <span className="text-lg font-bold text-blue-700">Upload More</span>
+                                    :
+                                    <>
+                                        <Upload className="h-8 w-8"/>
+                                        <span>Click to upload files</span>
+                                    </>
+                                }
                             </div>
                         </Button>
                             </> }

@@ -66,12 +66,13 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber,uploading}:
                 <RotateCw />
             </Button>
             <Input ref={captchaInputElement}
-                   className='w-1/4 bg-transparent'
+                   className='w-1/4 font-bold bg-secondary'
                    onChange={()=>setNewCaptcha(captchaInputElement.current.value)}
                    onInput={typeEnglishNumbersOnly}
                    disabled={uploading}
                    maxLength='3'
                    inputMode='numeric'
+                   autoFocus={true}
             />
         </div>
     )
