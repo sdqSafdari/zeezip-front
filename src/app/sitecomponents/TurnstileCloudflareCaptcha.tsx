@@ -40,7 +40,7 @@ export default function  TurnstileCloudflareCaptcha({setCaptcha,captchaNumber,up
         <div className='my-2'>
             <Turnstile siteKey="0x4AAAAAAA0D2LsoeixH_q1t"
                        onSuccess={setTurnstile}
-                       options={{size: 'flexible', theme: theme}}
+                       options={{size: 'flexible', theme: theme,refreshTimeout:"manual"}}
             />
         </div>
     )
