@@ -2,7 +2,7 @@ export function createDownloadPageLink(groupId:string){
     if (!window)
         return "";
     const baseURL:string=window.location.origin;
-    return `${baseURL}/download?groupId=${groupId ?? "1"}`;
+    return `${baseURL}/u/${groupId ?? "1"}`;
 }
 export function createDirectDownloadLink(fileId:string):string {
     if (!window)

@@ -62,7 +62,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
 
     const tempData = data && status === 'success' ? data : [] ;
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = useState(3)
+    const [itemsPerPage, setItemsPerPage] = useState(5)
 
     const totalPages =  Math.ceil(tempData.length / itemsPerPage) ;
     const startIndex = (currentPage - 1) * itemsPerPage
