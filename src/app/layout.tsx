@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import ServerClientQueryClientProvider from '@/provider/ServerClientQueryClientProvider';
 import {ThemeProvider} from "@/provider/ThemeProvider";
 import FooterBackground from "@/app/sitecomponents/FooterBackground";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +46,7 @@ export default function RootLayout({
       </ThemeProvider>
       </body>
     </ServerClientQueryClientProvider>
+    <GoogleAnalytics gaId="G-9C3C10GBD7" />
     </html>
   );
 }
