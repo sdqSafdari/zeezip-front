@@ -154,8 +154,8 @@ export default function UploadForm() {
                             <div className="flex flex-col items-center space-y-2">
                                 {files.length > 0 ?
                                     <>
-                                        <Upload className='h-8 w-8 text-blue-700'/>
-                                        <span className="text-lg font-bold text-blue-700">Upload More</span>
+                                        <Upload className='h-8 w-8 text-green-700'/>
+                                        <span className="text-lg font-bold text-green-700">Upload More</span>
                                     </>
                                     :
                                     <>
