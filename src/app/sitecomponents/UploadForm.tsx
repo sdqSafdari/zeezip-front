@@ -216,10 +216,10 @@ export default function UploadForm() {
                                 </div>
                             </div>
                     <Button type="submit"
-                            className="w-full"
+                            className="w-full text-center"
                             disabled={files.length === 0 || uploading || limit_violated}
                     >
-                        {uploading ? "Uploading..." : `Upload (${formatFileSize(totalSize)})`}
+                        {uploading ? `Uploading ${formatFileSize(totalSize)}` : `Upload (${formatFileSize(totalSize)})`}
                     </Button>
                         </div>
                     }
