@@ -19,7 +19,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "ZeeZip",
-  description: "share your files easily",
+  description: "Share your Files securely. With ZeeZip stay anonymous and free.",
   icons:{
     icon: "/favicon.ico"
   }
