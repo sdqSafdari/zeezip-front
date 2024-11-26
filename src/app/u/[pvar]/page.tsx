@@ -15,7 +15,7 @@ export default function u({params}) {
                 </h2>
                 <ThemeButton/>
             </div>
-            <div className='flex gap-4 items-start flex-col-on-mobile'>
+            <div className='flex gap-4 items-start flex-col-on-mobile my-8'>
                 <FileTableWithParam groupId={pvar}/>
                 <SiteIntro/>
             </div>
