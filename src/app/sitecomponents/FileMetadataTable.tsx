@@ -65,12 +65,19 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
     const [itemsPerPage, setItemsPerPage] = useState(5)
 
     const totalPages =  Math.ceil(tempData.length / itemsPerPage) ;
-    const startIndex = (currentPage - 1) * itemsPerPage
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const totalSize = tempData.reduce((accumulatedSize,currentFileMetadata)=>currentFileMetadata.size+accumulatedSize,0);
     const endIndex = startIndex + itemsPerPage
     const currentFiles =  tempData.slice(startIndex, endIndex);
 
     return (
-        <>
+        <div className='w-full sm:w-1/4 sm:basis-1/4 border-2 rounded-md p-4'>
+            <div className='flex justify-between'>
+                <h6 className='text-2xl font-semibold leading-none tracking-tight mb-3'>Download Box</h6>
+            {tempData.length > 0 ?
+                <span className='text-muted-foreground'>Total: {tempData.length} files, {formatFileSize(totalSize)}</span>
+                : <></>}
+            </div>
             <div className="w-full">
                 <Table>
                     <TableHeader>
@@ -172,6 +179,6 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                     </div>
                     :<></>}
             </div>
-        </>
+        </div>
     );
 }
