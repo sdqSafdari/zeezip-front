@@ -72,15 +72,27 @@ export default function UploadForm() {
             setSuccessfulUpload(true);
         },
         onError: error => {
-            toast({
-                title: "Error uploading File[s]!",
-                description: error.response.data?.message,
-                className:'text-red-600'
-            })
+            console.error("upload error!");
+            if (axios.isCancel(error)) {
+                toast({
+                    title: "Upload is cancelled!",
+                    className: 'text-green-700'
+                })
+            } else {
+                toast({
+                    title: "Error uploading File[s]!",
+                    description: error.response.data?.message,
+                    className: 'text-red-600'
+                })
+            }
             setUploading(false);
             setUploadProgress(0);
             setCaptchaNumber(captchaNumber+1);
             setCaptcha(null);
+        },
+        onSettled:(data,error)=>{
+            // Clean up the abort controller after each mutation
+            abortControllerRef.current=null;
         }
     });
 
@@ -215,7 +227,7 @@ export default function UploadForm() {
                             {uploading ?
                                 <div className='w-full flex space-x-1'>
                                     <Button type="button"
-                                            className="rounded-md border-green-700 border-4 text-center p-2 flex-grow"
+                                            className="rounded-md text-center p-2 flex-grow"
                                             disabled
                                     >
                                         {`Uploading ${formatFileSize(totalSize)}`}
