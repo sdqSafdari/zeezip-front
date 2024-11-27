@@ -13,7 +13,7 @@ import Script from "next/script";
 import {Turnstile} from "@marsidev/react-turnstile";
 import {useTheme} from "next-themes";
 
-export default function  TurnstileCloudflareCaptcha({setCaptcha,captchaNumber,uploading}:{setCaptcha:(captcha:CaptchaDto)=>void,captchaNumber:number,uploading:boolean}){
+export default function  TurnstileCloudflareCaptcha({setCaptcha,captchaNumber}:{setCaptcha:(captcha:CaptchaDto)=>void,captchaNumber:number}){
 
     const [captchaNumberLocal, setCaptchaNumberLocal] = useState(0);
     const {theme} = useTheme();

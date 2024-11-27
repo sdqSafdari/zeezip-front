@@ -1,7 +1,7 @@
 
 import ThemeButton from '@/app/sitecomponents/ThemeButton';
 import HyperText from "@/components/ui/hyper-text";
-import UploadForm from "@/app/sitecomponents/UploadForm";
+import UploadForm from "@/app/sitecomponents/upload/UploadForm";
 import WebsiteIntro from "@/app/sitecomponents/intro/WebsiteIntro";
 import Link from "next/link";
 

@@ -14,7 +14,7 @@ interface CaptchaResponse{
     captcha:string;
     key:string;
 }
-export default function  CaptchaWithBase64({setCaptcha,captchaNumber,uploading}:{setCaptcha:(captcha:CaptchaDto)=>void,captchaNumber:number,uploading:boolean}){
+export default function  CaptchaWithBase64({setCaptcha,captchaNumber}:{setCaptcha:(captcha:CaptchaDto)=>void,captchaNumber:number}){
     const captchaContainerElement:MutableRefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
     const captchaInputElement :MutableRefObject<HTMLInputElement>= useRef<HTMLInputElement>(null);
     const [captchaNumberLocal, setCaptchaNumberLocal] = useState(0);
@@ -61,7 +61,6 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber,uploading}:
                 size='icon'
                 type="button"
                 onClick={() => refreshCaptcha()}
-                disabled={uploading}
                 className='rounded-full bg-transparent text-green-700'>
                 <RotateCw />
             </Button>
@@ -69,7 +68,6 @@ export default function  CaptchaWithBase64({setCaptcha,captchaNumber,uploading}:
                    className='w-1/4 font-bold bg-secondary'
                    onChange={()=>setNewCaptcha(captchaInputElement.current.value)}
                    onInput={typeEnglishNumbersOnly}
-                   disabled={uploading}
                    maxLength='3'
                    inputMode='numeric'
                    autoFocus={true}

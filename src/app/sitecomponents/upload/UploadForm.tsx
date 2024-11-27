@@ -4,21 +4,20 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, X } from "lucide-react"
-import UploadProgressBar from "@/app/sitecomponents/UploadProgressBar";
+import UploadProgressBar from "@/app/sitecomponents/upload/UploadProgressBar";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios, {AxiosHeaders, AxiosRequestConfig} from "axios";
-import {MutableRefObject, useState} from "react";
+import {MutableRefObject, useRef, useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
-import SuccessfulTick from "@/app/sitecomponents/SuccessfulTick";
-import DownloadPageLinkComponent from "@/app/sitecomponents/DownloadPageLinkComponent";
+import SuccessfulTick from "@/app/sitecomponents/upload/SuccessfulTick";
+import DownloadPageLinkComponent from "@/app/sitecomponents/upload/DownloadPageLinkComponent";
 import {createHttpClientCaptchaURL, createHttpClientStoreFilesURL} from "@/app/utils/LinkUtils";
-import CaptchaWithBase64 from "@/app/sitecomponents/CaptchaWithBase64";
 import CaptchaDto from "@/app/sitecomponents/CaptchaDto";
 import {Toaster} from "@/components/ui/toaster";
 import {useToast} from "@/hooks/use-toast";
-import TurnstileCloudflareCaptcha from "@/app/sitecomponents/TurnstileCloudflareCaptcha";
 import {Switch} from "@/components/ui/switch";
 import {Label} from "@/components/ui/label";
+import GeneralCaptchaComponent from "@/app/sitecomponents/upload/captcha/GeneralCaptchaComponent";
 
 class UploadProperties{
     formData:FormData;
@@ -31,8 +30,8 @@ export default function UploadForm() {
     const [successfulUpload,setSuccessfulUpload] = useState(false);
     const [captcha, setCaptcha] = useState<CaptchaDto>(null);
     const [captchaNumber, setCaptchaNumber] = useState<number>(0);
-    const [cloudflareCaptcha, setCloudflareCaptcha] = useState(true);
     const [groupId, setGroupId] = useState(null);
+    const abortControllerRef = useRef<AbortController|null>(null);
     const {toast} = useToast();
     const fileInputRef = React.useRef<HTMLInputElement>(null)
 
@@ -40,7 +39,9 @@ export default function UploadForm() {
     let limit_violated = false;
     function createAxiosRequestConfig(captcha:CaptchaDto):AxiosRequestConfig{
         const axiosRequestConfig :AxiosRequestConfig= {};
+        abortControllerRef.current = new AbortController();
         axiosRequestConfig.headers = captcha?.buildHttpHeaders();
+        axiosRequestConfig.signal = abortControllerRef.current?.signal;
         axiosRequestConfig.onUploadProgress= (progressEvent)=>{
             const total = progressEvent.total;
             const current = progressEvent.loaded;
@@ -203,24 +204,13 @@ export default function UploadForm() {
                 <CardFooter>
                     { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
                         <div className='w-full'>
-                            <div>
-                                {cloudflareCaptcha ?
-                                    <TurnstileCloudflareCaptcha setCaptcha={setCaptcha} captchaNumber={captchaNumber} uploading={uploading}/>
-                                    :
-                                    <CaptchaWithBase64 setCaptcha={setCaptcha} captchaNumber={captchaNumber} uploading={uploading}/>
-                                }
-                                <div className='flex gap-2 items-start my-2'>
-                                    <Switch id="captcha-mode" checked={cloudflareCaptcha}
-                                            onCheckedChange={setCloudflareCaptcha} className="data-[state=checked]:bg-green-700 data-[state=unchecked]:bg-secondary" />
-                                    <Label htmlFor="captcha-mode" className='my-auto text-sm'>Cloudflare Captcha</Label>
-                                </div>
-                            </div>
-                    <Button type="submit"
-                            className="w-full text-center"
-                            disabled={files.length === 0 || uploading || limit_violated}
-                    >
-                        {uploading ? `Uploading ${formatFileSize(totalSize)}` : `Upload (${formatFileSize(totalSize)})`}
-                    </Button>
+                            <GeneralCaptchaComponent setCaptcha={setCaptcha} captchaNumber={captchaNumber}/>
+                            <Button type="submit"
+                                    className="w-full text-center"
+                                    disabled={files.length === 0 || uploading || limit_violated}
+                            >
+                                {uploading ? `Uploading ${formatFileSize(totalSize)}` : `Upload (${formatFileSize(totalSize)})`}
+                            </Button>
                         </div>
                     }
                 </CardFooter>
