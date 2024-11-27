@@ -209,15 +209,25 @@ export default function UploadForm() {
                 <CardFooter>
                     { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
                         <div className='w-full'>
-                            {uploading ? <CancellationButton handleCancel={handleCancel}/> :
+                            {uploading ? null :
                                 <GeneralCaptchaComponent setCaptcha={setCaptcha} captchaNumber={captchaNumber}/>
                             }
-                            <Button type="submit"
-                                    className="w-full text-center"
-                                    disabled={files.length === 0 || uploading || limit_violated}
-                            >
-                                {uploading ? `Uploading ${formatFileSize(totalSize)}` : `Upload (${formatFileSize(totalSize)})`}
-                            </Button>
+                            {uploading ?
+                                <div className='w-full flex space-x-1'>
+                                    <Button type="button"
+                                            className="rounded-md border-green-700 border-4 text-center p-2 flex-grow"
+                                            disabled
+                                    >
+                                        {`Uploading ${formatFileSize(totalSize)}`}
+                                    </Button>
+                                    <CancellationButton handleCancel={handleCancel}/>
+                                </div>
+                                : <Button type="submit"
+                                          className="w-full text-center"
+                                          disabled={files.length === 0 || uploading || limit_violated}
+                                >
+                                    {`Upload (${formatFileSize(totalSize)})`}
+                                </Button>}
                         </div>
                     }
                 </CardFooter>

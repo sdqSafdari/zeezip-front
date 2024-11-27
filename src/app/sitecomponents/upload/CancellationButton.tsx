@@ -5,15 +5,17 @@ import {CircleX} from "lucide-react";
 
 export default function CancellationButton({handleCancel}:{handleCancel:()=>void}){
     return (
-        <div className='flex justify-center w-full'>
+        <div>
             <Button
-                variant='outline'
-                size='icon'
-                className='w-1/5 rounded-full text-destructive my-2'
+                type='button'
+                variant='destructive'
+                className='rounded-md flex items-center space-x-2 '
                 onClick={handleCancel}
             >
-                <CircleX className="h-10 w-10"/>
+                <CircleX className="h-4 w-4"/>
+                <span>Cancel</span>
             </Button>
+
 
         </div>
     );
