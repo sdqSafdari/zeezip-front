@@ -18,6 +18,7 @@ import {useToast} from "@/hooks/use-toast";
 import {Switch} from "@/components/ui/switch";
 import {Label} from "@/components/ui/label";
 import GeneralCaptchaComponent from "@/app/sitecomponents/upload/captcha/GeneralCaptchaComponent";
+import CancellationButton from "@/app/sitecomponents/upload/CancellationButton";
 
 class UploadProperties{
     formData:FormData;
@@ -98,6 +99,10 @@ export default function UploadForm() {
 
     const handleUploadClick = () => {
         fileInputRef.current?.click()
+    }
+
+    const handleCancel = () => {
+        abortControllerRef.current?.abort();
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -204,7 +209,9 @@ export default function UploadForm() {
                 <CardFooter>
                     { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
                         <div className='w-full'>
-                            <GeneralCaptchaComponent setCaptcha={setCaptcha} captchaNumber={captchaNumber}/>
+                            {uploading ? <CancellationButton handleCancel={handleCancel}/> :
+                                <GeneralCaptchaComponent setCaptcha={setCaptcha} captchaNumber={captchaNumber}/>
+                            }
                             <Button type="submit"
                                     className="w-full text-center"
                                     disabled={files.length === 0 || uploading || limit_violated}
