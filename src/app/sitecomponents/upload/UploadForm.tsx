@@ -18,6 +18,7 @@ import {useToast} from "@/hooks/use-toast";
 import {Switch} from "@/components/ui/switch";
 import {Label} from "@/components/ui/label";
 import GeneralCaptchaComponent from "@/app/sitecomponents/upload/captcha/GeneralCaptchaComponent";
+import CancellationButton from "@/app/sitecomponents/upload/CancellationButton";
 
 class UploadProperties{
     formData:FormData;
@@ -71,15 +72,27 @@ export default function UploadForm() {
             setSuccessfulUpload(true);
         },
         onError: error => {
-            toast({
-                title: "Error uploading File[s]!",
-                description: error.response.data?.message,
-                className:'text-red-600'
-            })
+            console.error("upload error!");
+            if (axios.isCancel(error)) {
+                toast({
+                    title: "Upload is cancelled!",
+                    className: 'text-green-700'
+                })
+            } else {
+                toast({
+                    title: "Error uploading File[s]!",
+                    description: error.response.data?.message,
+                    className: 'text-red-600'
+                })
+            }
             setUploading(false);
             setUploadProgress(0);
             setCaptchaNumber(captchaNumber+1);
             setCaptcha(null);
+        },
+        onSettled:(data,error)=>{
+            // Clean up the abort controller after each mutation
+            abortControllerRef.current=null;
         }
     });
 
@@ -98,6 +111,10 @@ export default function UploadForm() {
 
     const handleUploadClick = () => {
         fileInputRef.current?.click()
+    }
+
+    const handleCancel = () => {
+        abortControllerRef.current?.abort();
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -204,13 +221,25 @@ export default function UploadForm() {
                 <CardFooter>
                     { successfulUpload ? <DownloadPageLinkComponent groupId={groupId}/> :
                         <div className='w-full'>
-                            <GeneralCaptchaComponent setCaptcha={setCaptcha} captchaNumber={captchaNumber}/>
-                            <Button type="submit"
-                                    className="w-full text-center"
-                                    disabled={files.length === 0 || uploading || limit_violated}
-                            >
-                                {uploading ? `Uploading ${formatFileSize(totalSize)}` : `Upload (${formatFileSize(totalSize)})`}
-                            </Button>
+                            {uploading ? null :
+                                <GeneralCaptchaComponent setCaptcha={setCaptcha} captchaNumber={captchaNumber}/>
+                            }
+                            {uploading ?
+                                <div className='w-full flex space-x-1'>
+                                    <Button type="button"
+                                            className="rounded-md text-center p-2 flex-grow"
+                                            disabled
+                                    >
+                                        {`Uploading ${formatFileSize(totalSize)}`}
+                                    </Button>
+                                    <CancellationButton handleCancel={handleCancel}/>
+                                </div>
+                                : <Button type="submit"
+                                          className="w-full text-center"
+                                          disabled={files.length === 0 || uploading || limit_violated}
+                                >
+                                    {`Upload (${formatFileSize(totalSize)})`}
+                                </Button>}
                         </div>
                     }
                 </CardFooter>
