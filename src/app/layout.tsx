@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   description: "Share your Files securely. With ZeeZip stay anonymous and free.",
   icons:{
     icon: "/favicon.ico"
+  },
+  verification: {
+    google: "QIt7PX8I0BiYcdfKKM5bXQQKFp98goUT5uvBKvWDWPw"
   }
 };
 
