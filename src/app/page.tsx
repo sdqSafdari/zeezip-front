@@ -5,6 +5,10 @@ import UploadForm from "@/app/sitecomponents/upload/UploadForm";
 import WebsiteIntro from "@/app/sitecomponents/intro/WebsiteIntro";
 import Link from "next/link";
 
+/**
+ * since keyword meta tag is outdated, you should use keyword strategy
+ * keyword strategy: file sharing, free web space, online storage, share files, photo image music mp3 video sharing, dedicated hosting, enterprise sharing, file transfer, file hosting, internet file sharing,send file
+ */
 export default function Home() {
     return (
         <>
