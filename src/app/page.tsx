@@ -4,6 +4,9 @@ import HyperText from "@/components/ui/hyper-text";
 import UploadForm from "@/app/sitecomponents/upload/UploadForm";
 import WebsiteIntro from "@/app/sitecomponents/intro/WebsiteIntro";
 import Link from "next/link";
+import Image from "next/image";
+import openBSD from "../../public/openbsd.svg";
+import SimpleSiteIntro from "@/app/sitecomponents/intro/SimpleSiteIntro";
 
 /**
  * since keyword meta tag is outdated, you should use keyword strategy
@@ -13,14 +16,14 @@ export default function Home() {
     return (
         <>
             <div className='flex justify-between my-2'>
-                <h2 className='text-3xl font-black text-green-600'><Link href='/'> ZeeZIP </Link>
-                    <span className='text-sm'>because freedom is everything</span>
+                <h2 className='text-3xl font-black text-green-700'><Link href='/'> ZeeZIP </Link>
+                    <Image className="inline-block" src={openBSD} alt="secure"/>
                 </h2>
                 <ThemeButton/>
             </div>
             <div className='flex gap-4 items-start flex-col-on-mobile'>
                 <UploadForm />
-                <WebsiteIntro />
+                <SimpleSiteIntro />
             </div>
         </>
     );
