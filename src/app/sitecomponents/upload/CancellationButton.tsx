@@ -9,7 +9,7 @@ export default function CancellationButton({handleCancel}:{handleCancel:()=>void
             <Button
                 type='button'
                 variant='destructive'
-                className='rounded-md flex items-center space-x-2 '
+                className='rounded-none flex items-center space-x-2 '
                 onClick={handleCancel}
             >
                 <CircleX className="h-4 w-4"/>

@@ -144,7 +144,7 @@ export default function UploadForm() {
          limit_violated = true;
     }
     return (
-        <Card className="w-full md:w-1/3 md:basis-2/5 bg-transparent my-8">
+        <Card className="w-full md:w-1/3 md:basis-2/5 rounded-none bg-transparent my-8">
             <CardHeader>
                 <CardTitle>Upload Files</CardTitle>
             </CardHeader>
@@ -166,7 +166,7 @@ export default function UploadForm() {
                             type="button"
                             variant="outline"
                             size="lg"
-                            className="w-full h-32 border-2 border-dashed"
+                            className="w-full h-32 border-2 border-dashed rounded-none"
                             onClick={handleUploadClick}
                         >
                             <div className="flex flex-col items-center space-y-2">
@@ -190,7 +190,7 @@ export default function UploadForm() {
                             <h3 className="font-medium">Selected Files:</h3>
                             <ul className="space-y-2">
                                 {files.map((file, index) => (
-                                    <li key={index} className="flex items-start justify-between text-sm bg-secondary rounded-md p-2">
+                                    <li key={index} className="flex items-start justify-between text-sm bg-secondary rounded-none p-2">
                                         <div className="flex flex-col">
                                             <span className="font-medium truncate max-w-[200px]">{file.name}</span>
                                             <span className="text-muted-foreground">{formatFileSize(file.size)}</span>
@@ -227,7 +227,7 @@ export default function UploadForm() {
                             {uploading ?
                                 <div className='w-full flex space-x-1'>
                                     <Button type="button"
-                                            className="rounded-md text-center p-2 flex-grow"
+                                            className="rounded-none text-center p-2 flex-grow"
                                             disabled
                                     >
                                         {`Uploading ${formatFileSize(totalSize)}`}
@@ -235,7 +235,7 @@ export default function UploadForm() {
                                     <CancellationButton handleCancel={handleCancel}/>
                                 </div>
                                 : <Button type="submit"
-                                          className="w-full text-center"
+                                          className="w-full text-center rounded-none"
                                           disabled={files.length === 0 || uploading || limit_violated}
                                 >
                                     {`Upload (${formatFileSize(totalSize)})`}
