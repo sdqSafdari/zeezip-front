@@ -144,7 +144,7 @@ export default function UploadForm() {
          limit_violated = true;
     }
     return (
-        <Card className="w-full md:w-1/3 md:basis-2/5 rounded-none bg-transparent my-8">
+        <Card className="w-full md:w-1/3 md:basis-2/5 rounded-none border-2 border-[#7f7669] bg-transparent my-8">
             <CardHeader>
                 <CardTitle>Upload Box</CardTitle>
             </CardHeader>
@@ -166,7 +166,7 @@ export default function UploadForm() {
                             type="button"
                             variant="outline"
                             size="lg"
-                            className="w-full h-32 border-2 border-dashed rounded-none"
+                            className="w-full h-32 border-2 border-[#7f7669] border-dashed rounded-none"
                             onClick={handleUploadClick}
                         >
                             <div className="flex flex-col items-center space-y-2">
