@@ -15,6 +15,7 @@ import SimpleSiteIntro from "@/app/sitecomponents/intro/SimpleSiteIntro";
 export default function Home() {
     return (
         <>
+            <div className='min-h-screen pb-8 relative'>
             <div className='flex justify-between my-2'>
                 <h2 className='text-3xl font-black text-green-700'><Link href='/'> ZeeZIP </Link>
                     <Image className="inline-block" src={openBSD} alt="secure"/>
@@ -25,6 +26,9 @@ export default function Home() {
                 <UploadForm />
                 <SimpleSiteIntro />
             </div>
+                <div className='h-4 w-full bg-green-700 absolute bottom-0'></div>
+            </div>
+            <WebsiteIntro />
         </>
     );
 }

@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Upload, Clock, Link2, Shield } from 'lucide-react'
+import {Upload, Clock, Link2, Shield, FileArchive} from 'lucide-react'
 
 export const metadata: Metadata = {
     title: 'Welcome to ZeeZip - Fast & Secure File Sharing',
@@ -15,11 +15,7 @@ export const metadata: Metadata = {
 
 export default function WebsiteIntro() {
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold text-center mb-6">Welcome to <span className='text-green-700'>ZeeZip</span></h1>
-            <p className="text-xl text-center mb-12 text-muted-foreground">
-                Fast, secure, and easy file sharing with 24-hour download links
-            </p>
+        <div className="container mx-auto px-4 py-36">
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-12">
                 <FeatureCard
@@ -33,9 +29,9 @@ export default function WebsiteIntro() {
                     description="Get secure download links valid for one day"
                 />
                 <FeatureCard
-                    icon={<Link2 className="h-8 w-8 mb-2" />}
-                    title="Quick Sharing"
-                    description="Share your files instantly with anyone, anywhere"
+                    icon={<FileArchive className="h-8 w-8 mb-2" />}
+                    title="Zip your Files"
+                    description="Download all your Files as a Zip."
                 />
                 <FeatureCard
                     icon={<Shield className="h-8 w-8 mb-2" />}
@@ -67,14 +63,15 @@ export default function WebsiteIntro() {
 
 function FeatureCard({ icon, title, description }) {
     return (
-        <Card>
+        <Card className="relative z-1 border-none">
+            <img className="absolute z-0 inset-0 m-auto" src="/images/hexa-bg.png" alt="bg"/>
             <CardHeader>
                 <CardTitle className="flex flex-col items-center">
                     {icon}
                     {title}
                 </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-center">
                 <CardDescription>{description}</CardDescription>
             </CardContent>
         </Card>

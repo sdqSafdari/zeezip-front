@@ -45,7 +45,6 @@ export default function RootLayout({
           <div className='relative z-10 mr-4 ml-4'>
           {children}
           </div>
-          <FooterBackground />
       </ThemeProvider>
       </body>
     </ServerClientQueryClientProvider>
