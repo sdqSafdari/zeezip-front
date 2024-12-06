@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function WebsiteIntro() {
     return (
-        <div className="container mx-auto px-4 py-36">
+        <div className="container mx-auto py-36">
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-12">
                 <FeatureCard
@@ -31,7 +31,7 @@ export default function WebsiteIntro() {
                 <FeatureCard
                     icon={<FileArchive className="h-8 w-8 mb-2" />}
                     title="Zip your Files"
-                    description="Download all your Files as a Zip."
+                    description="Download all your Files as a Zip"
                 />
                 <FeatureCard
                     icon={<Shield className="h-8 w-8 mb-2" />}
