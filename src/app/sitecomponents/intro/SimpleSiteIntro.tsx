@@ -5,7 +5,8 @@ import {Button} from "@/components/ui/button";
 
 export default function SimpleSiteIntro() {
     return (
-        <div className="container flex flex-col justify-center mx-auto px-4 py-8 md:bg-[url('https://cdn.prod.website-files.com/6600cac2bfd894b77d543d34/6602c6f51f0d426b79f21228_Pixels.webp')]">
+        <div className="container flex flex-col justify-center mx-auto px-4 py-8 relative">
+            {/*<Image className="absolute inset-0 z-0 opacity-45" height={124} width={1440} src="/images/Pixels.webp" alt="pixel" />*/}
             <div>
                 <h1 className="text-4xl font-bold">PRIVATE &
                     <span className='text-green-700'> ANONYMOUS</span>
