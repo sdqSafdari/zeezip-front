@@ -18,7 +18,7 @@ export default function SimpleSiteIntro() {
             <div className="mt-32">
                 <h1 className="text-4xl font-bold">Encrypt your Files &</h1>
                 <p className="flex gap-2 text-4xl font-bold">Download from Link by
-                    <Button className="text-lg rounded-none bg-gradient-to-r from-[#0f2939] to-[#3aa09c]">Creating an Account</Button>
+                    <Button className="text-lg bg-gradient-to-r from-[#0f2939] to-[#3aa09c]">Creating an Account</Button>
                 </p>
             </div>
         </div>

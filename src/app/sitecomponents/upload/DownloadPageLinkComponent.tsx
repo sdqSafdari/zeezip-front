@@ -19,14 +19,14 @@ export default function  DownloadPageLinkComponent({groupId}:{groupId:string}){
     return (
         <div className='w-full'>
             <h6 className='text-lg font-semibold leading-none tracking-tight mb-3'>Download page Link!</h6>
-            <div className="w-full flex rounded-none overflow-hidden">
+            <div className="w-full flex rounded-md overflow-hidden">
                 <Input
                     type="text"
                     value={downloadPageLink}
                     readOnly
-                    className="flex-grow rounded-none bg-secondary"
+                    className="flex-grow rounded-r-none bg-secondary"
                 />
-                <Button size='icon' onClick={handleCopyToClipboard} className='w-1/4 bg-secondary text-green-600 hover:bg-green-700 hover:text-white rounded-none border-l border-green-400'>
+                <Button size='icon' onClick={handleCopyToClipboard} className='w-1/4 bg-secondary text-green-600 hover:bg-green-700 hover:text-white rounded-l-none border-l border-green-400'>
                     {copied ? <Check className="h-4 w-4"/> : <Copy className="h-4 w-4"/>}
                     <span className="sr-only">{copied ? "Copied" : "Copy to clipboard"}</span>
                 </Button>
