@@ -16,8 +16,8 @@ export default function SimpleSiteIntro() {
                 <p className="text-2xl md:text-4xl font-bold ">Encrypt & Zip your Files</p>
             </div>
             <div className="mt-32">
-                <h1 className="text-xl md:text-4xl font-bold">Encrypt your Files &</h1>
-                <p className="flex gap-2 text-xl md:text-4xl font-bold">
+                <h1 className="text-xl md:text-3xl font-bold">Encrypt your Files &</h1>
+                <p className="flex gap-2 text-xl md:text-3xl font-bold">
                     <span className="my-auto">Download from Link by</span>
                     <Button className="bg-gradient-to-r from-[#0f2939] to-[#3aa09c] md:text-lg">Creating an Account</Button>
                 </p>
