@@ -1,5 +1,5 @@
 "use client"
-import ThemeButton from '@/app/sitecomponents/ThemeButton';
+import ThemeButton from '@/app/sitecomponents/fixed/ThemeButton';
 import HyperText from "@/components/ui/hyper-text";
 import SiteIntro from "@/app/sitecomponents/intro/SiteIntro";
 import FileTableWithParam from "@/app/u/[pvar]/FileTableWithParam";

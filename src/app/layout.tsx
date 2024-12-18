@@ -3,7 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import ServerClientQueryClientProvider from '@/provider/ServerClientQueryClientProvider';
 import {ThemeProvider} from "@/provider/ThemeProvider";
-import FooterBackground from "@/app/sitecomponents/FooterBackground";
+import FooterBackground from "@/app/sitecomponents/fixed/FooterBackground";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 const geistSans = localFont({

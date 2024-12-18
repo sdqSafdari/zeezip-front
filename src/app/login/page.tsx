@@ -1,10 +1,12 @@
 "use client"
 
+import Navbar from "@/app/sitecomponents/fixed/Navbar";
 
 export default function Login() {
     return (
         <>
             <div className='relative z-10 mx-4 h-screen overflow-hidden'>
+                <Navbar />
                 <VideoComponent />
             </div>
         </>
