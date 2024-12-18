@@ -20,10 +20,10 @@ export default function SimpleSiteIntro() {
                 <h1 className="text-xl md:text-3xl font-bold">Get your personal space &</h1>
                 <p className="flex gap-2 text-xl md:text-3xl font-bold">
                     <span className="my-auto">Store download-link content</span>
-                    <Button className="bg-gradient-to-r from-[#0f2939] to-[#3aa09c] text-white md:text-lg relative">
-                        <span>Show Plans</span>
-                        <BorderBeam size={100} borderWidth={2} duration={10} colorFrom="#15803D"/>
-                        </Button>
+                    <Button
+                        className="relative z-10 bg-transparent rounded-full shadow-[0_0_20px_5px_rgba(72,187,120,0.6)] hover:shadow-[0_0_30px_10px_rgba(72,187,120,0.8)] transition-shadow duration-300 border-2 text-green-700 hover:bg-transparent hover:text-tnormal font-bold md:text-xl">
+                        <span>Plans</span>
+                    </Button>
                 </p>
             </div>
         </div>
