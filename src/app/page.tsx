@@ -5,7 +5,7 @@ import UploadForm from "@/app/sitecomponents/upload/UploadForm";
 import WebsiteIntro from "@/app/sitecomponents/intro/WebsiteIntro";
 import Link from "next/link";
 import Image from "next/image";
-import openBSD from "../../public/openbsd.svg";
+import openBSD from "../../public/openbsd.svg?url";
 import SimpleSiteIntro from "@/app/sitecomponents/intro/SimpleSiteIntro";
 import {Button} from "@/components/ui/button";
 

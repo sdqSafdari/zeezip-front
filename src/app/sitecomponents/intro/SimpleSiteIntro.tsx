@@ -1,5 +1,5 @@
 
-import Anonymous_SVG from "./icon.svg";
+import Anonymous_SVG from "./icon.svg?url";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {BorderBeam} from "@/components/ui/border-beam";
