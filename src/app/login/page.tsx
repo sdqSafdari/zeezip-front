@@ -15,7 +15,7 @@ export default function Login() {
                 <Navbar />
                 <VideoComponent />
                 <div className="flex items-end justify-end">
-                    <div className="relative w-3/4 h-screen bg-secondary">
+                    <div className="relative w-full md:w-3/4 h-screen bg-background">
                         <FlickeringGrid
                             className="absolute z-0 inset-0 size-full"
                             squareSize={4}
@@ -29,7 +29,7 @@ export default function Login() {
                                 <div className="flex flex-col justify-center items-center">
                                     <Link href="/authorization/google">
                                     <Button type="button" variant="outline" className="rounded-none bg-green-400 transform transition-transform duration-300 hover:scale-110 hover:bg-green-400">
-                                        <GoogleSvgComponent height="auto" width="auto"/>
+                                        <GoogleSvgComponent height={33} width={33}/>
                                         <span className="px-4 text-lg font-bold"> Sign In with Google </span>
                                     </Button>
                                     </Link>
