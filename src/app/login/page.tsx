@@ -27,7 +27,7 @@ export default function Login() {
                         <div className="h-screen w-full flex flex-col justify-center items-center">
                             <div className="w-1/3 h-1/4 rounded-md relative z-30">
                                 <div className="flex flex-col justify-center items-center">
-                                    <Link href="/authorization/google">
+                                    <Link href="/oauth2/authorization/google">
                                     <Button type="button" variant="outline" className="rounded-none bg-green-400 transform transition-transform duration-300 hover:scale-110 hover:bg-green-400">
                                         <GoogleSvgComponent height={33} width={33}/>
                                         <span className="px-4 text-lg font-bold"> Sign In with Google </span>
