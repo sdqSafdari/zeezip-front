@@ -23,7 +23,7 @@ export default function Home() {
                 </h2>
                 <div className="flex items-start gap-4 my-auto">
                     <Button className="border-2 rounded-full bg-transparent font-bold text-green-700 border-green-700 transform transition-transform duration-300 hover:bg-transparent hover:scale-110">
-                        <Link href={"/login"} >sign in | sign up</Link>
+                        <Link href={"/loginf"} >sign in | sign up</Link>
                     </Button>
                     <ThemeButton/>
                 </div>
