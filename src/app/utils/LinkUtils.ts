@@ -26,6 +26,10 @@ export function createHttpClientStoreFilesURL():string{
     return "/bff/public/file/store";
 }
 
+export function createHttpClientUserStoreFileURL():string{
+    return "/bff/private/file/store";
+}
+
 export function createHttpClientCaptchaURL():string{
     return "/bff/captcha/string";
 }
