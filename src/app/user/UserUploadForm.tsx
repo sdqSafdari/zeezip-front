@@ -35,7 +35,7 @@ interface FileWithProgress {
 }
 export default function UserUploadForm() {
     const [files, setFiles] = React.useState<FileWithProgress[]>([]);
-    const [filePath, setFilePath] = useState("");
+    const [filePath, setFilePath] = useState("/");
     const {toast} = useToast();
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
