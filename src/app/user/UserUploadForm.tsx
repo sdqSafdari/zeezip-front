@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Upload, X } from "lucide-react"
+import {Check, Upload, X} from "lucide-react"
 import UploadProgressBar from "@/app/sitecomponents/upload/UploadProgressBar";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios, {AxiosHeaders, AxiosRequestConfig} from "axios";
@@ -27,11 +27,25 @@ import {file} from "@babel/types";
 import {bool} from "prop-types";
 import {Progress} from "@/components/ui/progress";
 
-interface FileWithProgress {
+class FileWithProgress {
     file:File;
     progress: number;
     status: 'pending' | 'uploading' | 'completed' | 'error';
     abortController: AbortController;
+
+    constructor(file: File, progress: number, status: "pending" | "uploading" | "completed" | "error", abortController: AbortController) {
+        this.file = file;
+        this.progress = progress;
+        this.status = status;
+        this.abortController = abortController;
+    }
+
+    public isUploading():boolean{
+     return this.status == 'uploading';
+    }
+    public isCompleted():boolean{
+        return this.status== 'completed';
+    }
 }
 export default function UserUploadForm() {
     const [files, setFiles] = React.useState<FileWithProgress[]>([]);
@@ -49,9 +63,12 @@ export default function UserUploadForm() {
             const current = progressEvent.loaded;
             const percentage = Math.round((current / total) * 100);
             setFiles(prevFiles =>
-                prevFiles.map(f =>
-                    f.file.name === fileWithProgress.file.name ? { ...f, progress: percentage, status: "uploading" } : f
-                )
+                prevFiles.map(f => {
+                   if(f.file.name === fileWithProgress.file.name){
+                       f.progress = percentage;
+                   }
+                   return f;
+                })
             )
         };
         return axiosRequestConfig;
@@ -71,9 +88,12 @@ export default function UserUploadForm() {
             const {data}=responseEntity;
 
             setFiles(prevFiles =>
-                prevFiles.map(f =>
-                    f.file.name === fileWithProgress.file.name ? { ...f, status: 'completed' } : f
-                )
+                prevFiles.map(f => {
+                   if( f.file.name === fileWithProgress.file.name){
+                       f.status = 'completed';
+                   }
+                   return f;
+                })
             )
             // pass data to FileMetadataTable
             queryClient.refetchQueries({queryKey:['userFiles']});
@@ -103,14 +123,14 @@ export default function UserUploadForm() {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const fileNames = new Set(files.map(file=>file.file.name));
-            const filteredFiles:FileWithProgress[] = Array.from(event.target.files || []).filter(file=>!fileNames.has(file.name)).map(sFile=>
-                ({
-                        file:sFile,
-                        progress: 0,
-                        status: 'pending' as const,
-                        abortController: new AbortController()
-                    } as FileWithProgress
-            ));
+            const filteredFiles:FileWithProgress[] = Array.from(event.target.files || []).filter(file => !fileNames.has(file.name)).map(sFile =>
+                (new FileWithProgress(
+                        sFile,
+                        0,
+                        'pending' as const,
+                        new AbortController()
+                    )
+                ));
             console.log(JSON.stringify(filteredFiles));
             setFiles(prevFiles => [...prevFiles, ...filteredFiles])
         }
@@ -198,14 +218,17 @@ export default function UserUploadForm() {
                                             </div>
                                             <Button
                                                 type="button"
-                                                variant={fileWithProgress.status == 'uploading' ? "destructive" : "ghost"}
+                                                variant={fileWithProgress.isUploading() ? "destructive" : "ghost"}
                                                 size="sm"
                                                 onClick={() => fileWithProgress.status == 'uploading' ? handleUploadCancel(fileWithProgress)
                                                     : handleRemoveFile(fileWithProgress.file)
                                                 }
-                                                className="h-6 w-6 p-0 my-auto"
-                                            >
+                                                className={`h-6 w-6 p-0 my-auto ${fileWithProgress.isCompleted() ? 'border-2 border-green-700': ''}`}
+                                            >{fileWithProgress.isCompleted()?
+                                                <Check className="h-4 w-4 text-green-700"/>
+                                                :
                                                 <X className="h-4 w-4"/>
+                                            }
                                                 <span className="sr-only">Remove {fileWithProgress.file.name}</span>
                                             </Button>
                                         </div>
