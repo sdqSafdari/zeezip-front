@@ -15,6 +15,10 @@ import { FileText, Home, Settings, Upload, User } from "lucide-react"
 import Header from "./header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import UserInfoDto from "@/app/user/UserInfoDto";
+import openBSD from "../../../../public/openbsd.svg?url";
+import Link from "next/link";
+import Image from "next/image";
+
 
 export default function DashboardLayout({ children, userInfo }: { children: ReactNode,userInfo:UserInfoDto }) {
     return (
@@ -22,60 +26,58 @@ export default function DashboardLayout({ children, userInfo }: { children: Reac
             <div className="flex h-screen w-full">
                 <Sidebar>
                     <SidebarHeader>
-                        <h2 className="px-4 text-lg font-semibold">CloudStore</h2>
+                        <h2 className='text-3xl font-black text-green-700'><Link href='/user'> ZeeZIP </Link>
+                            <Image className="inline-block" src={openBSD} alt="secure"/>
+                        </h2>
                     </SidebarHeader>
                     <SidebarContent>
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <a href="/dashboard">
+                                    <Link href={'/user'}>
                                         <Home className="mr-2 h-4 w-4" />
                                         Dashboard
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <a href="/files">
+                                    <Link href="/user/files">
                                         <FileText className="mr-2 h-4 w-4" />
                                         My Files
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <a href="/upload">
+                                    <Link href="/user/upload">
                                         <Upload className="mr-2 h-4 w-4" />
                                         Upload
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <a href="/account">
+                                    <Link href="/user/account">
                                         <User className="mr-2 h-4 w-4" />
                                         Account
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <a href="/settings">
+                                    <Link href="/user/settings">
                                         <Settings className="mr-2 h-4 w-4" />
                                         Settings
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarContent>
                     <SidebarFooter>
-                        <div className="flex items-center px-4 py-2">
-                            <Avatar className="h-9 w-9">
-                                <AvatarImage src="" alt={userInfo.avatarFallbackName()} />
-                                <AvatarFallback>{userInfo.avatarFallbackName()}</AvatarFallback>
-                            </Avatar>
+                        <div className="flex items-start px-2 py-2">
                             <div className="ml-3">
-                                <p className="text-sm font-medium">{userInfo.name}</p>
+                                <p className="text-sm font-medium text-green-700">{userInfo.name}</p>
                                 <p className="text-xs text-muted-foreground">{userInfo.email}</p>
                             </div>
                         </div>

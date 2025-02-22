@@ -18,7 +18,7 @@ export default function UserDashboard() {
         queryFn: ({queryKey}) => {
             return axios.get(createHttpClientUserInfoURL()).then(res=> res.data);
         },
-        staleTime: Infinity,
+        staleTime: 3*60*1000,
         retry: 3 // retry the failed queries
     });//TODO write pending component
     const userInfo: UserInfoDto = data ?
