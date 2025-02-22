@@ -165,7 +165,7 @@ export default function UserUploadForm() {
     return (
         <Card className="w-full md:w-1/3 md:basis-2/5 border-[#7f7669] bg-transparent my-8">
             <CardHeader>
-                <CardTitle>Upload Box</CardTitle>
+                <CardTitle className='text-green-700'>Upload Box</CardTitle>
             </CardHeader>
             <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-4">

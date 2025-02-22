@@ -77,7 +77,7 @@ export default function DashboardLayout({ children, userInfo }: { children: Reac
                     <SidebarFooter>
                         <div className="flex items-start px-2 py-2">
                             <div className="ml-3">
-                                <p className="text-sm font-medium text-green-700">{userInfo.name}</p>
+                                <p className="text-sm font-medium">{userInfo.name}</p>
                                 <p className="text-xs text-muted-foreground">{userInfo.email}</p>
                             </div>
                         </div>

@@ -6,6 +6,7 @@ import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import {createHttpClientUserInfoURL} from "@/app/utils/LinkUtils";
 import UserInfoDto from "@/app/user/UserInfoDto";
+import UserFilesTable from "@/app/user/components/UserFilesTable";
 
 interface UserInfoResponse{
     name: string;
@@ -26,7 +27,10 @@ export default function UserDashboard() {
         new UserInfoDto('', '', '');
     return (
         <DashboardLayout userInfo={userInfo}>
+            <div className='pr-4'>
                 <UserUploadForm/>
+                <UserFilesTable/>
+            </div>
         </DashboardLayout>
     )
 }
