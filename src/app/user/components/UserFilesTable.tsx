@@ -8,36 +8,40 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { useState, useCallback } from "react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import {useQuery} from "@tanstack/react-query";
+import axios from "axios";
+import {createHttpClientUserFilesListURL} from "@/app/utils/LinkUtils";
+import {formatFileSize, formatUTCTimeToLocal} from "@/app/utils/FileUtils";
 
-// This would typically come from your API
-const allFiles = [
-    { id: "1", name: "Document1.pdf", type: "PDF", size: "2.5 MB", modified: "2024-02-22" },
-    { id: "2", name: "Image1.jpg", type: "Image", size: "1.8 MB", modified: "2024-02-21" },
-    { id: "3", name: "Spreadsheet1.xlsx", type: "Spreadsheet", size: "4.2 MB", modified: "2024-02-20" },
-    { id: "4", name: "Document2.pdf", type: "PDF", size: "1.5 MB", modified: "2024-02-19" },
-    { id: "5", name: "Image2.jpg", type: "Image", size: "2.8 MB", modified: "2024-02-18" },
-    { id: "6", name: "Spreadsheet2.xlsx", type: "Spreadsheet", size: "3.2 MB", modified: "2024-02-17" },
-    { id: "7", name: "Document3.pdf", type: "PDF", size: "5.5 MB", modified: "2024-02-16" },
-    { id: "8", name: "Image3.jpg", type: "Image", size: "1.2 MB", modified: "2024-02-15" },
-    { id: "9", name: "Spreadsheet3.xlsx", type: "Spreadsheet", size: "2.7 MB", modified: "2024-02-14" },
-    { id: "10", name: "Document4.pdf", type: "PDF", size: "3.5 MB", modified: "2024-02-13" },
-    { id: "11", name: "Image4.jpg", type: "Image", size: "4.8 MB", modified: "2024-02-12" },
-    { id: "12", name: "Spreadsheet4.xlsx", type: "Spreadsheet", size: "1.2 MB", modified: "2024-02-11" },
-    { id: "13", name: "Document5.pdf", type: "PDF", size: "2.9 MB", modified: "2024-02-10" },
-    { id: "14", name: "Image5.jpg", type: "Image", size: "3.8 MB", modified: "2024-02-09" },
-    { id: "15", name: "Spreadsheet5.xlsx", type: "Spreadsheet", size: "2.2 MB", modified: "2024-02-08" },
-]
+interface UserFileMetadata{
+    id:string;
+    name:string;
+    lastModified:string;
+    size:number;
+    directory:boolean;
+}
 
 export default function UserFilesTable() {
     const [currentPage, setCurrentPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set())
 
-    const totalFiles = allFiles.length
+    const {data, status}:{data:UserFileMetadata[],status:string} = useQuery({
+        queryKey: ["userFiles"],
+        queryFn: context => {
+            return axios.get(createHttpClientUserFilesListURL()).then(res => res.data);
+        },
+        staleTime: Infinity,
+        retry: 2
+    });
+    console.log(JSON.stringify(data));
+    const userFiles:UserFileMetadata[] = status=='isPending'?[]:data;
+
+    const totalFiles = userFiles.length;
     const totalPages = Math.ceil(totalFiles / pageSize)
     const startIndex = (currentPage - 1) * pageSize
     const endIndex = startIndex + pageSize
-    const currentFiles = allFiles.slice(startIndex, endIndex)
+    const currentFiles = userFiles.slice(startIndex, endIndex)
 
     const isAllCurrentPageSelected = currentFiles.every((file) => selectedFiles.has(file.id))
     const isSomeCurrentPageSelected = currentFiles.some((file) => selectedFiles.has(file.id))
@@ -160,14 +164,13 @@ export default function UserFilesTable() {
                                 />
                             </TableHead>
                             <TableHead>Name</TableHead>
-                            <TableHead>Type</TableHead>
                             <TableHead>Size</TableHead>
-                            <TableHead>Modified</TableHead>
+                            <TableHead>Created</TableHead>
                             <TableHead></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {currentFiles.map((file) => (
+                        {userFiles.map((file) => (
                             <TableRow key={file.id}>
                                 <TableCell>
                                     <Checkbox
@@ -182,9 +185,8 @@ export default function UserFilesTable() {
                                         {file.name}
                                     </div>
                                 </TableCell>
-                                <TableCell>{file.type}</TableCell>
-                                <TableCell>{file.size}</TableCell>
-                                <TableCell>{file.modified}</TableCell>
+                                <TableCell>{formatFileSize(file.size)}</TableCell>
+                                <TableCell>{formatUTCTimeToLocal(file.lastModified)}</TableCell>
                                 <TableCell>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>

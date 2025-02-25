@@ -37,3 +37,6 @@ export function createHttpClientCaptchaURL():string{
 export function createHttpClientUserInfoURL():string{
     return "/protected/user/info"
 }
+export function createHttpClientUserFilesListURL(): string {
+    return "/bff/private/file/list";
+}
