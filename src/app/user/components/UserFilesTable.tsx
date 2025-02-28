@@ -8,9 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { useState, useCallback } from "react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import {useQuery} from "@tanstack/react-query";
+import {QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
-import {createHttpClientUserFilesListURL} from "@/app/utils/LinkUtils";
+import {
+    createHttpClientUserFileDeleteURL,
+    createHttpClientUserFilesListURL,
+    createHttpClientUserStoreFileURL
+} from "@/app/utils/LinkUtils";
 import {formatFileSize, formatUTCTimeToLocal} from "@/app/utils/FileUtils";
 
 interface UserFileMetadata{
@@ -25,7 +29,7 @@ export default function UserFilesTable() {
     const [currentPage, setCurrentPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set())
-
+    const queryClient:QueryClient = useQueryClient();
     const {data, status}:{data:UserFileMetadata[],status:string} = useQuery({
         queryKey: ["userFiles"],
         queryFn: context => {
@@ -34,8 +38,22 @@ export default function UserFilesTable() {
         staleTime: Infinity,
         retry: 2
     });
+    const deleteFileMutation = useMutation({
+        mutationFn: (fileId:string) => {
+            console.log("deleting a file");
+            return  axios.delete(createHttpClientUserFileDeleteURL(),{
+                params: {id:fileId}
+            });
+        },
+    onError:(error,fileId)=>{
+            console.error(JSON.stringify(error))
+    },
+    onSuccess:(data)=>{
+            queryClient.invalidateQueries({queryKey:['userFiles']});
+    }});
+
     console.log(JSON.stringify(data));
-    const userFiles:UserFileMetadata[] = status=='isPending'?[]:data;
+    const userFiles:UserFileMetadata[] = status=='pending'?[]:data;
 
     const totalFiles = userFiles.length;
     const totalPages = Math.ceil(totalFiles / pageSize)
@@ -87,8 +105,11 @@ export default function UserFilesTable() {
     const handleBulkDownload = useCallback(() => {
         // Implement bulk download logic here
         console.log("Downloading files:", Array.from(selectedFiles))
-    }, [selectedFiles])
+    }, [selectedFiles]);
 
+    const handleFileDelete = (fileId:string)=>{
+        deleteFileMutation.mutate(fileId);
+    }
     const nextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1)
@@ -207,9 +228,8 @@ export default function UserFilesTable() {
                                             <DropdownMenuItem
                                                 onClick={() => {
                                                     // Handle single file delete
-                                                    console.log("Deleting file:", file.id)
+                                                    handleFileDelete(file.id);
                                                 }}
-                                                className="text-destructive focus:text-destructive"
                                             >
                                                 <Trash2 className="mr-2 h-4 w-4" />
                                                 Delete

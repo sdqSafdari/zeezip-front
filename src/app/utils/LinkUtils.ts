@@ -40,3 +40,6 @@ export function createHttpClientUserInfoURL():string{
 export function createHttpClientUserFilesListURL(): string {
     return "/bff/private/file/list";
 }
+export function createHttpClientUserFileDeleteURL(): string{
+    return `/bff/private/file`;
+}
