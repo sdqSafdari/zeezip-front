@@ -7,6 +7,7 @@ import axios from "axios";
 import {createHttpClientUserInfoURL} from "@/app/utils/LinkUtils";
 import UserInfoDto from "@/app/user/UserInfoDto";
 import UserFilesTable from "@/app/user/components/UserFilesTable";
+import UserMetrics from "@/app/user/components/UserMetrics";
 
 interface UserInfoResponse{
     name: string;
@@ -28,7 +29,10 @@ export default function UserDashboard() {
     return (
         <DashboardLayout userInfo={userInfo}>
             <div className='pr-4'>
-                <UserUploadForm/>
+                <div className='flex items-start justify-start gap-8  my-8 w-full'>
+                    <UserUploadForm/>
+                    <UserMetrics />
+                </div>
                 <UserFilesTable/>
             </div>
         </DashboardLayout>

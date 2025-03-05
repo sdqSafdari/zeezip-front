@@ -163,7 +163,7 @@ export default function UserUploadForm() {
     const totalSize = files.filter(fileWithProgress=>fileWithProgress.status == 'pending').reduce((acc, file) => acc + file.file.size, 0);
 
     return (
-        <Card className="w-full md:w-1/3 md:basis-2/5 border-[#7f7669] bg-transparent my-8">
+        <Card className="w-full md:w-1/3 md:basis-2/5 border-[#7f7669] bg-transparent">
             <CardHeader>
                 <CardTitle className='text-green-700'>Upload Box</CardTitle>
             </CardHeader>

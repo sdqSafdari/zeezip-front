@@ -43,3 +43,6 @@ export function createHttpClientUserFilesListURL(): string {
 export function createHttpClientUserFileDeleteURL(): string{
     return `/bff/private/file`;
 }
+export function createHttpClientUserMetricsURL(): string{
+    return '/protected/user/account/info';
+}
