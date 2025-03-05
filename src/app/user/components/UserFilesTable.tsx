@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useState, useCallback } from "react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import {QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 import {
     createHttpClientUserFileDeleteURL,
     createHttpClientUserFilesListURL,
@@ -43,7 +43,7 @@ export default function UserFilesTable() {
             console.log("deleting a file");
             return  axios.delete(createHttpClientUserFileDeleteURL(),{
                 params: {id:fileId}
-            });
+            } as AxiosRequestConfig);
         },
     onError:(error,fileId)=>{
             console.error(JSON.stringify(error))
