@@ -96,7 +96,7 @@ export default function UserUploadForm() {
                 })
             )
             // pass data to FileMetadataTable
-            queryClient.refetchQueries({queryKey:['userFiles']});
+            queryClient.invalidateQueries({queryKey:['user']});
         },
         onError: (error,fileWithProgress) => {
 

@@ -31,7 +31,7 @@ export default function UserFilesTable() {
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set())
     const queryClient:QueryClient = useQueryClient();
     const {data, status}:{data:UserFileMetadata[],status:string} = useQuery({
-        queryKey: ["userFiles"],
+        queryKey: ['user',"userFiles"],
         queryFn: context => {
             return axios.get(createHttpClientUserFilesListURL()).then(res => res.data);
         },
@@ -49,7 +49,7 @@ export default function UserFilesTable() {
             console.error(JSON.stringify(error))
     },
     onSuccess:(data)=>{
-            queryClient.invalidateQueries({queryKey:['userFiles']});
+            queryClient.invalidateQueries({queryKey:['user']});
     }});
 
     console.log(JSON.stringify(data));

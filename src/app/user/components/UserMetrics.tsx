@@ -19,7 +19,7 @@ interface UserMetricsResponse{
 }
 export default function UserMetrics(){
     const {data,status}:{data:UserMetricsResponse,status:string} = useQuery({
-        queryKey: ['userMetrics'], // used as cache key
+        queryKey: ['user','userMetrics'], // used as cache key
         queryFn: ({queryKey}) => {
             return axios.get(createHttpClientUserMetricsURL()).then(res=> res.data);
         },

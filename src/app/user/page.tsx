@@ -16,7 +16,7 @@ interface UserInfoResponse{
 }
 export default function UserDashboard() {
     const {data,status}:{data:UserInfoResponse,status:string} = useQuery({
-        queryKey: ['userData'], // used as cache key
+        queryKey: ['user','userData'], // used as cache key
         queryFn: ({queryKey}) => {
             return axios.get(createHttpClientUserInfoURL()).then(res=> res.data);
         },
