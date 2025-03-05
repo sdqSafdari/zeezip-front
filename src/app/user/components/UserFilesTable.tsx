@@ -52,7 +52,6 @@ export default function UserFilesTable() {
             queryClient.invalidateQueries({queryKey:['user']});
     }});
 
-    console.log(JSON.stringify(data));
     const userFiles:UserFileMetadata[] = status=='pending'?[]:data;
 
     const totalFiles = userFiles.length;
