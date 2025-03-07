@@ -17,6 +17,12 @@ export function createDirectDownloadLinkZip(groupId:string):string{
     const baseURL:string=window.location.origin;
     return `${baseURL}/bff/public/file/download/zip/${groupId}`;
 }
+export function createDirectUserFileDownloadLink(relativeFileId:string):string{
+    if (!window)
+        return "";
+    const baseURL:string=window.location.origin;
+    return `${baseURL}${createHttpClientUserFileURL()}?id=${encodeURIComponent(relativeFileId)}`;
+}
 
 export function createHttpClientListFilesMetadataURL(groupId:string):string{
     return `/bff/public/file/metadata/${groupId}`;
@@ -40,7 +46,7 @@ export function createHttpClientUserInfoURL():string{
 export function createHttpClientUserFilesListURL(): string {
     return "/bff/private/file/list";
 }
-export function createHttpClientUserFileDeleteURL(): string{
+export function createHttpClientUserFileURL(): string{
     return `/bff/private/file`;
 }
 export function createHttpClientUserMetricsURL(): string{

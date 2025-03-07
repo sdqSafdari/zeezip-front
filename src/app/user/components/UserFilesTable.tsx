@@ -11,9 +11,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import {QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios, {AxiosRequestConfig} from "axios";
 import {
-    createHttpClientUserFileDeleteURL,
+    createHttpClientUserFileURL,
     createHttpClientUserFilesListURL,
-    createHttpClientUserStoreFileURL
+    createHttpClientUserStoreFileURL, createDirectUserFileDownloadLink
 } from "@/app/utils/LinkUtils";
 import {formatFileSize, formatUTCTimeToLocal} from "@/app/utils/FileUtils";
 
@@ -41,7 +41,7 @@ export default function UserFilesTable() {
     const deleteFileMutation = useMutation({
         mutationFn: (fileId:string) => {
             console.log("deleting a file");
-            return  axios.delete(createHttpClientUserFileDeleteURL(),{
+            return  axios.delete(createHttpClientUserFileURL(),{
                 params: {id:fileId}
             } as AxiosRequestConfig);
         },
@@ -51,6 +51,20 @@ export default function UserFilesTable() {
     onSuccess:(data)=>{
             queryClient.invalidateQueries({queryKey:['user']});
     }});
+
+    function handleDownload(relativeFileId:string){
+        if (!document){
+            return;
+        }
+        const directUserFileDownloadLink = createDirectUserFileDownloadLink(relativeFileId);
+        const a = document.createElement('a');
+        a.href = directUserFileDownloadLink;
+        a.download="file";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+    }
 
     const userFiles:UserFileMetadata[] = status=='pending'?[]:data;
 
@@ -216,15 +230,17 @@ export default function UserFilesTable() {
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
                                             <DropdownMenuItem
+                                                className='cursor-pointer'
                                                 onClick={() => {
                                                     // Handle single file download
-                                                    console.log("Downloading file:", file.id)
+                                                    handleDownload(file.id);
                                                 }}
                                             >
                                                 <Download className="mr-2 h-4 w-4" />
                                                 Download
                                             </DropdownMenuItem>
                                             <DropdownMenuItem
+                                                className='cursor-pointer'
                                                 onClick={() => {
                                                     // Handle single file delete
                                                     handleFileDelete(file.id);
