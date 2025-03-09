@@ -103,12 +103,12 @@ export default function UserUploadForm() {
             if (axios.isCancel(error)) {
                 toast({
                     title: "Upload is cancelled!",
-                    description: fileWithProgress.name,
+                    description: fileWithProgress.file.name,
                     className: 'text-green-700'
                 })
             } else {
                 toast({
-                    title: `Error uploading File ${fileWithProgress.name}!`,
+                    title: `Error uploading File ${fileWithProgress.file.name}!`,
                     description: error.response.data?.message,
                     className: 'text-red-600'
                 })
