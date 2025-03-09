@@ -26,6 +26,7 @@ import CancellationButton from "@/app/sitecomponents/upload/CancellationButton";
 import {file} from "@babel/types";
 import {bool} from "prop-types";
 import {Progress} from "@/components/ui/progress";
+import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 
 class FileWithProgress {
     file:File;
@@ -45,6 +46,9 @@ class FileWithProgress {
     }
     public isCompleted():boolean{
         return this.status== 'completed';
+    }
+    public isWaitingForServer():boolean{
+        return this.status=='uploading' && this.progress==100;
     }
 }
 export default function UserUploadForm() {
@@ -216,6 +220,7 @@ export default function UserUploadForm() {
                                                 <span
                                                     className="text-muted-foreground">{formatFileSize(fileWithProgress.file.size)}</span>
                                             </div>
+                                            {fileWithProgress.isWaitingForServer()?<LoadingSpinner className='p-2 border-4' />:
                                             <Button
                                                 type="button"
                                                 variant={fileWithProgress.isUploading() ? "destructive" : "ghost"}
@@ -231,6 +236,7 @@ export default function UserUploadForm() {
                                             }
                                                 <span className="sr-only">Remove {fileWithProgress.file.name}</span>
                                             </Button>
+                                            }
                                         </div>
                                         <Progress value={fileWithProgress.progress} />
                                     </li>
