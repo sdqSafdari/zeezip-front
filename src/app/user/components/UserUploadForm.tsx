@@ -103,6 +103,7 @@ export default function UserUploadForm() {
             queryClient.invalidateQueries({queryKey:['user']});
         },
         onError: (error,fileWithProgress) => {
+            fileWithProgress.status='error';
 
             if (axios.isCancel(error)) {
                 toast({
@@ -225,7 +226,7 @@ export default function UserUploadForm() {
                                                 type="button"
                                                 variant={fileWithProgress.isUploading() ? "destructive" : "ghost"}
                                                 size="sm"
-                                                onClick={() => fileWithProgress.status == 'uploading' ? handleUploadCancel(fileWithProgress)
+                                                onClick={() => fileWithProgress.isUploading() ? handleUploadCancel(fileWithProgress)
                                                     : handleRemoveFile(fileWithProgress.file)
                                                 }
                                                 className={`h-6 w-6 p-0 my-auto ${fileWithProgress.isCompleted() ? 'border-2 border-green-700': ''}`}
