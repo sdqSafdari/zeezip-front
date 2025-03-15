@@ -8,6 +8,7 @@ import {createHttpClientUserInfoURL} from "@/app/utils/LinkUtils";
 import UserInfoDto from "@/app/user/UserInfoDto";
 import UserFilesTable from "@/app/user/components/UserFilesTable";
 import UserMetrics from "@/app/user/components/UserMetrics";
+import {useState} from "react";
 
 interface UserInfoResponse{
     name: string;
@@ -15,6 +16,7 @@ interface UserInfoResponse{
     picture: string;
 }
 export default function UserDashboard() {
+    const [relativePath, setRelativePath] = useState("/");
     const {data,status}:{data:UserInfoResponse,status:string} = useQuery({
         queryKey: ['user','userData'], // used as cache key
         queryFn: ({queryKey}) => {
@@ -33,7 +35,7 @@ export default function UserDashboard() {
                     <UserUploadForm/>
                     <UserMetrics />
                 </div>
-                <UserFilesTable/>
+                <UserFilesTable relativePath={relativePath} setRelativePath={setRelativePath}/>
             </div>
         </DashboardLayout>
     )

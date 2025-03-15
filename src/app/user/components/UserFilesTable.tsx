@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { useState, useCallback } from "react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import {QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {keepPreviousData, QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios, {AxiosRequestConfig} from "axios";
 import {
     createHttpClientUserFileURL,
@@ -26,18 +26,21 @@ interface UserFileMetadata{
     directory:boolean;
 }
 
-export default function UserFilesTable() {
+export default function UserFilesTable({relativePath, setRelativePath}) {
     const [currentPage, setCurrentPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set())
     const queryClient:QueryClient = useQueryClient();
-    const {data, status}:{data:UserFileMetadata[],status:string} = useQuery({
-        queryKey: ['user',"userFiles"],
+    const {data, status, isPlaceholderData}:{data:UserFileMetadata[],status:string} = useQuery({
+        queryKey: ['user',"userFiles",relativePath],
         queryFn: context => {
-            return axios.get(createHttpClientUserFilesListURL()).then(res => res.data);
+            return axios.get(createHttpClientUserFilesListURL(),
+                {params:{path:relativePath}} as AxiosRequestConfig)
+                .then(res => res.data);
         },
         staleTime: Infinity,
-        retry: 2
+        retry: 2,
+        placeholderData:keepPreviousData // for paginated requests, when queryKey effects queryFn
     });
     const deleteFileMutation = useMutation({
         mutationFn: (fileId:string) => {
@@ -135,6 +138,13 @@ export default function UserFilesTable() {
             setCurrentPage(currentPage - 1)
         }
     }
+    function getParentRelativePath(relativePath:string){
+        if (relativePath.endsWith('/')){
+            return relativePath.substring(0,relativePath.slice(0,-1).lastIndexOf('/')+1);
+        } else {
+            return relativePath.substring(0,relativePath.lastIndexOf('/'));
+        }
+    }
 
     return (
         <Card className='border-[#7f7669] my-8'>
@@ -206,23 +216,48 @@ export default function UserFilesTable() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
+                        {relativePath!='/' && !isPlaceholderData?
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell className="font-medium">
+                                    <div className="flex items-center">
+                                            <div className='cursor-pointer flex'
+                                                 onClick={event => setRelativePath(getParentRelativePath(relativePath))}>
+                                                <Folder className="mr-2 h-4 w-4 text-blue-700"/>
+                                                ..
+                                            </div>
+                                    </div>
+                                </TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                            :null
+                        }
                         {userFiles.map((file) => (
                             <TableRow key={file.id}>
                                 <TableCell>
+                                    {file.directory?null:
                                     <Checkbox
                                         checked={selectedFiles.has(file.id)}
                                         onCheckedChange={() => toggleFile(file.id)}
                                         aria-label={`Select ${file.name}`}
                                     />
+                                    }
                                 </TableCell>
                                 <TableCell className="font-medium">
                                     <div className="flex items-center">
                                         {file.directory?
-                                            <Folder className="mr-2 h-4 w-4 text-blue-700"/>
+                                            <div className='cursor-pointer flex' onClick={event => setRelativePath(file.id)}>
+                                                <Folder className="mr-2 h-4 w-4 text-blue-700"/>
+                                                {file.name}
+                                            </div>
                                             :
-                                            <FileIcon className="mr-2 h-4 w-4" />
+                                            <div className='flex'>
+                                                <FileIcon className="mr-2 h-4 w-4"/>
+                                                {file.name}
+                                            </div>
                                         }
-                                        {file.name}
                                     </div>
                                 </TableCell>
                                 <TableCell>{file.directory?"":formatFileSize(file.size)}</TableCell>
