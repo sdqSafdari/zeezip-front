@@ -218,7 +218,7 @@ export default function UserFilesTable() {
                                 <TableCell className="font-medium">
                                     <div className="flex items-center">
                                         {file.directory?
-                                            <Folder className="mr-2 h-4 w-4 text-yellow-500"/>
+                                            <Folder className="mr-2 h-4 w-4 text-blue-700"/>
                                             :
                                             <FileIcon className="mr-2 h-4 w-4" />
                                         }

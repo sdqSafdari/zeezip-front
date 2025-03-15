@@ -9,13 +9,15 @@ import {
     DialogTrigger
 } from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
-import {FolderPlus} from "lucide-react";
+import {AlertTriangle, FolderPlus} from "lucide-react";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {useRef, useState} from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import axios, {AxiosRequestConfig} from "axios";
 import {createHttpClientUserDirURL} from "@/app/utils/LinkUtils";
+import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
+import {Alert, AlertDescription} from "@/components/ui/alert";
 
 class CreateDirectoryDto{
     relativePath:string;
@@ -55,7 +57,7 @@ export default function MakeDirectoryModal({relativePath}){
     return (
         <Dialog open={isNewFolderDialogOpen} onOpenChange={setIsNewFolderDialogOpen}>
         <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="h-8 border-yellow-600 border-2">
+            <Button variant="outline" size="sm" className="h-8 border-blue-700 border-2">
                 <FolderPlus className="mr-2 h-4 w-4" />
                 New Folder
             </Button>
@@ -84,12 +86,25 @@ export default function MakeDirectoryModal({relativePath}){
                     />
                 </div>
             </div>
+            {createDirectoryMutation.isError?
+                <div className='flex justify-end' onClick={(event)=>createDirectoryMutation.reset()}>
+                <Alert variant="destructive" className="w-3/4">
+                    <AlertTriangle className='h-4 w-4' />
+                    <AlertDescription>Directory creation Error!</AlertDescription>
+                </Alert>
+                </div>
+                : null
+            }
             <DialogFooter>
                 <Button type="submit"
                         onClick={handleCreateFolder}
-                        disabled={newFolderName==null || newFolderName.trim().length==0}
+                        disabled={newFolderName == null ||
+                            newFolderName.trim().length == 0 ||
+                            createDirectoryMutation.isPending}
                 >
-                    Create
+                    {createDirectoryMutation.isPending ?
+                        <LoadingSpinner className='border-b-green-700 border-t-green-700 '/>
+                        : "Create"}
                 </Button>
             </DialogFooter>
         </DialogContent>
