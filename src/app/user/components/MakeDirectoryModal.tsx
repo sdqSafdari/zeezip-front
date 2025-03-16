@@ -34,7 +34,7 @@ export default function MakeDirectoryModal({relativePath}){
     const inputRef = useRef(null);
     const queryClient = useQueryClient();
 
-    const relativePathRevised= relativePath ? relativePath : "";
+    const relativePathRevised= relativePath ? relativePath : "/";
     const createDirectoryMutation = useMutation({
         mutationFn:(createDirectoryDto:CreateDirectoryDto)=>{
             return axios.post(createHttpClientUserDirURL(),createDirectoryDto,{headers:{
@@ -66,7 +66,8 @@ export default function MakeDirectoryModal({relativePath}){
             <DialogHeader>
                 <DialogTitle>Create New Folder</DialogTitle>
                 <DialogDescription>
-                    Enter a name for your new folder. Click create when you're done.
+                    Enter a name for your new folder. It will be created at the following location:
+                    <div className='text-blue-700'>{relativePath}</div>
                 </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">

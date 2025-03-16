@@ -152,7 +152,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <CardTitle className='text-green-700'>Private Storage</CardTitle>
-                        <MakeDirectoryModal />
+                        <MakeDirectoryModal relativePath={relativePath}/>
                         {selectedCount > 0 && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -209,7 +209,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                                     aria-label="Select all files"
                                 />
                             </TableHead>
-                            <TableHead>Name</TableHead>
+                            <TableHead>Name(location: {decodeURIComponent(relativePath)})</TableHead>
                             <TableHead>Size</TableHead>
                             <TableHead>Created</TableHead>
                             <TableHead></TableHead>
