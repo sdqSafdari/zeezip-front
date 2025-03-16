@@ -246,16 +246,16 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                                     />
                                     }
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-medium w-1/2 whitespace-normal break-all overflow-hidden">
                                     <div className="flex items-center">
                                         {file.directory?
                                             <div className='cursor-pointer flex' onClick={event => setRelativePath(file.id)}>
-                                                <Folder className="mr-2 h-4 w-4 text-blue-700"/>
+                                                <Folder className="mr-2 h-4 w-4 text-blue-700 flex-shrink-0"/>
                                                 {file.name}
                                             </div>
                                             :
                                             <div className='flex'>
-                                                <FileIcon className="mr-2 h-4 w-4"/>
+                                                <FileIcon className="mr-2 h-4 w-4 flex-shrink-0"/>
                                                 {file.name}
                                             </div>
                                         }
