@@ -32,7 +32,7 @@ export default function UserDashboard() {
         <DashboardLayout userInfo={userInfo}>
             <div className='pr-4'>
                 <div className='flex items-start justify-start gap-8  my-8 w-full'>
-                    <UserUploadForm/>
+                    <UserUploadForm relativePath={relativePath}/>
                     <UserMetrics />
                 </div>
                 <UserFilesTable relativePath={relativePath} setRelativePath={setRelativePath}/>

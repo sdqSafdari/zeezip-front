@@ -51,9 +51,8 @@ class FileWithProgress {
         return this.status=='uploading' && this.progress==100;
     }
 }
-export default function UserUploadForm() {
+export default function UserUploadForm({relativePath}) {
     const [files, setFiles] = React.useState<FileWithProgress[]>([]);
-    const [filePath, setFilePath] = useState("/");
     const {toast} = useToast();
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -81,7 +80,7 @@ export default function UserUploadForm() {
         mutationFn: (fileWithProgress:FileWithProgress) => {
             console.log("sending a file");
             const formData: FormData = new FormData();
-            formData.append("file-path",filePath);
+            formData.append("file-path",relativePath);
             formData.append("file-data", fileWithProgress.file);
            return  axios.post(createHttpClientUserStoreFileURL()
                ,formData,
@@ -221,7 +220,7 @@ export default function UserUploadForm() {
                                                 <span
                                                     className="text-muted-foreground">{formatFileSize(fileWithProgress.file.size)}</span>
                                             </div>
-                                            {fileWithProgress.isWaitingForServer()?<LoadingSpinner className='p-2 border-4' />:
+                                            {fileWithProgress.isWaitingForServer()?<LoadingSpinner className='p-2 border-4 border-b-green-700 border-t-green-700' />:
                                             <Button
                                                 type="button"
                                                 variant={fileWithProgress.isUploading() ? "destructive" : "ghost"}
@@ -250,6 +249,7 @@ export default function UserUploadForm() {
                 </CardContent>
                 <CardFooter>
                         <div className='w-full'>
+                            <div className='font-medium mb-1'>Uploaded to {relativePath}</div>
                                 <div className='w-full flex space-x-1'>
                                     <Button type="submit"
                                             className="text-center p-2 flex-grow"

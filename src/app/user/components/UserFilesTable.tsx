@@ -77,8 +77,9 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     const startIndex = (currentPage - 1) * pageSize
     const endIndex = startIndex + pageSize
     const currentFiles = userFiles.slice(startIndex, endIndex)
+    const currentFilesWithoutDirs = currentFiles.filter(file=>!file.directory);
 
-    const isAllCurrentPageSelected = currentFiles.filter(file=>!file.directory).every((file) => selectedFiles.has(file.id))
+    const isAllCurrentPageSelected = currentFilesWithoutDirs.length==0 ? false  :currentFilesWithoutDirs.every((file) => selectedFiles.has(file.id))
     const isSomeCurrentPageSelected = currentFiles.some((file) => selectedFiles.has(file.id))
     const selectedCount = selectedFiles.size
 
@@ -87,14 +88,14 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
             // Remove all current page files from selection
             setSelectedFiles((prev) => {
                 const next = new Set(prev)
-                currentFiles.filter(file=>!file.directory).forEach((file) => next.delete(file.id))
+                currentFilesWithoutDirs.forEach((file) => next.delete(file.id))
                 return next
             })
         } else {
             // Add all current page files to selection
             setSelectedFiles((prev) => {
                 const next = new Set(prev)
-                currentFiles.filter(file=>!file.directory).forEach((file) => next.add(file.id))
+                currentFilesWithoutDirs.forEach((file) => next.add(file.id))
                 return next
             })
         }
