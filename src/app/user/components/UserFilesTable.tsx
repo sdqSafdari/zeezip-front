@@ -31,7 +31,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     const [pageSize, setPageSize] = useState(10)
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set())
     const queryClient:QueryClient = useQueryClient();
-    const {data, status, isPlaceholderData}:{data:UserFileMetadata[],status:string} = useQuery({
+    const {data, status, isPlaceholderData, isSuccess}:{data:UserFileMetadata[],status:string} = useQuery({
         queryKey: ['user',"userFiles",relativePath],
         queryFn: context => {
             return axios.get(createHttpClientUserFilesListURL(),
@@ -70,7 +70,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
 
     }
 
-    const userFiles:UserFileMetadata[] = status=='pending'?[]:data;
+    const userFiles:UserFileMetadata[] = isSuccess ? data: [];
 
     const totalFiles = userFiles.length;
     const totalPages = Math.ceil(totalFiles / pageSize)
@@ -78,7 +78,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     const endIndex = startIndex + pageSize
     const currentFiles = userFiles.slice(startIndex, endIndex)
 
-    const isAllCurrentPageSelected = currentFiles.every((file) => selectedFiles.has(file.id))
+    const isAllCurrentPageSelected = currentFiles.filter(file=>!file.directory).every((file) => selectedFiles.has(file.id))
     const isSomeCurrentPageSelected = currentFiles.some((file) => selectedFiles.has(file.id))
     const selectedCount = selectedFiles.size
 
@@ -87,14 +87,14 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
             // Remove all current page files from selection
             setSelectedFiles((prev) => {
                 const next = new Set(prev)
-                currentFiles.forEach((file) => next.delete(file.id))
+                currentFiles.filter(file=>!file.directory).forEach((file) => next.delete(file.id))
                 return next
             })
         } else {
             // Add all current page files to selection
             setSelectedFiles((prev) => {
                 const next = new Set(prev)
-                currentFiles.forEach((file) => next.add(file.id))
+                currentFiles.filter(file=>!file.directory).forEach((file) => next.add(file.id))
                 return next
             })
         }
@@ -261,7 +261,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                                     </div>
                                 </TableCell>
                                 <TableCell>{file.directory?"":formatFileSize(file.size)}</TableCell>
-                                <TableCell>{formatUTCTimeToLocal(file.lastModified)}</TableCell>
+                                <TableCell>{file.directory?"":formatUTCTimeToLocal(file.lastModified)}</TableCell>
                                 <TableCell>
                                     {file.directory?null:
                                     <DropdownMenu>
