@@ -27,6 +27,7 @@ import {file} from "@babel/types";
 import {bool} from "prop-types";
 import {Progress} from "@/components/ui/progress";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
+import UserAccountDomain from "@/app/user/queries/UserAccountDomain";
 
 class FileWithProgress {
     file:File;
@@ -51,10 +52,12 @@ class FileWithProgress {
         return this.status=='uploading' && this.progress==100;
     }
 }
-export default function UserUploadForm({relativePath}) {
+export default function UserUploadForm({relativePath,userAccount}:{relativePath:string,userAccount:UserAccountDomain}) {
     const [files, setFiles] = React.useState<FileWithProgress[]>([]);
     const {toast} = useToast();
     const fileInputRef = React.useRef<HTMLInputElement>(null);
+    const isTrafficLimitReachedRef = useRef(false);
+    const isVolumeLimitReachedRef = useRef(false);
 
     const queryClient = useQueryClient();
     function createAxiosRequestConfig(fileWithProgress:FileWithProgress):AxiosRequestConfig{
@@ -159,12 +162,17 @@ export default function UserUploadForm({relativePath}) {
         event.preventDefault();
         console.log(JSON.stringify(files));
         if (files.filter(fileWithProgress=>fileWithProgress.status == 'pending').length === 0) return;
+        if (isVolumeLimitReachedRef.current || isTrafficLimitReachedRef.current) return;
 
         for (const file of files) {
             uploadFilesMutation.mutate(file);
         }
     }
     const totalSize = files.filter(fileWithProgress=>fileWithProgress.status == 'pending').reduce((acc, file) => acc + file.file.size, 0);
+    if (userAccount) {
+        isTrafficLimitReachedRef.current = userAccount.isTrafficLimitReached(totalSize);
+        isVolumeLimitReachedRef.current = userAccount.isVolumeLimitReached(totalSize);
+    }
 
     return (
         <Card className="w-full md:w-1/3 md:basis-2/5 border-[#7f7669] bg-transparent">
@@ -242,6 +250,16 @@ export default function UserUploadForm({relativePath}) {
                                     </li>
                                 )
                                 )}
+                                {isTrafficLimitReachedRef.current ?
+                                        <li className="flex items-center justify-center text-lg bg-destructive rounded-md p-3">
+                                            <span className="font-medium truncate max-w-[200px]">Traffic limit reached!</span>
+                                        </li>
+                                        :null}
+                                {isVolumeLimitReachedRef.current ?
+                                    <li className="flex items-center justify-center text-lg bg-destructive rounded-md p-3">
+                                        <span className="font-medium truncate max-w-[200px]">Storage limit reached!</span>
+                                    </li>
+                                    :null}
                                 <Toaster />
                             </ul>
                         </div>
@@ -253,7 +271,7 @@ export default function UserUploadForm({relativePath}) {
                                 <div className='w-full flex space-x-1'>
                                     <Button type="submit"
                                             className="text-center p-2 flex-grow"
-                                            disabled={totalSize<1}
+                                            disabled={totalSize<1 || isTrafficLimitReachedRef.current || isVolumeLimitReachedRef.current}
                                     >
                                         {`Upload All: ${formatFileSize(totalSize)}`}
                                     </Button>

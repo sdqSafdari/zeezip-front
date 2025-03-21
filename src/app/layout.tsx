@@ -3,6 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import ServerClientQueryClientProvider from '@/provider/ServerClientQueryClientProvider';
 import {ThemeProvider} from "@/provider/ThemeProvider";
+import 'reflect-metadata';
 import FooterBackground from "@/app/sitecomponents/fixed/FooterBackground";
 import { GoogleAnalytics } from '@next/third-parties/google';
 

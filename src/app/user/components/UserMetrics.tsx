@@ -10,29 +10,13 @@ import {Button} from "@/components/ui/button";
 import {RotateCw} from "lucide-react";
 import {MutableRefObject, useRef} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
+import UserAccountDomain from "@/app/user/queries/UserAccountDomain";
 
-interface UserMetricsResponse{
-    accountPlan:string;
-    usedVolume:number;
-    usedTraffic:number;
-    allowedVolume:number;
-    allowedTraffic:number;
-    planEnds:string;
-    planReset:string;
-
-}
-export default function UserMetrics(){
+export default function UserMetrics({userAccount,isFetching,isError}:{userAccount:UserAccountDomain,isFetching:boolean,isError:boolean}){
     const queryClient = useQueryClient();
     const refreshButtonRef:MutableRefObject<undefined | HTMLButtonElement> = useRef();
-    const {data,status,isFetching}:{data:UserMetricsResponse,status:string} = useQuery({
-        queryKey: ['user','userMetrics'], // used as cache key
-        queryFn: ({queryKey}) => {
-            return axios.get(createHttpClientUserMetricsURL()).then(res=> res.data);
-        },
-        staleTime: 3*60*1000,
-        retry: 3 // retry the failed queries
-    });
-    const userMetric:UserMetricsResponse = data;
+
+    const userMetric = userAccount;
 
     return(
       <div className='hidden md:flex items-start justify-start gap-4'>
