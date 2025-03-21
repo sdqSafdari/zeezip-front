@@ -162,6 +162,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
         event.preventDefault();
         console.log(JSON.stringify(files));
         if (files.filter(fileWithProgress=>fileWithProgress.status == 'pending').length === 0) return;
+        if(!userAccount)return;
         if (isVolumeLimitReachedRef.current || isTrafficLimitReachedRef.current) return;
 
         for (const file of files) {
@@ -271,7 +272,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
                                 <div className='w-full flex space-x-1'>
                                     <Button type="submit"
                                             className="text-center p-2 flex-grow"
-                                            disabled={totalSize<1 || isTrafficLimitReachedRef.current || isVolumeLimitReachedRef.current}
+                                            disabled={totalSize<1 || !userAccount || isTrafficLimitReachedRef.current || isVolumeLimitReachedRef.current}
                                     >
                                         {`Upload All: ${formatFileSize(totalSize)}`}
                                     </Button>
