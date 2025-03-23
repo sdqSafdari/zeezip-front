@@ -104,7 +104,7 @@ export default function MakeDirectoryModal({relativePath}){
                             createDirectoryMutation.isPending}
                 >
                     {createDirectoryMutation.isPending ?
-                        <LoadingSpinner className='border-b-green-700 border-t-green-700 '/>
+                        <LoadingSpinner />
                         : "Create"}
                 </Button>
             </DialogFooter>

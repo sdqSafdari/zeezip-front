@@ -17,6 +17,7 @@ import {
 } from "@/app/utils/LinkUtils";
 import {formatFileSize, formatUTCTimeToLocal} from "@/app/utils/FileUtils";
 import MakeDirectoryModal from "@/app/user/components/MakeDirectoryModal";
+import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 
 interface UserFileMetadata{
     id:string;
@@ -31,7 +32,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     const [pageSize, setPageSize] = useState(10)
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set())
     const queryClient:QueryClient = useQueryClient();
-    const {data, status, isPlaceholderData, isSuccess}:{data:UserFileMetadata[],status:string} = useQuery({
+    const {data, status, isPlaceholderData,isFetching, isSuccess}:{data:UserFileMetadata[],status:string} = useQuery({
         queryKey: ['user',"userFiles",relativePath],
         queryFn: context => {
             return axios.get(createHttpClientUserFilesListURL(),
@@ -217,7 +218,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {relativePath!='/' && !isPlaceholderData?
+                        {relativePath!='/'?
                             <TableRow>
                                 <TableCell></TableCell>
                                 <TableCell className="font-medium">
@@ -235,7 +236,17 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                             </TableRow>
                             :null
                         }
-                        {userFiles.map((file) => (
+                        {isFetching?
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell>
+                                    <LoadingSpinner/>
+                                </TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                            :
+                            userFiles.map((file) => (
                             <TableRow key={file.id}>
                                 <TableCell>
                                     {file.directory?null:
