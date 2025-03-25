@@ -6,7 +6,7 @@ import { Cloud, Download, CheckCircle, Instagram, Twitter, ArrowRight, Menu } fr
 import { getDictionary } from "@/lib/dictionaries"
 import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import Openbsd from "../../../public/openbsd.svg";
-import SocialMediaDownloaderSVG from "./social-media-downloader.svg";
+import UnifiedMediaDownloaderSVG from "./unified-media-downloader.svg";
 import ZzipLogoSVG from "./zzip-logo.svg";
 import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
 
@@ -79,7 +79,7 @@ export default async function LandingPage({
                                 </div>
                             </div>
                             <div className='direction-ltr text-left'>
-                                <SocialMediaDownloaderSVG
+                                <UnifiedMediaDownloaderSVG
                                     width="25em"
                                     height="25em"
                                     alt={dict.hero.imageAlt}
