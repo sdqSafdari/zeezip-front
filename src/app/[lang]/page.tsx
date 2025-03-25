@@ -61,7 +61,7 @@ export default async function LandingPage({
                         <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
                             <div className="flex flex-col justify-center space-y-4">
                                 <div className="space-y-2">
-                                    <h1 className="text-3xl font-bold sm:text-5xl xl:text-6xl/none">
+                                    <h1 className="text-3xl font-bold tracking-tight sm:text-5xl xl:text-6xl/none">
                                         {dict.hero.title}
                                     </h1>
                                     <p className="max-w-[600px] text-muted-foreground md:text-xl">{dict.hero.subtitle}</p>
@@ -75,12 +75,14 @@ export default async function LandingPage({
                                     </Button>
                                 </div>
                             </div>
-                            <SocialMediaDownloaderSVG
-                                width="25em"
-                                height="25em"
-                                alt={dict.hero.imageAlt}
-                                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-                            />
+                            <div className='direction-ltr text-left'>
+                                <SocialMediaDownloaderSVG
+                                    width="25em"
+                                    height="25em"
+                                    alt={dict.hero.imageAlt}
+                                    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
+                                />
+                            </div>
                         </div>
                     </div>
                 </section>

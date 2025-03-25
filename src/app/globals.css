@@ -167,3 +167,6 @@ body {
   direction: rtl;
   text-align: right;
 }
+.direction-ltr {
+  direction: ltr;
+}
