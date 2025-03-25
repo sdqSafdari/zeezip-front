@@ -1,0 +1,168 @@
+{
+  "metadata": {
+    "title": "zzip.io - Cloud Storage with Social Media Downloads",
+    "description": "Store your files and download content from Twitter and Instagram with ease."
+  },
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "testimonials": "Testimonials",
+    "faq": "FAQ",
+    "login": "Log in",
+    "getStarted": "Get Started",
+    "toggleMenu": "Toggle menu"
+  },
+  "hero": {
+    "title": "Store, Download, and Share with Ease",
+    "subtitle": "Securely store your files and easily download content from Twitter and Instagram with zzip.io.",
+    "startFree": "Start for Free",
+    "learnMore": "Learn More",
+    "imageAlt": "Cloud Storage Dashboard"
+  },
+  "features": {
+    "title": "Powerful Features",
+    "subtitle": "Everything you need to store, download, and share your files with confidence.",
+    "cloud": {
+      "title": "Cloud Storage",
+      "description": "Securely store your files in the cloud and access them from anywhere, on any device."
+    },
+    "twitter": {
+      "title": "Twitter Downloads",
+      "description": "Easily download videos, images, and GIFs from Twitter with a single click."
+    },
+    "instagram": {
+      "title": "Instagram Downloads",
+      "description": "Save photos, videos, and stories from Instagram directly to your cloud storage."
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Download content from social media in three simple steps.",
+    "steps": [
+      {
+        "title": "Copy the URL",
+        "description": "Copy the URL of the Twitter or Instagram content you want to download."
+      },
+      {
+        "title": "Paste in zzip.io",
+        "description": "Paste the URL into zzip.io's downloader and click download."
+      },
+      {
+        "title": "Save to Your Cloud",
+        "description": "The content is automatically saved to your cloud storage for easy access."
+      }
+    ],
+    "tryIt": {
+      "title": "Try It Now",
+      "subtitle": "Enter a Twitter or Instagram URL to download",
+      "placeholder": "Paste URL here...",
+      "button": "Download",
+      "example": "Example: https://twitter.com/username/status/1234567890"
+    }
+  },
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "subtitle": "Choose the plan that's right for you.",
+    "monthly": "/month",
+    "getStarted": "Get Started",
+    "popular": "Popular",
+    "plans": {
+      "free": {
+        "title": "Free",
+        "subtitle": "Get started with basic features",
+        "price": "$0",
+        "features": ["5GB Storage", "Basic Twitter downloads", "Basic Instagram downloads"]
+      },
+      "pro": {
+        "title": "Pro",
+        "subtitle": "Perfect for regular users",
+        "price": "$9.99",
+        "features": [
+          "100GB Storage",
+          "Advanced Twitter downloads",
+          "Advanced Instagram downloads",
+          "Faster download speeds"
+        ]
+      },
+      "business": {
+        "title": "Business",
+        "subtitle": "For teams and businesses",
+        "price": "$29.99",
+        "features": [
+          "1TB Storage",
+          "Premium Twitter downloads",
+          "Premium Instagram downloads",
+          "Team collaboration",
+          "Priority support"
+        ]
+      }
+    }
+  },
+  "testimonials": {
+    "title": "What Our Users Say",
+    "subtitle": "Don't just take our word for it. Here's what our users have to say.",
+    "items": [
+      {
+        "name": "Sarah K.",
+        "role": "Content Creator",
+        "quote": "zzip.io has been a game-changer for my content creation workflow. I can easily download inspiration from social media and keep everything organized."
+      },
+      {
+        "name": "Michael T.",
+        "role": "Digital Marketer",
+        "quote": "The ability to quickly download and store content from Twitter and Instagram has saved our marketing team countless hours. Highly recommended!"
+      },
+      {
+        "name": "Jessica L.",
+        "role": "Student",
+        "quote": "I use zzip.io to save educational content from social media for my research. The free plan gives me everything I need as a student."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about zzip.io.",
+    "items": [
+      {
+        "question": "Is zzip.io legal to use?",
+        "answer": "Yes, zzip.io is legal to use for personal content. However, always respect copyright laws and terms of service of the platforms you're downloading from."
+      },
+      {
+        "question": "How secure is my data?",
+        "answer": "We use industry-standard encryption to protect your data. Your files are private and only accessible by you unless you choose to share them."
+      },
+      {
+        "question": "Can I download private content?",
+        "answer": "No, zzip.io can only download publicly available content from Twitter and Instagram."
+      },
+      {
+        "question": "Can I upgrade or downgrade my plan?",
+        "answer": "Yes, you can upgrade or downgrade your plan at any time. Changes will be applied to your next billing cycle."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Get Started?",
+    "subtitle": "Join thousands of users who trust zzip.io for their cloud storage and social media download needs.",
+    "startFree": "Start for Free",
+    "contactSales": "Contact Sales"
+  },
+  "footer": {
+    "copyright": "© {year} zzip.io. All rights reserved.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "contact": "Contact"
+  },
+  "login": {
+    "title": "Welcome back",
+    "description": "Sign in to your account to continue",
+    "googleSignIn": "Sign in with Google",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create an account",
+    "backToHome": "Back to home",
+    "continueWith": "Continue with",
+    "imageTitle": "Store and access your content",
+    "imageSubtitle": "Anywhere, anytime, on any device"
+  }
+}
+

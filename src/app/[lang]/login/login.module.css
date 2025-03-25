@@ -1,0 +1,62 @@
+@layer scopedModules {
+    .bgVars {
+        --primary: 221.2 83.2% 53.3%;
+        --primary-foreground: 210 40% 98%;
+    }
+    .dark {
+        --primary: 217.2 91.2% 59.8%;
+        --primary-foreground: 222.2 47.4% 11.2%;
+    }
+    .bgGridPattern {
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-20px) rotate(5deg);
+        }
+        100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+    }
+
+    @keyframes floatDelay {
+        0% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-15px) rotate(-5deg);
+        }
+        100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+    }
+
+    @keyframes pulseLight {
+        0%,
+        100% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 0.3;
+        }
+    }
+
+    .animateFloat {
+        animation: float 8s ease-in-out infinite;
+    }
+
+    .animateFloatDelay {
+        animation: floatDelay 7s ease-in-out infinite;
+        animation-delay: 1s;
+    }
+
+    .animatePulseLight {
+        animation: pulseLight 2s ease-in-out infinite;
+    }
+}
