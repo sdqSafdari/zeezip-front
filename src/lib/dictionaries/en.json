@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "zzip.io - Cloud Storage with Social Media Downloads",
-    "description": "Store your files and download content from Twitter and Instagram with ease."
+    "title": "zzip - Cloud Storage with Media Streams Download, Audio/Video Streams Download",
+    "description": "Store your files and download media from Instagram, Soundcloud, and linkedin with ease."
   },
   "nav": {
     "features": "Features",
@@ -14,7 +14,7 @@
   },
   "hero": {
     "title": "Store, Download, and Share with Ease",
-    "subtitle": "Securely store your files and easily download content from Twitter and Instagram with zzip.io.",
+    "subtitle": "Download Audio/Video streams from Instagram, SoundCloud, and linkedin with zzip",
     "startFree": "Start for Free",
     "learnMore": "Learn More",
     "imageAlt": "Cloud Storage Dashboard"
@@ -27,25 +27,25 @@
       "description": "Securely store your files in the cloud and access them from anywhere, on any device."
     },
     "twitter": {
-      "title": "Twitter Downloads",
-      "description": "Easily download videos, images, and GIFs from Twitter with a single click."
+      "title": "SoundCloud Downloads",
+      "description": "Easily download tracks from SoundCloud with a single click."
     },
     "instagram": {
       "title": "Instagram Downloads",
-      "description": "Save photos, videos, and stories from Instagram directly to your cloud storage."
+      "description": "Save videos, and stories from Instagram directly to your cloud storage."
     }
   },
   "howItWorks": {
     "title": "How It Works",
-    "subtitle": "Download content from social media in three simple steps.",
+    "subtitle": "Download content from media streams in three simple steps.",
     "steps": [
       {
         "title": "Copy the URL",
-        "description": "Copy the URL of the Twitter or Instagram content you want to download."
+        "description": "Copy the URL of the Instagram or SoundCloud Audio/Video content you want to download."
       },
       {
-        "title": "Paste in zzip.io",
-        "description": "Paste the URL into zzip.io's downloader and click download."
+        "title": "Paste in zzip",
+        "description": "Paste the URL into zzip downloader and click download."
       },
       {
         "title": "Save to Your Cloud",
@@ -54,7 +54,7 @@
     ],
     "tryIt": {
       "title": "Try It Now",
-      "subtitle": "Enter a Twitter or Instagram URL to download",
+      "subtitle": "Enter a SoundCloud or Instagram URL to download",
       "placeholder": "Paste URL here...",
       "button": "Download",
       "example": "Example: https://twitter.com/username/status/1234567890"

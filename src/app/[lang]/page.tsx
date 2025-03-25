@@ -8,6 +8,9 @@ import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import Openbsd from "../../../public/openbsd.svg";
 import UnifiedMediaDownloaderSVG from "./unified-media-downloader.svg";
 import ZzipLogoSVG from "./zzip-logo.svg";
+import SoundCloudSVG from "./soundcloud-svgrepo-com.svg";
+import InstagramSVG from "./instagram-1-svgrepo-com.svg";
+import CloudStorageSVG from "./server-like-svgrepo-com.svg";
 import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
 
 export default async function LandingPage({
@@ -100,29 +103,23 @@ export default async function LandingPage({
                                 </p>
                             </div>
                         </div>
-                        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
-                            <div className="flex flex-col justify-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                    <Cloud className="h-6 w-6" />
-                                </div>
+                        <div className="mx-auto grid auto-rows-fr max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
+                            <div className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+                                <CloudStorageSVG className="fill-primary" width="3em" height="3em" />
                                 <div className="space-y-2">
                                     <h3 className="text-xl font-bold">{dict.features.cloud.title}</h3>
                                     <p className="text-muted-foreground">{dict.features.cloud.description}</p>
                                 </div>
                             </div>
-                            <div className="flex flex-col justify-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                    <Twitter className="h-6 w-6" />
-                                </div>
+                            <div className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+                                    <SoundCloudSVG width="3em" height="3em" />
                                 <div className="space-y-2">
                                     <h3 className="text-xl font-bold">{dict.features.twitter.title}</h3>
                                     <p className="text-muted-foreground">{dict.features.twitter.description}</p>
                                 </div>
                             </div>
-                            <div className="flex flex-col justify-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                    <Instagram className="h-6 w-6" />
-                                </div>
+                            <div className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+                                    <InstagramSVG width="3em" height="3em" />
                                 <div className="space-y-2">
                                     <h3 className="text-xl font-bold">{dict.features.instagram.title}</h3>
                                     <p className="text-muted-foreground">{dict.features.instagram.description}</p>
