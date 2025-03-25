@@ -8,6 +8,7 @@ import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import Openbsd from "../../../public/openbsd.svg";
 import SocialMediaDownloaderSVG from "./social-media-downloader.svg";
 import ZzipLogoSVG from "./zzip-logo.svg";
+import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
 
 export default async function LandingPage({
                                               params,
@@ -38,15 +39,17 @@ export default async function LandingPage({
                         </Link>
                     </nav>
                     <div className="flex items-center gap-4">
+                        <ModeToggle />
                         <LanguageSwitcher currentLang={params.lang} />
-                        <Link
-                            href={`/${params.lang}/login`}
-                            className="text-sm font-medium transition-colors hover:text-primary hidden md:block"
-                        >
-                            {dict.nav.login}
-                        </Link>
-                        <Button asChild>
-                            <Link href={`/${params.lang}/signup`}>{dict.nav.getStarted}</Link>
+                        <Button
+                            asChild
+                            >
+                            <Link
+                                href={`/${params.lang}/login`}
+                                className="font-bold text-lg px-6 transition-colors hidden md:block"
+                            >
+                                {dict.nav.login}
+                            </Link>
                         </Button>
                         <Button variant="ghost" size="icon" className="md:hidden">
                             <Menu className="h-5 w-5" />
