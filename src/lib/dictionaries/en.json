@@ -105,7 +105,7 @@
       {
         "name": "Sarah K.",
         "role": "Content Creator",
-        "quote": "zzip.io has been a game-changer for my content creation workflow. I can easily download inspiration from social media and keep everything organized."
+        "quote": "zzip has been a game-changer for my content creation workflow. I can easily download inspiration from social media and keep everything organized."
       },
       {
         "name": "Michael T.",
@@ -115,17 +115,17 @@
       {
         "name": "Jessica L.",
         "role": "Student",
-        "quote": "I use zzip.io to save educational content from social media for my research. The free plan gives me everything I need as a student."
+        "quote": "I use zzip to save educational content from social media for my research. The free plan gives me everything I need as a student."
       }
     ]
   },
   "faq": {
     "title": "Frequently Asked Questions",
-    "subtitle": "Find answers to common questions about zzip.io.",
+    "subtitle": "Find answers to common questions about zzip",
     "items": [
       {
-        "question": "Is zzip.io legal to use?",
-        "answer": "Yes, zzip.io is legal to use for personal content. However, always respect copyright laws and terms of service of the platforms you're downloading from."
+        "question": "Is zzip legal to use?",
+        "answer": "Yes, zzip is legal to use for personal content. However, always respect copyright laws and terms of service of the platforms you're downloading from."
       },
       {
         "question": "How secure is my data?",
@@ -133,7 +133,7 @@
       },
       {
         "question": "Can I download private content?",
-        "answer": "No, zzip.io can only download publicly available content from Twitter and Instagram."
+        "answer": "No, zzip can only download publicly available content from Twitter and Instagram."
       },
       {
         "question": "Can I upgrade or downgrade my plan?",
@@ -143,12 +143,12 @@
   },
   "cta": {
     "title": "Ready to Get Started?",
-    "subtitle": "Join thousands of users who trust zzip.io for their cloud storage and social media download needs.",
+    "subtitle": "Join thousands of users who trust zzip for their cloud storage and social media download needs.",
     "startFree": "Start for Free",
     "contactSales": "Contact Sales"
   },
   "footer": {
-    "copyright": "© {year} zzip.io. All rights reserved.",
+    "copyright": "© {year} zzip All rights reserved.",
     "terms": "Terms",
     "privacy": "Privacy",
     "contact": "Contact"

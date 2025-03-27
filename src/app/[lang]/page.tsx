@@ -8,6 +8,7 @@ import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import Openbsd from "../../../public/openbsd.svg";
 import UnifiedMediaDownloaderSVG from "./unified-media-downloader.svg";
 import ZzipLogoSVG from "@/app/svg/zzip-logo.svg";
+import ZzipPureLogoSVG from "@/app/svg/zzip-logo-pure.svg";
 import SoundCloudSVG from "./soundcloud-svgrepo-com.svg";
 import InstagramSVG from "./instagram-1-svgrepo-com.svg";
 import CloudStorageSVG from "./server-like-svgrepo-com.svg";
@@ -74,7 +75,7 @@ export default async function LandingPage({
                                 </div>
                                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                                     <Button size="lg" asChild>
-                                        <Link href={`/${params.lang}/signup`}>{dict.hero.startFree}</Link>
+                                        <Link href={`/${params.lang}/login`}>{dict.hero.startFree}</Link>
                                     </Button>
                                     <Button size="lg" variant="outline" asChild>
                                         <Link href="#features">{dict.hero.learnMore}</Link>
@@ -166,26 +167,6 @@ export default async function LandingPage({
                                         </div>
                                     </li>
                                 </ul>
-                            </div>
-                            <div className="flex items-center justify-center">
-                                <div className="rounded-lg border bg-background p-8 shadow-lg">
-                                    <div className="space-y-4">
-                                        <div className="space-y-2">
-                                            <h3 className="text-xl font-bold">{dict.howItWorks.tryIt.title}</h3>
-                                            <p className="text-sm text-muted-foreground">{dict.howItWorks.tryIt.subtitle}</p>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <div className="flex gap-2">
-                                                <Input placeholder={dict.howItWorks.tryIt.placeholder} />
-                                                <Button>
-                                                    <Download className="mr-2 h-4 w-4" />
-                                                    {dict.howItWorks.tryIt.button}
-                                                </Button>
-                                            </div>
-                                            <p className="text-xs text-muted-foreground">{dict.howItWorks.tryIt.example}</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -351,7 +332,7 @@ export default async function LandingPage({
             <footer className="w-full border-t py-6 md:py-0">
                 <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
                     <div className="flex items-center gap-2">
-                        <Cloud className="h-6 w-6 text-primary" />
+                        <ZzipPureLogoSVG width="4em" height="auto" />
                         <p className="text-sm font-medium">
                             {dict.footer.copyright.replace("{year}", new Date().getFullYear().toString())}
                         </p>
