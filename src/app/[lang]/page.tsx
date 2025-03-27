@@ -7,7 +7,7 @@ import { getDictionary } from "@/lib/dictionaries"
 import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import Openbsd from "../../../public/openbsd.svg";
 import UnifiedMediaDownloaderSVG from "./unified-media-downloader.svg";
-import ZzipLogoSVG from "./zzip-logo.svg";
+import ZzipLogoSVG from "@/app/svg/zzip-logo.svg";
 import SoundCloudSVG from "./soundcloud-svgrepo-com.svg";
 import InstagramSVG from "./instagram-1-svgrepo-com.svg";
 import CloudStorageSVG from "./server-like-svgrepo-com.svg";
