@@ -202,7 +202,7 @@ export default async function LandingPage({
                                     ))}
                                 </ul>
                                 <Button className="mt-6" variant="outline" asChild>
-                                    <Link href={`/${params.lang}/signup`}>{dict.pricing.getStarted}</Link>
+                                    <Link href={`/${params.lang}/login`}>{dict.pricing.getStarted}</Link>
                                 </Button>
                             </div>
                             <div className="flex flex-col rounded-lg border bg-background p-6 shadow-sm relative">
@@ -226,7 +226,7 @@ export default async function LandingPage({
                                     ))}
                                 </ul>
                                 <Button className="mt-6" asChild>
-                                    <Link href={`/${params.lang}/signup`}>{dict.pricing.getStarted}</Link>
+                                    <Link href={`/${params.lang}/login`}>{dict.pricing.getStarted}</Link>
                                 </Button>
                             </div>
                             <div className="flex flex-col rounded-lg border bg-background p-6 shadow-sm">
@@ -247,7 +247,7 @@ export default async function LandingPage({
                                     ))}
                                 </ul>
                                 <Button className="mt-6" variant="outline" asChild>
-                                    <Link href={`/${params.lang}/signup`}>{dict.pricing.getStarted}</Link>
+                                    <Link href={`/${params.lang}/login`}>{dict.pricing.getStarted}</Link>
                                 </Button>
                             </div>
                         </div>
@@ -316,7 +316,7 @@ export default async function LandingPage({
                             </div>
                             <div className="flex flex-col gap-2 min-[400px]:flex-row">
                                 <Button size="lg" asChild>
-                                    <Link href={`/${params.lang}/signup`}>
+                                    <Link href={`/${params.lang}/login`}>
                                         {dict.cta.startFree}
                                         <ArrowRight className="ml-2 h-4 w-4" />
                                     </Link>
