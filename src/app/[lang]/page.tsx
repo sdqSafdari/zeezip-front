@@ -12,6 +12,7 @@ import ZzipPureLogoSVG from "@/app/svg/zzip-logo-pure.svg";
 import SoundCloudSVG from "./soundcloud-svgrepo-com.svg";
 import InstagramSVG from "./instagram-1-svgrepo-com.svg";
 import CloudStorageSVG from "./server-like-svgrepo-com.svg";
+import NoPicAvatar from "./no-pic-avatar.svg";
 import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
 
 export default async function LandingPage({
@@ -267,12 +268,11 @@ export default async function LandingPage({
                             {dict.testimonials.items.map((testimonial, index) => (
                                 <div key={index} className="flex flex-col rounded-lg border bg-background p-6 shadow-sm">
                                     <div className="flex items-center gap-4">
-                                        <Image
-                                            src="/placeholder.svg?height=40&width=40"
-                                            width={40}
-                                            height={40}
+                                        <NoPicAvatar
+                                            width="2em"
+                                            height="auto"
                                             alt={testimonial.name}
-                                            className="rounded-full"
+                                            className="fill-secondary rounded-full"
                                         />
                                         <div>
                                             <h3 className="font-bold">{testimonial.name}</h3>
