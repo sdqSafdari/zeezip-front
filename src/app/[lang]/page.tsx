@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Cloud, Download, CheckCircle, Instagram, Twitter, ArrowRight, Menu } from "lucide-react"
+import {Cloud, Download, CheckCircle, Instagram, Twitter, ArrowRight, Menu, Upload} from "lucide-react"
 import { getDictionary } from "@/lib/dictionaries"
 import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import Openbsd from "../../../public/openbsd.svg";
@@ -106,22 +106,25 @@ export default async function LandingPage({
                             </div>
                         </div>
                         <div className="mx-auto grid auto-rows-fr max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
-                            <div className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-                                <CloudStorageSVG className="fill-primary" width="3em" height="3em" />
+                            <div
+                                className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+                                <CloudStorageSVG className="fill-primary" width="3em" height="3em"/>
                                 <div className="space-y-2">
                                     <h3 className="text-xl font-bold">{dict.features.cloud.title}</h3>
                                     <p className="text-muted-foreground">{dict.features.cloud.description}</p>
                                 </div>
                             </div>
-                            <div className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-                                    <SoundCloudSVG width="3em" height="3em" />
+                            <div
+                                className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+                                <SoundCloudSVG width="3em" height="3em"/>
                                 <div className="space-y-2">
                                     <h3 className="text-xl font-bold">{dict.features.twitter.title}</h3>
                                     <p className="text-muted-foreground">{dict.features.twitter.description}</p>
                                 </div>
                             </div>
-                            <div className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-                                    <InstagramSVG width="3em" height="3em" />
+                            <div
+                                className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+                                <InstagramSVG width="3em" height="3em"/>
                                 <div className="space-y-2">
                                     <h3 className="text-xl font-bold">{dict.features.instagram.title}</h3>
                                     <p className="text-muted-foreground">{dict.features.instagram.description}</p>
@@ -131,7 +134,41 @@ export default async function LandingPage({
                     </div>
                 </section>
 
-                <section className="w-full py-12 md:py-24 lg:py-32">
+                {/**
+                 public-share section
+                 */}
+                <section className="w-full py-12 md:py-24 lg:py-32 border-t">
+                    <div className="container px-4 md:px-6">
+                        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12 items-center">
+                            <div className="flex flex-col justify-center space-y-4">
+                                <div className="space-y-2">
+                                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">{dict.fileSharing.title}</h2>
+                                    <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed">
+                                        {dict.fileSharing.description}
+                                    </p>
+                                </div>
+                                <div className="space-y-4">
+                                    <ul className="space-y-2">
+                                        {dict.fileSharing.features.map((feature, index) => (
+                                            <li key={index} className="flex items-center gap-2">
+                                                <CheckCircle className="h-5 w-5 text-primary flex-shrink-0"/>
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <Button size="lg" asChild>
+                                        <Link href={`/${params.lang}/public-share/`}>
+                                            {dict.fileSharing.uploadNow}
+                                            <Upload className="ml-2 h-4 w-4"/>
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
                     <div className="container px-4 md:px-6">
                         <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
                             <div className="flex flex-col justify-center space-y-4">
@@ -141,7 +178,8 @@ export default async function LandingPage({
                                 </div>
                                 <ul className="grid gap-6">
                                     <li className="flex items-start gap-4">
-                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                                        <div
+                                            className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                                             1
                                         </div>
                                         <div className="space-y-1">
@@ -150,7 +188,8 @@ export default async function LandingPage({
                                         </div>
                                     </li>
                                     <li className="flex items-start gap-4">
-                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                                        <div
+                                            className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                                             2
                                         </div>
                                         <div className="space-y-1">
@@ -159,7 +198,8 @@ export default async function LandingPage({
                                         </div>
                                     </li>
                                     <li className="flex items-start gap-4">
-                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                                        <div
+                                            className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                                             3
                                         </div>
                                         <div className="space-y-1">
@@ -173,7 +213,7 @@ export default async function LandingPage({
                     </div>
                 </section>
 
-                <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+                <section id="pricing" className="w-full py-12 md:py-24 lg:py-32">
                     <div className="container px-4 md:px-6">
                         <div className="flex flex-col items-center justify-center space-y-4 text-center">
                             <div className="space-y-2">
@@ -196,7 +236,7 @@ export default async function LandingPage({
                                 <ul className="mt-6 space-y-2">
                                     {dict.pricing.plans.free.features.map((feature, index) => (
                                         <li key={index} className="flex items-center gap-2">
-                                            <CheckCircle className="h-4 w-4 text-primary" />
+                                            <CheckCircle className="h-4 w-4 text-primary"/>
                                             <span>{feature}</span>
                                         </li>
                                     ))}
@@ -206,7 +246,8 @@ export default async function LandingPage({
                                 </Button>
                             </div>
                             <div className="flex flex-col rounded-lg border bg-background p-6 shadow-sm relative">
-                                <div className="absolute -top-4 left-0 right-0 mx-auto w-fit rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
+                                <div
+                                    className="absolute -top-4 left-0 right-0 mx-auto w-fit rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
                                     {dict.pricing.popular}
                                 </div>
                                 <div className="space-y-2">
@@ -220,7 +261,7 @@ export default async function LandingPage({
                                 <ul className="mt-6 space-y-2">
                                     {dict.pricing.plans.pro.features.map((feature, index) => (
                                         <li key={index} className="flex items-center gap-2">
-                                            <CheckCircle className="h-4 w-4 text-primary" />
+                                            <CheckCircle className="h-4 w-4 text-primary"/>
                                             <span>{feature}</span>
                                         </li>
                                     ))}
@@ -241,7 +282,7 @@ export default async function LandingPage({
                                 <ul className="mt-6 space-y-2">
                                     {dict.pricing.plans.business.features.map((feature, index) => (
                                         <li key={index} className="flex items-center gap-2">
-                                            <CheckCircle className="h-4 w-4 text-primary" />
+                                            <CheckCircle className="h-4 w-4 text-primary"/>
                                             <span>{feature}</span>
                                         </li>
                                     ))}
@@ -254,7 +295,7 @@ export default async function LandingPage({
                     </div>
                 </section>
 
-                <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32">
+                <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
                     <div className="container px-4 md:px-6">
                         <div className="flex flex-col items-center justify-center space-y-4 text-center">
                             <div className="space-y-2">
@@ -266,7 +307,8 @@ export default async function LandingPage({
                         </div>
                         <div className="mx-auto grid max-w-5xl gap-6 py-12 lg:grid-cols-3">
                             {dict.testimonials.items.map((testimonial, index) => (
-                                <div key={index} className="flex flex-col rounded-lg border bg-background p-6 shadow-sm">
+                                <div key={index}
+                                     className="flex flex-col rounded-lg border bg-background p-6 shadow-sm">
                                     <div className="flex items-center gap-4">
                                         <NoPicAvatar
                                             width="2em"
@@ -286,7 +328,7 @@ export default async function LandingPage({
                     </div>
                 </section>
 
-                <section id="faq" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+                <section id="faq" className="w-full py-12 md:py-24 lg:py-32">
                     <div className="container px-4 md:px-6">
                         <div className="flex flex-col items-center justify-center space-y-4 text-center">
                             <div className="space-y-2">
@@ -307,7 +349,7 @@ export default async function LandingPage({
                     </div>
                 </section>
 
-                <section className="w-full py-12 md:py-24 lg:py-32 border-t">
+                <section className="w-full py-12 md:py-24 lg:py-32 border-t bg-muted">
                     <div className="container px-4 md:px-6">
                         <div className="flex flex-col items-center justify-center space-y-4 text-center">
                             <div className="space-y-2">
@@ -318,7 +360,7 @@ export default async function LandingPage({
                                 <Button size="lg" asChild>
                                     <Link href={`/${params.lang}/login`}>
                                         {dict.cta.startFree}
-                                        <ArrowRight className="ml-2 h-4 w-4" />
+                                        <ArrowRight className="ml-2 h-4 w-4"/>
                                     </Link>
                                 </Button>
                                 <Button size="lg" variant="outline" asChild>
@@ -332,19 +374,22 @@ export default async function LandingPage({
             <footer className="w-full border-t py-6 md:py-0">
                 <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
                     <div className="flex items-center gap-2">
-                        <ZzipPureLogoSVG width="4em" height="auto" />
+                        <ZzipPureLogoSVG width="4em" height="auto"/>
                         <p className="text-sm font-medium">
                             {dict.footer.copyright.replace("{year}", new Date().getFullYear().toString())}
                         </p>
                     </div>
                     <nav className="flex gap-4 sm:gap-6">
-                        <Link href={`/${params.lang}/terms`} className="text-sm font-medium hover:underline underline-offset-4">
+                        <Link href={`/${params.lang}/terms`}
+                              className="text-sm font-medium hover:underline underline-offset-4">
                             {dict.footer.terms}
                         </Link>
-                        <Link href={`/${params.lang}/privacy`} className="text-sm font-medium hover:underline underline-offset-4">
+                        <Link href={`/${params.lang}/privacy`}
+                              className="text-sm font-medium hover:underline underline-offset-4">
                             {dict.footer.privacy}
                         </Link>
-                        <Link href={`/${params.lang}/contact`} className="text-sm font-medium hover:underline underline-offset-4">
+                        <Link href={`/${params.lang}/contact`}
+                              className="text-sm font-medium hover:underline underline-offset-4">
                             {dict.footer.contact}
                         </Link>
                     </nav>

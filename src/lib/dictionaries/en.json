@@ -218,7 +218,7 @@
     "tips": {
       "title": "Tips for Sharing",
       "items": [
-        "Links expire after 30 days of inactivity",
+        "Download links expire after one day for security reasons",
         "Compress large files to stay under the 200MB limit",
         "For sensitive data, consider password-protecting your files",
         "Check that recipients can access the file before sending",
@@ -234,7 +234,7 @@
       "No account required",
       "Direct download links",
       "Files up to 200MB",
-      "30-day storage",
+      "Links expire after 24 hours",
       "ZIP downloads for multiple files"
     ]
   }
