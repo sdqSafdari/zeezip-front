@@ -7,7 +7,7 @@ import { Upload, X } from "lucide-react"
 import UploadProgressBar from "@/app/sitecomponents/upload/UploadProgressBar";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios, {AxiosHeaders, AxiosRequestConfig} from "axios";
-import {MutableRefObject, useRef, useState} from "react";
+import {MutableRefObject, useCallback, useRef, useState} from "react";
 import {formatFileSize} from "@/app/utils/FileUtils";
 import SuccessfulTick from "@/app/sitecomponents/upload/SuccessfulTick";
 import DownloadPageLinkComponent from "@/app/sitecomponents/upload/DownloadPageLinkComponent";
@@ -34,6 +34,7 @@ export default function UploadForm({lang}:{lang? : string}) {
     const [captcha, setCaptcha] = useState<CaptchaDto>(null);
     const [captchaNumber, setCaptchaNumber] = useState<number>(0);
     const [groupId, setGroupId] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
     const abortControllerRef = useRef<AbortController|null>(null);
     const {toast} = useToast();
     const fileInputRef = React.useRef<HTMLInputElement>(null)
@@ -77,8 +78,8 @@ export default function UploadForm({lang}:{lang? : string}) {
             console.error("upload error!");
             if (axios.isCancel(error)) {
                 toast({
-                    title: "Upload is cancelled!",
-                    className: 'text-green-700'
+                    title: clientDictionary.publicShare.event.uploadCanceled,
+                    className: `text-green-700 ${lang==='fa'?"font-persian rtl":""}`
                 })
             } else {
                 toast({
@@ -98,13 +99,18 @@ export default function UploadForm({lang}:{lang? : string}) {
         }
     });
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
+    const addFiles = (newFiles: FileList)=>{
+        if (files) {
             const fileNames = new Set(files.map(file=>file.name));
-            const filteredFiles = Array.from(event.target.files || []).filter(file=>!fileNames.has(file.name));
+            const filteredFiles = Array.from(newFiles).filter(file=>!fileNames.has(file.name));
             setFiles(prevFiles => [...prevFiles, ...filteredFiles])
         }
     }
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        addFiles(event.target.files)
+    }
+
 
     const handleRemoveFile = (fileToRemove: File) => {
         fileInputRef.current.value='';
@@ -140,13 +146,46 @@ export default function UploadForm({lang}:{lang? : string}) {
         uploadProperties.captcha = captcha;
         uploadFilesMutation.mutate(uploadProperties);
     }
+    const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    }, []);
+
+    const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    }, []);
+
+    const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!isDragging) setIsDragging(true);
+    }, [isDragging]);
+
+    const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            addFiles(e.dataTransfer.files);
+            e.dataTransfer.clearData();
+        }
+    }, []);
 
     const totalSize = files.reduce((acc, file) => acc + file.size, 0)
     if (totalSize > 209_715_200){
          limit_violated = true;
     }
     return (
-        <Card className="w-full border-2 border-dashed border-primary/20 bg-background/50">
+        <Card className={cn("w-full border-2 border-dashed border-primary/20 bg-background/50",isDragging?"bg-primary/50":"")}
+              onDragEnterCapture={handleDragEnter}
+              onDragLeaveCapture={handleDragLeave}
+              onDragOverCapture={handleDragOver}
+              onDropCapture={handleDrop}
+        >
             <CardHeader className="text-center">
                 {uploading?
                     <CardTitle className="text-2xl text-primary">{clientDictionary.publicShare.dropzone.uploading}</CardTitle>

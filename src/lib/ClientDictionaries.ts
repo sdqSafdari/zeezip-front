@@ -18,6 +18,7 @@ export type ClientDictionary = {
         }
         event: {
             uploadFailed: string
+            uploadCanceled: string
             completeTheCaptcha: string
             limitReached200Mb: string
         }

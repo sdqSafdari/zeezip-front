@@ -15,6 +15,7 @@
     },
     "event": {
       "uploadFailed": "Error uploading file[s]!",
+      "uploadCanceled": "Upload is cancelled!",
       "completeTheCaptcha": "Please complete the CAPTCHA!",
       "limitReached200Mb": "200Mb limit reached!"
     }

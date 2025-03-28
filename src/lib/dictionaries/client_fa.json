@@ -15,6 +15,7 @@
     },
     "event": {
       "uploadFailed": "آپلود فایل ها با خطا مواجه شد!",
+      "uploadCanceled": "آپلود با موفقیت متوقف شد!",
       "completeTheCaptcha": "لطفا کپچا را کامل کنید!",
       "limitReached200Mb": ".سقف آپلود رایگان ۲۰۰ مگابایت پر شده"
     }
