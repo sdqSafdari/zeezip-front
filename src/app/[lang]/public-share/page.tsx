@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { getDictionary } from "@/lib/dictionaries"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {CheckCircle, Cloud, File, Share2, Upload, Archive, Menu} from "lucide-react"
+import {CheckCircle, Cloud, File, Share2, Upload, Archive, Menu, Clock} from "lucide-react"
 import ZzipLogoSVG from "@/app/svg/zzip-logo.svg";
 import ZzipPureLogoSVG from "@/app/svg/zzip-logo-pure.svg";
 import UploadForm from "@/app/sitecomponents/upload/UploadForm";
@@ -88,20 +88,22 @@ export default async function UploadPage({
 
                         <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 md:grid-cols-2">
                             {dict.upload.features.items.map((feature, index) => (
-                                <Card key={index} className="bg-background">
+                                <Card key={index} className="bg-background h-full">
                                     <CardHeader>
                                         <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary mb-4">
                                             {index === 0 ? (
-                                                <File className="h-6 w-6" />
+                                                <File className="h-6 w-6"/>
                                             ) : index === 1 ? (
-                                                <Share2 className="h-6 w-6" />
+                                                <Share2 className="h-6 w-6"/>
                                             ) : index === 2 ? (
-                                                <Upload className="h-6 w-6" />
+                                                <Upload className="h-6 w-6"/>
                                             ) : index === 3 ? (
-                                                <CheckCircle className="h-6 w-6" />
-                                            ) : (
-                                                <Archive className="h-6 w-6" />
-                                            )}
+                                                <CheckCircle className="h-6 w-6"/>
+                                            ) : index === 4 ? (
+                                                <Clock className="h-6 w-6" />
+                                            ): (
+                                                    <Archive className="h-6 w-6"/>
+                                                )}
                                         </div>
                                         <CardTitle>{feature.title}</CardTitle>
                                     </CardHeader>
@@ -136,7 +138,7 @@ export default async function UploadPage({
                     </div>
                 </section>
 
-                <section className="w-full py-12 md:py-24 lg:py-32">
+                <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
                     <div className="container px-4 md:px-6">
                         <div className="flex flex-col items-center justify-center space-y-4 text-center">
                             <div className="space-y-2">

@@ -193,6 +193,10 @@
           "description": "All uploads and downloads are encrypted for security."
         },
         {
+          "title": "24 Hours",
+          "description": "Download links expire after one day for security reasons."
+        },
+        {
           "title": "ZIP Downloads",
           "description": "Download multiple files at once as a ZIP archive."
         }
