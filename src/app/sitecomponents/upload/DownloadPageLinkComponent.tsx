@@ -6,10 +6,13 @@ import * as React from "react";
 import {createDownloadPageLink} from "@/app/utils/LinkUtils";
 import {Input} from "@/components/ui/input";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
+import {getClientDictionary} from "@/lib/ClientDictionaries";
+import {cn} from "@/lib/utils";
 
-export default function  DownloadPageLinkComponent({groupId}:{groupId:string}){
+export default function  DownloadPageLinkComponent({groupId,lang}:{groupId:string,lang:string}){
     const downloadPageLink = createDownloadPageLink(groupId);
     const [copied, setCopied] = useState(false);
+    const clientDictionary= getClientDictionary(lang);
     const handleCopyToClipboard = () => {
             navigator.clipboard.writeText(downloadPageLink).then(() => {
                 setCopied(true)
@@ -18,7 +21,7 @@ export default function  DownloadPageLinkComponent({groupId}:{groupId:string}){
     }
     return (
         <div className='w-full'>
-            <h6 className='text-lg font-semibold leading-none tracking-tight mb-3'>Download page Link!</h6>
+            <h6 className={cn('text-lg font-semibold leading-none tracking-tight mb-3',lang==='fa'?"font-persian rtl":"")}>{clientDictionary.publicShare.dropzone.downloadPageLink}</h6>
             <div className="w-full flex rounded-md overflow-hidden">
                 <Input
                     type="text"

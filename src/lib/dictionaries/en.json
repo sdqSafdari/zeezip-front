@@ -163,6 +163,80 @@
     "continueWith": "Continue with",
     "imageTitle": "Store and access your content",
     "imageSubtitle": "Anywhere, anytime, on any device"
+  },
+  "upload": {
+    "title": "Upload & Share Files",
+    "description": "Upload files up to 200MB and get direct download links to share with anyone.",
+    "dropzone": {
+      "title": "Drag & Drop Files Here",
+      "subtitle": "or click to browse",
+      "maxSize": "Max file size: 200MB"
+    },
+    "features": {
+      "title": "Simple File Sharing",
+      "subtitle": "Share files with anyone, anywhere, without requiring an account.",
+      "items": [
+        {
+          "title": "No Registration Required",
+          "description": "Upload and share files without creating an account."
+        },
+        {
+          "title": "Direct Download Links",
+          "description": "Get shareable links that work on any device."
+        },
+        {
+          "title": "Up to 200MB",
+          "description": "Upload files up to 200MB in size."
+        },
+        {
+          "title": "Secure Transfers",
+          "description": "All uploads and downloads are encrypted for security."
+        },
+        {
+          "title": "ZIP Downloads",
+          "description": "Download multiple files at once as a ZIP archive."
+        }
+      ]
+    },
+    "howTo": {
+      "title": "How to Share Files",
+      "steps": [
+        {
+          "title": "Upload Your File",
+          "description": "Drag and drop your file or click to browse."
+        },
+        {
+          "title": "Get Your Link",
+          "description": "Once uploaded, you'll receive a direct download link."
+        },
+        {
+          "title": "Share with Anyone",
+          "description": "Share the link via email, messaging apps, or social media."
+        }
+      ]
+    },
+    "tips": {
+      "title": "Tips for Sharing",
+      "items": [
+        "Links expire after 30 days of inactivity",
+        "Compress large files to stay under the 200MB limit",
+        "For sensitive data, consider password-protecting your files",
+        "Check that recipients can access the file before sending",
+        "Use ZIP download for sharing multiple files at once"
+      ]
+    }
+  },
+  "fileSharing": {
+    "title": "Quick File Sharing",
+    "description": "Need to share files between devices or with friends? Upload files up to 200MB and get instant download links.",
+    "uploadNow": "Upload Now",
+    "features": [
+      "No account required",
+      "Direct download links",
+      "Files up to 200MB",
+      "30-day storage",
+      "ZIP downloads for multiple files"
+    ]
   }
 }
 

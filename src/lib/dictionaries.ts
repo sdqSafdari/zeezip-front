@@ -119,6 +119,43 @@ export type Dictionary = {
         imageTitle: string
         imageSubtitle: string
     }
+    upload: {
+        title: string
+        description: string
+        dropzone: {
+            title: string
+            subtitle: string
+            maxSize: string
+        },
+        features: {
+            title: string
+            subtitle: string
+            items:
+                {
+                    title: string
+                    description: string
+                }[]
+        },
+        howTo: {
+            title: string
+            steps:
+                {
+                    title: string
+                    description: string
+                }[]
+        },
+        tips: {
+            title: string
+            items: string[]
+        }
+    }
+    fileSharing: {
+        title: string
+        description: string
+        uploadNow: string
+        features: string[]
+    }
+
 }
 
 const dictionaries = {

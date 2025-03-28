@@ -2,8 +2,10 @@
 
 import {Button} from "@/components/ui/button";
 import {CircleX} from "lucide-react";
+import {getClientDictionary} from "@/lib/ClientDictionaries";
 
-export default function CancellationButton({handleCancel}:{handleCancel:()=>void}){
+export default function CancellationButton({handleCancel,lang}:{handleCancel:()=>void,lang:string}){
+    const clientDictionary = getClientDictionary(lang);
     return (
         <div>
             <Button
@@ -13,9 +15,8 @@ export default function CancellationButton({handleCancel}:{handleCancel:()=>void
                 onClick={handleCancel}
             >
                 <CircleX className="h-4 w-4"/>
-                <span>Cancel</span>
+                <span>{clientDictionary.publicShare.dropzone.cancel}</span>
             </Button>
-
 
         </div>
     );
