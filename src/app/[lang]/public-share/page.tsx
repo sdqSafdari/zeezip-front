@@ -8,6 +8,20 @@ import UploadForm from "@/app/sitecomponents/upload/UploadForm";
 import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
 import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import {Button} from "@/components/ui/button";
+import {getStaticServerSideBaseURL} from "@/app/utils/LinkUtils";
+
+export async function generateMetadata({ params }) {
+    const beforeProxyBaseURL = getStaticServerSideBaseURL();
+    return {
+        alternates: {
+            languages: {
+                'en': `${beforeProxyBaseURL}/en/public-share`,
+                'fa': `${beforeProxyBaseURL}/fa/public-share`,
+            },
+        }
+    }
+}
+
 export default async function UploadPage({
                                              params,
                                          }: {

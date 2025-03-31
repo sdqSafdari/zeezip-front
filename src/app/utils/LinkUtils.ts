@@ -10,6 +10,13 @@ export function createDirectDownloadLink(fileId:string):string {
     const baseURL:string=window.location.origin;
     return `${baseURL}/bff/public/file/download/${fileId}`;
 }
+export function getStaticServerSideBaseURL(){
+    /*
+    const requestHeaders = headers(); // this will make a server-component dynamic-rendered and may have performance implications
+    const beforeProxyHost = requestHeaders.get('X-Forwarded-Host');
+     */
+    return 'https://zzip.ir';
+}
 
 export function createDirectDownloadLinkZip(groupId:string):string{
     if (!window)

@@ -14,6 +14,19 @@ import InstagramSVG from "./instagram-1-svgrepo-com.svg";
 import CloudStorageSVG from "./server-like-svgrepo-com.svg";
 import NoPicAvatar from "./no-pic-avatar.svg";
 import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
+import {getStaticServerSideBaseURL} from "@/app/utils/LinkUtils";
+
+export async function generateMetadata({ params }) {
+    const beforeProxyBaseURL = getStaticServerSideBaseURL();
+    return {
+        alternates: {
+            languages: {
+                'en': `${beforeProxyBaseURL}/en`,
+                'fa': `${beforeProxyBaseURL}/fa`,
+            },
+        }
+    }
+}
 
 export default async function LandingPage({
                                               params,

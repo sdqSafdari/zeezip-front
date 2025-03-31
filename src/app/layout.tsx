@@ -19,8 +19,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ZeeZip",
-  description: "Share your Files securely. With ZeeZip stay anonymous and free.",
+  title: "ZZIP",
+  description: "Share your Files securely. With zzip stay anonymous and free.",
   icons:{
     icon: "/favicon.ico"
   },
@@ -35,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html>
     <ServerClientQueryClientProvider>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <ThemeProvider
