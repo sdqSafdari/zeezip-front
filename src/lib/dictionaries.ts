@@ -13,6 +13,7 @@ export type Dictionary = {
         login: string
         getStarted: string
         toggleMenu: string
+        publicShare: string
     }
     hero: {
         title: string
@@ -154,6 +155,35 @@ export type Dictionary = {
         description: string
         uploadNow: string
         features: string[]
+    }
+    files: {
+        title: string
+        description: string
+        yourFiles: string
+        uploadNew: string
+        noFiles: string
+        fileName: string
+        fileSize: string
+        uploadDate: string
+        expiresIn: string
+        actions: string
+        copyLink: string
+        download: string
+        delete: string
+        linkCopied: string
+        hours: string
+        reminders: {
+            title: string
+            subtitle: string
+            expiration: {
+                title: string
+                description: string
+            },
+            sharing: {
+                title: string
+                description: string
+            }
+        }
     }
 
 }

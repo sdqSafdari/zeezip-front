@@ -35,7 +35,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
     const downloadZipButtonElement:MutableRefObject<HTMLButtonElement|null> = useRef<HTMLButtonElement|null>(null);
 
     const useQueryReturnedValue = useQuery({
-        queryKey: ['fileData'],
+        queryKey: ['fileData',groupId],
         queryFn: ({queryKey}) => {
             const searchedGroupIdObj = groupId ? {groupId} : queryClient.getQueryData(['files_']) ;
             // const {groupId} = queryClient.getQueryData(['files_']);//necessary for re-rendering
@@ -44,7 +44,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
             return axios.get(createHttpClientListFilesMetadataURL(searchedGroupIdObj.groupId)).then(res=> res.data);
         },
         staleTime: Infinity,
-        retry: false
+        retry: 1
     });
     const {data,status}:{data:FileMetadata[],status:string} = useQueryReturnedValue;
 
@@ -71,7 +71,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
     const currentFiles =  tempData.slice(startIndex, endIndex);
 
     return (
-        <div className='w-full sm:w-1/4 sm:basis-1/4 border-2 rounded-md p-4'>
+        <div className='w-full border-2 rounded-md p-4'>
             <div className='flex justify-between'>
                 <h6 className='text-2xl font-semibold leading-none tracking-tight mb-3'>Download Box</h6>
             {tempData.length > 0 ?
@@ -153,7 +153,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                     :
                     data && status === 'success' ?
                     <div className="mt-6 flex">
-                        <div className="flex w-3/4 rounded-md overflow-hidden">
+                        <div className="flex rounded-md overflow-hidden">
                             <Button
                                 ref={downloadZipButtonElement}
                                 className="flex-grow text-green-600 bg-secondary hover:text-white hover:bg-green-700 text-lg rounded-r-none"
@@ -171,7 +171,7 @@ export default function UserTable({groupId}:{groupId?:string|null}) {
                             <Button
                                 onClick={handleCopyLink}
                                 size='icon'
-                                className="w-1/4 bg-secondary text-green-600 hover:bg-green-700 hover:text-white rounded-l-none border-l border-green-400"
+                                className="bg-secondary text-green-600 hover:bg-green-700 hover:text-white rounded-l-none border-l border-green-400"
                             >
                                 {isCopied ? <Check className="h-4 w-4"/> : <Copy className="h-4 w-4"/>}
                             </Button>

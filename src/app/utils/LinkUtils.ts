@@ -1,8 +1,8 @@
-export function createDownloadPageLink(groupId:string){
+export function createDownloadPageLink(groupId:string,lang:string){
     if (!window)
         return "";
     const baseURL:string=window.location.origin;
-    return `${baseURL}/u/${groupId ?? "1"}`;
+    return `${baseURL}/${lang}/u/${groupId ?? "1"}`;
 }
 export function createDirectDownloadLink(fileId:string):string {
     if (!window)

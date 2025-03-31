@@ -10,7 +10,7 @@ import {getClientDictionary} from "@/lib/ClientDictionaries";
 import {cn} from "@/lib/utils";
 
 export default function  DownloadPageLinkComponent({groupId,lang}:{groupId:string,lang:string}){
-    const downloadPageLink = createDownloadPageLink(groupId);
+    const downloadPageLink = createDownloadPageLink(groupId,lang);
     const [copied, setCopied] = useState(false);
     const clientDictionary= getClientDictionary(lang);
     const handleCopyToClipboard = () => {

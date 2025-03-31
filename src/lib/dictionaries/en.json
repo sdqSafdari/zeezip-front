@@ -10,7 +10,8 @@
     "faq": "FAQ",
     "login": "Log in",
     "getStarted": "Get Started",
-    "toggleMenu": "Toggle menu"
+    "toggleMenu": "Toggle menu",
+    "publicShare": "upload files"
   },
   "hero": {
     "title": "Store, Download, and Share with Ease",
@@ -241,6 +242,35 @@
       "Links expire after 24 hours",
       "ZIP downloads for multiple files"
     ]
+  },
+  "files": {
+    "title": "Your Uploaded Files",
+    "description": "Manage all your uploaded files and their download links in one place.",
+    "yourFiles": "Your Files",
+    "uploadNew": "Upload New File",
+    "noFiles": "You haven't uploaded any files yet. Upload a file to get started.",
+    "fileName": "File Name",
+    "fileSize": "Size",
+    "uploadDate": "Upload Date",
+    "expiresIn": "Expires In",
+    "actions": "Actions",
+    "copyLink": "Copy Link",
+    "download": "Download",
+    "delete": "Delete",
+    "linkCopied": "Copied!",
+    "hours": "hours",
+    "reminders": {
+      "title": "Important Reminders",
+      "subtitle": "Keep these points in mind when sharing your files.",
+      "expiration": {
+        "title": "24-Hour Expiration",
+        "description": "All download links expire 24 hours after upload for security. Make sure recipients download your files promptly."
+      },
+      "sharing": {
+        "title": "Secure Sharing",
+        "description": "Share your download links only with intended recipients. Anyone with the link can download your files within the 24-hour window."
+      }
+    }
   }
 }
 
