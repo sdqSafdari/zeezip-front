@@ -6,7 +6,7 @@ import {Cloud, Download, CheckCircle, Instagram, Twitter, ArrowRight, Menu, Uplo
 import { getDictionary } from "@/lib/dictionaries"
 import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import Openbsd from "../../../public/openbsd.svg";
-import UnifiedMediaDownloaderSVG from "./unified-media-downloader.svg";
+import UnifiedMediaDownloaderSVG from "@/app/svg/zzip-unified-media-downloader.svg";
 import ZzipLogoSVG from "@/app/svg/zzip-logo.svg";
 import ZzipPureLogoSVG from "@/app/svg/zzip-logo-pure.svg";
 import SoundCloudSVG from "./soundcloud-svgrepo-com.svg";

@@ -8,7 +8,7 @@ import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
 import styles from "./login.module.css";
 import {cn} from "@/lib/utils";
 import ZzipLogoSVG from "@/app/svg/zzip-logo-pure.svg";
-import WebSiteMechanism from "../unified-media-downloader.svg";
+import WebSiteMechanism from "@/app/svg/zzip-unified-media-downloader.svg";
 import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 
 
