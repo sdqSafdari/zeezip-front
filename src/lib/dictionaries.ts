@@ -29,11 +29,11 @@ export type Dictionary = {
             title: string
             description: string
         }
-        twitter: {
+        stream: {
             title: string
             description: string
         }
-        instagram: {
+        zip: {
             title: string
             description: string
         }

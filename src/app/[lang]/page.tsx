@@ -9,8 +9,8 @@ import Openbsd from "../../../public/openbsd.svg";
 import UnifiedMediaDownloaderSVG from "@/app/svg/zzip-unified-media-downloader.svg";
 import ZzipLogoSVG from "@/app/svg/zzip-logo.svg";
 import ZzipPureLogoSVG from "@/app/svg/zzip-logo-pure.svg";
-import SoundCloudSVG from "./soundcloud-svgrepo-com.svg";
-import InstagramSVG from "./instagram-1-svgrepo-com.svg";
+import StreamSVG from "./stream.svg";
+import ZipSVG from "./zip.svg";
 import CloudStorageSVG from "./server-like-svgrepo-com.svg";
 import NoPicAvatar from "./no-pic-avatar.svg";
 import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
@@ -129,18 +129,18 @@ export default async function LandingPage({
                             </div>
                             <div
                                 className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-                                <SoundCloudSVG width="3em" height="3em"/>
+                                <StreamSVG fill="red" style={{opacity:0.5}} width="3em" height="3em"/>
                                 <div className="space-y-2">
-                                    <h3 className="text-xl font-bold">{dict.features.twitter.title}</h3>
-                                    <p className="text-muted-foreground">{dict.features.twitter.description}</p>
+                                    <h3 className="text-xl font-bold">{dict.features.stream.title}</h3>
+                                    <p className="text-muted-foreground">{dict.features.stream.description}</p>
                                 </div>
                             </div>
                             <div
                                 className="flex flex-col h-full space-y-4 rounded-lg border bg-background p-6 shadow-sm">
-                                <InstagramSVG width="3em" height="3em"/>
+                                <ZipSVG fill="blue" style={{opacity:0.5}} width="3em" height="3em"/>
                                 <div className="space-y-2">
-                                    <h3 className="text-xl font-bold">{dict.features.instagram.title}</h3>
-                                    <p className="text-muted-foreground">{dict.features.instagram.description}</p>
+                                    <h3 className="text-xl font-bold">{dict.features.zip.title}</h3>
+                                    <p className="text-muted-foreground">{dict.features.zip.description}</p>
                                 </div>
                             </div>
                         </div>

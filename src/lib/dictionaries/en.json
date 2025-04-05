@@ -27,13 +27,13 @@
       "title": "Cloud Storage",
       "description": "Securely store your files in the cloud and access them from anywhere, on any device."
     },
-    "twitter": {
-      "title": "SoundCloud Downloads",
-      "description": "Easily download tracks from SoundCloud with a single click."
+    "stream": {
+      "title": "Stream Platform Support",
+      "description": "Easily download Audio/Video from many stream platforms such as SoundCloud,TED, and more."
     },
-    "instagram": {
-      "title": "Instagram Downloads",
-      "description": "Save videos, and stories from Instagram directly to your cloud storage."
+    "zip": {
+      "title": "Zip Everything",
+      "description": "Bundle and share your downloads in one simple link."
     }
   },
   "howItWorks": {
