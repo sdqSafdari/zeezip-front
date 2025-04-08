@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Globe } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
+import {cn} from "@/lib/utils";
 
-export function LanguageSwitcher({ currentLang }: { currentLang: string }) {
+export function LanguageSwitcher({ currentLang,children,className }: { currentLang: string,children?:React.ReactNode,className?:string }) {
     const router = useRouter()
     const pathname = usePathname()
 
@@ -22,9 +23,9 @@ export function LanguageSwitcher({ currentLang }: { currentLang: string }) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <Globe className="h-5 w-5" />
-                    <span className="sr-only">Switch language</span>
+                <Button variant="ghost" className={cn("flex justify-start gap-2",className)}>
+                    <Globe className="h-[1.2rem] w-[1.2rem]" />
+                    {children}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

@@ -16,7 +16,7 @@ import {
     createHttpClientUserStoreFileURL, createDirectUserFileDownloadLink
 } from "@/app/utils/LinkUtils";
 import {formatFileSize, formatUTCTimeToLocal} from "@/app/utils/FileUtils";
-import MakeDirectoryModal from "@/app/user/components/MakeDirectoryModal";
+import MakeDirectoryModal from "@/app/[lang]/user/components/MakeDirectoryModal";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 
 interface UserFileMetadata{

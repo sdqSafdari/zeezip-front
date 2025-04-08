@@ -15,6 +15,8 @@ import CloudStorageSVG from "./server-like-svgrepo-com.svg";
 import NoPicAvatar from "./no-pic-avatar.svg";
 import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
 import {getStaticServerSideBaseURL} from "@/app/utils/LinkUtils";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import SmallScreenNavMenu from "@/app/[lang]/SmallScreenNavMenu";
 
 export async function generateMetadata({ params }) {
     const beforeProxyBaseURL = getStaticServerSideBaseURL();
@@ -56,7 +58,7 @@ export default async function LandingPage({
                             {dict.nav.faq}
                         </Link>
                     </nav>
-                    <div className="flex items-center gap-4">
+                    <div className="hidden md:flex items-center gap-4">
                         <ModeToggle />
                         <LanguageSwitcher currentLang={params.lang} />
                         <Button
@@ -69,11 +71,8 @@ export default async function LandingPage({
                                 {dict.nav.login}
                             </Link>
                         </Button>
-                        <Button variant="ghost" size="icon" className="md:hidden">
-                            <Menu className="h-5 w-5" />
-                            <span className="sr-only">{dict.nav.toggleMenu}</span>
-                        </Button>
                     </div>
+                    <SmallScreenNavMenu lang={params.lang} />
                 </div>
             </header>
             <main className="flex-1">

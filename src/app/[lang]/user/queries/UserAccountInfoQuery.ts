@@ -2,7 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import {createHttpClientUserMetricsURL} from "@/app/utils/LinkUtils";
 import {plainToInstance} from "class-transformer";
-import UserAccountDomain from "@/app/user/queries/UserAccountDomain";
+import UserAccountDomain from "@/app/[lang]/user/queries/UserAccountDomain";
 
 export default function useQuery_userAccount(){
     const {data,status,isFetching,isError}:{data:UserAccountDomain,status:string} = useQuery({

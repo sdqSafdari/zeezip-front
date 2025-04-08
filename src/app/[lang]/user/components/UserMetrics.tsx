@@ -10,7 +10,7 @@ import {Button} from "@/components/ui/button";
 import {RotateCw} from "lucide-react";
 import {MutableRefObject, useRef} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
-import UserAccountDomain from "@/app/user/queries/UserAccountDomain";
+import UserAccountDomain from "@/app/[lang]/user/queries/UserAccountDomain";
 
 export default function UserMetrics({userAccount,isFetching,isError}:{userAccount:UserAccountDomain,isFetching:boolean,isError:boolean}){
     const queryClient = useQueryClient();

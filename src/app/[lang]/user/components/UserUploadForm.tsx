@@ -27,7 +27,7 @@ import {file} from "@babel/types";
 import {bool} from "prop-types";
 import {Progress} from "@/components/ui/progress";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
-import UserAccountDomain from "@/app/user/queries/UserAccountDomain";
+import UserAccountDomain from "@/app/[lang]/user/queries/UserAccountDomain";
 
 class FileWithProgress {
     file:File;

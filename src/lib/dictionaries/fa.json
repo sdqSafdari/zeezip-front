@@ -11,7 +11,9 @@
     "login": "ورود",
     "getStarted": "شروع کنید",
     "toggleMenu": "تغییر منو",
-    "publicShare": "آپلود فایل ها"
+    "publicShare": "آپلود فایل ها",
+    "theme": "رنگ زمینه",
+    "langSwitcher": "زبان"
   },
   "hero": {
     "title": "ذخیره مستقیم صوت و تصویر در فضای شخصی ابری",

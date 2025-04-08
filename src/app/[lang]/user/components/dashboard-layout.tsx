@@ -14,10 +14,11 @@ import {
 import { FileText, Home, Settings, Upload, User } from "lucide-react"
 import Header from "./header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import UserInfoDto from "@/app/user/UserInfoDto";
-import openBSD from "../../../../public/openbsd.svg?url";
+import UserInfoDto from "@/app/[lang]/user/UserInfoDto";
+import ZzipPureLogoSVG from "@/app/svg/zzip-logo-pure.svg";
 import Link from "next/link";
 import Image from "next/image";
+import ZzipLogoSVG from "@/app/svg/zzip-logo.svg";
 
 
 export default function DashboardLayout({ children, userInfo }: { children: ReactNode,userInfo:UserInfoDto }) {
@@ -25,10 +26,10 @@ export default function DashboardLayout({ children, userInfo }: { children: Reac
         <SidebarProvider>
             <div className="flex h-screen w-full">
                 <Sidebar>
-                    <SidebarHeader>
-                        <h2 className='text-3xl font-black text-green-700'><Link href='/user'> ZeeZIP </Link>
-                            <Image className="inline-block" src={openBSD} alt="secure"/>
-                        </h2>
+                    <SidebarHeader className="p-4">
+                        <Link href={`/`} className="flex items-center gap-2">
+                            <ZzipPureLogoSVG width="5em" height="auto"/>
+                        </Link>
                     </SidebarHeader>
                     <SidebarContent>
                         <SidebarMenu>

@@ -9,6 +9,7 @@ import ModeToggle from "@/app/sitecomponents/fixed/ThemeButton";
 import {LanguageSwitcher} from "@/app/sitecomponents/i18n/LanguageSwitcher";
 import {Button} from "@/components/ui/button";
 import {getStaticServerSideBaseURL} from "@/app/utils/LinkUtils";
+import SmallScreenNavMenu from "@/app/[lang]/SmallScreenNavMenu";
 
 export async function generateMetadata({ params }) {
     const beforeProxyBaseURL = getStaticServerSideBaseURL();
@@ -50,7 +51,7 @@ export default async function UploadPage({
                             {dict.nav.pricing}
                         </Link>
                     </nav>
-                    <div className="flex items-center gap-4">
+                    <div className="hidden md:flex items-center gap-4">
                         <ModeToggle/>
                         <LanguageSwitcher currentLang={params.lang}/>
                         <Button
@@ -63,11 +64,8 @@ export default async function UploadPage({
                                 {dict.nav.login}
                             </Link>
                         </Button>
-                        <Button variant="ghost" size="icon" className="md:hidden">
-                            <Menu className="h-5 w-5"/>
-                            <span className="sr-only">{dict.nav.toggleMenu}</span>
-                        </Button>
                     </div>
+                    <SmallScreenNavMenu lang={params.lang} />
                 </div>
             </header>
 

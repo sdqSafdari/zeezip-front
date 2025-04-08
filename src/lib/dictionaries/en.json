@@ -11,7 +11,9 @@
     "login": "Log in",
     "getStarted": "Get Started",
     "toggleMenu": "Toggle menu",
-    "publicShare": "upload files"
+    "publicShare": "upload files",
+    "theme": "Theme",
+    "langSwitcher": "Language"
   },
   "hero": {
     "title": "Save audio and video straight to your personal cloud.",

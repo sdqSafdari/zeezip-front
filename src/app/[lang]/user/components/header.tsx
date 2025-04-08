@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Bell, LogOut, Settings, User } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import UserInfoDto from "@/app/user/UserInfoDto";
+import UserInfoDto from "@/app/[lang]/user/UserInfoDto";
 
 export default function Header({userInfo}:{userInfo:UserInfoDto}) {
     return (

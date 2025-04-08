@@ -14,6 +14,8 @@ export type Dictionary = {
         getStarted: string
         toggleMenu: string
         publicShare: string
+        theme: string
+        langSwitcher: string
     }
     hero: {
         title: string

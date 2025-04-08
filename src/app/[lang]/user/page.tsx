@@ -1,15 +1,15 @@
 "use client"
 
-import UserUploadForm from "@/app/user/components/UserUploadForm";
-import DashboardLayout from "@/app/user/components/dashboard-layout";
+import UserUploadForm from "@/app/[lang]/user/components/UserUploadForm";
+import DashboardLayout from "@/app/[lang]/user/components/dashboard-layout";
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import {createHttpClientUserInfoURL, createHttpClientUserMetricsURL} from "@/app/utils/LinkUtils";
-import UserInfoDto from "@/app/user/UserInfoDto";
-import UserFilesTable from "@/app/user/components/UserFilesTable";
-import UserMetrics from "@/app/user/components/UserMetrics";
+import UserInfoDto from "@/app/[lang]/user/UserInfoDto";
+import UserFilesTable from "@/app/[lang]/user/components/UserFilesTable";
+import UserMetrics from "@/app/[lang]/user/components/UserMetrics";
 import {useState} from "react";
-import useQuery_userAccount from "@/app/user/queries/UserAccountInfoQuery";
+import useQuery_userAccount from "@/app/[lang]/user/queries/UserAccountInfoQuery";
 
 interface UserInfoResponse{
     name: string;
