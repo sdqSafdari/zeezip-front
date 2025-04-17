@@ -51,6 +51,11 @@ class FileWithProgress {
     public isWaitingForServer():boolean{
         return this.status=='uploading' && this.progress==100;
     }
+    public buildCustomHeader(relativePath:string){
+        return {"X-File-Size":this.file.size,
+        "X-File-Path":relativePath,
+        "X-File-Name": this.file.name}
+    }
 }
 export default function UserUploadForm({relativePath,userAccount}:{relativePath:string,userAccount:UserAccountDomain}) {
     const [files, setFiles] = React.useState<FileWithProgress[]>([]);
@@ -64,6 +69,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
         const axiosRequestConfig :AxiosRequestConfig= {};
         fileWithProgress.status = 'uploading' as const;
         axiosRequestConfig.signal = fileWithProgress.abortController.signal;
+        axiosRequestConfig.headers = fileWithProgress.buildCustomHeader(relativePath);
         axiosRequestConfig.onUploadProgress= (progressEvent)=>{
             const total = progressEvent.total;
             const current = progressEvent.loaded;
@@ -83,8 +89,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
         mutationFn: (fileWithProgress:FileWithProgress) => {
             console.log("sending a file");
             const formData: FormData = new FormData();
-            formData.append("file-path",relativePath);
-            formData.append("file-data", fileWithProgress.file);
+            formData.append("file-data", fileWithProgress.file,'');
            return  axios.post(createHttpClientUserStoreFileURL()
                ,formData,
                createAxiosRequestConfig(fileWithProgress));
