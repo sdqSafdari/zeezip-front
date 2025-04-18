@@ -66,7 +66,7 @@ export default function DeleteDirectoryModal({
                     <DialogTitle>Delete Directory</DialogTitle>
                     <DialogDescription>
                         Are you sure you want to delete the directory{" "}
-                        <span className="font-medium text-foreground">"{relativePath}"</span>? This action cannot be undone and all
+                        <span className="font-medium text-foreground">"{decodeURIComponent(relativePath)}"</span>? This action cannot be undone and all
                         contents will be permanently removed.
                     </DialogDescription>
                 </DialogHeader>

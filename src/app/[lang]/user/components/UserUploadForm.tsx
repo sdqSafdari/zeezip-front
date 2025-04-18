@@ -273,7 +273,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
                 </CardContent>
                 <CardFooter>
                         <div className='w-full'>
-                            <div className='font-medium mb-1'>Uploaded to {relativePath}</div>
+                            <div className='font-medium mb-1'>Uploaded to {decodeURIComponent(relativePath)}</div>
                                 <div className='w-full flex space-x-1'>
                                     <Button type="submit"
                                             className="text-center p-2 flex-grow"
