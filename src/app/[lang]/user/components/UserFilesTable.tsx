@@ -18,8 +18,9 @@ import {
 import {formatFileSize, formatUTCTimeToLocal} from "@/app/utils/FileUtils";
 import MakeDirectoryModal from "@/app/[lang]/user/components/MakeDirectoryModal";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
+import FileActions from "@/app/[lang]/user/components/FileActions";
 
-interface UserFileMetadata{
+export interface UserFileMetadata{
     id:string;
     name:string;
     lastModified:string;
@@ -275,37 +276,10 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                                 <TableCell>{file.directory?"":formatFileSize(file.size)}</TableCell>
                                 <TableCell>{file.directory?"":formatUTCTimeToLocal(file.lastModified)}</TableCell>
                                 <TableCell>
-                                    {file.directory?null:
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" size="sm">
-                                                <MoreVertical className="h-4 w-4" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuItem
-                                                className='cursor-pointer'
-                                                onClick={() => {
-                                                    // Handle single file download
-                                                    handleDownload(file.id);
-                                                }}
-                                            >
-                                                <Download className="mr-2 h-4 w-4" />
-                                                Download
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem
-                                                className='cursor-pointer'
-                                                onClick={() => {
-                                                    // Handle single file delete
-                                                    handleFileDelete(file.id);
-                                                }}
-                                            >
-                                                <Trash2 className="mr-2 h-4 w-4" />
-                                                Delete
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                    }
+                                    <FileActions handleDownload={handleDownload}
+                                                 handleFileDelete={handleFileDelete}
+                                                 relativePath={relativePath}
+                                                 userFile={file}/>
                                 </TableCell>
                             </TableRow>
                         ))}
