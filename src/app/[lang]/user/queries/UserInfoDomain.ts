@@ -1,5 +1,5 @@
 
-export default class UserInfoDto {
+export default class UserInfoDomain {
     name: string;
     email: string;
     picture: string;

@@ -5,7 +5,7 @@ import DashboardLayout from "@/app/[lang]/user/components/dashboard-layout";
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import {createHttpClientUserInfoURL, createHttpClientUserMetricsURL} from "@/app/utils/LinkUtils";
-import UserInfoDto from "@/app/[lang]/user/UserInfoDto";
+import UserInfoDomain from "@/app/[lang]/user/queries/UserInfoDomain";
 import UserFilesTable from "@/app/[lang]/user/components/UserFilesTable";
 import UserMetrics from "@/app/[lang]/user/components/UserMetrics";
 import {useState} from "react";
@@ -28,9 +28,9 @@ export default function UserDashboard() {
         staleTime: 3*60*1000,
         retry: 3 // retry the failed queries
     });//TODO write pending component
-    const userInfo: UserInfoDto = data ?
-        new UserInfoDto(data.name, data.email, data.picture) :
-        new UserInfoDto('', '', '');
+    const userInfo: UserInfoDomain = data ?
+        new UserInfoDomain(data.name, data.email, data.picture) :
+        new UserInfoDomain('', '', '');
     return (
         <DashboardLayout userInfo={userInfo}>
             <div className='pr-4'>

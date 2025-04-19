@@ -14,14 +14,14 @@ import {
 import { FileText, Home, Settings, Upload, User } from "lucide-react"
 import Header from "./header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import UserInfoDto from "@/app/[lang]/user/UserInfoDto";
+import UserInfoDomain from "@/app/[lang]/user/queries/UserInfoDomain";
 import ZzipPureLogoSVG from "@/app/svg/zzip-logo-pure.svg";
 import Link from "next/link";
 import Image from "next/image";
 import ZzipLogoSVG from "@/app/svg/zzip-logo.svg";
 
 
-export default function DashboardLayout({ children, userInfo }: { children: ReactNode,userInfo:UserInfoDto }) {
+export default function DashboardLayout({ children, userInfo }: { children: ReactNode,userInfo:UserInfoDomain }) {
     return (
         <SidebarProvider>
             <div className="flex h-screen w-full">

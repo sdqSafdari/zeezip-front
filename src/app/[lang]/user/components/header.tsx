@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Bell, LogOut, Settings, User } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import UserInfoDto from "@/app/[lang]/user/UserInfoDto";
+import UserInfoDomain from "@/app/[lang]/user/queries/UserInfoDomain";
 
-export default function Header({userInfo}:{userInfo:UserInfoDto}) {
+export default function Header({userInfo}:{userInfo:UserInfoDomain}) {
     return (
         <header className="flex h-16 items-center justify-between border-b px-4">
             <div className="flex items-center">
