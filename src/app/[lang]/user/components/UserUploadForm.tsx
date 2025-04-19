@@ -54,7 +54,7 @@ class FileWithProgress {
     public buildCustomHeader(relativePath:string){
         return {"X-File-Size":this.file.size,
         "X-File-Path":relativePath,
-        "X-File-Name": this.file.name}
+        "X-File-Name": encodeURIComponent(this.file.name)}
     }
 }
 export default function UserUploadForm({relativePath,userAccount}:{relativePath:string,userAccount:UserAccountDomain}) {
