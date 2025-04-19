@@ -51,25 +51,9 @@ export default function DashboardLayout({ children, userInfo }: { children: Reac
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/user/upload">
-                                        <Upload className="mr-2 h-4 w-4" />
-                                        Upload
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
                                     <Link href="/user/account">
                                         <User className="mr-2 h-4 w-4" />
                                         Account
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link href="/user/settings">
-                                        <Settings className="mr-2 h-4 w-4" />
-                                        Settings
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

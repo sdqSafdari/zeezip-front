@@ -87,7 +87,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
     }
     const uploadFilesMutation = useMutation({
         mutationFn: (fileWithProgress:FileWithProgress) => {
-            console.log("sending a file");
+            console.log("sending a file: ",fileWithProgress.file.name);
             const formData: FormData = new FormData();
             formData.append("file-data", fileWithProgress.file,'');
            return  axios.post(createHttpClientUserStoreFileURL()

@@ -4,6 +4,8 @@ export default class UserAccountDomain{
     usedTraffic:number;
     allowedVolume:number;
     allowedTraffic:number;
+    usedStreamDownloadTraffic:number;
+    allowedStreamDownloadTraffic:number;
     planEnds:string;
     planReset:string;
 
