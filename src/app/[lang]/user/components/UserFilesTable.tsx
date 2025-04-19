@@ -247,7 +247,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                                 <TableCell></TableCell>
                             </TableRow>
                             :
-                            userFiles.map((file) => (
+                            userFiles.filter(file=>file.directory || file.size > 0).map((file) => (
                             <TableRow key={file.id}>
                                 <TableCell>
                                     {file.directory?null:
