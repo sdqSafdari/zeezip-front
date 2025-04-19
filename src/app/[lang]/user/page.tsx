@@ -10,6 +10,8 @@ import UserFilesTable from "@/app/[lang]/user/components/UserFilesTable";
 import UserMetrics from "@/app/[lang]/user/components/UserMetrics";
 import {useState} from "react";
 import useQuery_userAccount from "@/app/[lang]/user/queries/UserAccountInfoQuery";
+import useQuery_userInfo from "@/app/[lang]/user/queries/UserInfoQuery";
+import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 
 interface UserInfoResponse{
     name: string;
@@ -19,18 +21,13 @@ interface UserInfoResponse{
 export default function UserDashboard() {
     const [relativePath, setRelativePath] = useState("/");
     const {userAccount,userAccount_isError,userAccount_isFetching} = useQuery_userAccount();
-
-    const {data,status}:{data:UserInfoResponse,status:string} = useQuery({
-        queryKey: ['user','userData'], // used as cache key
-        queryFn: ({queryKey}) => {
-            return axios.get(createHttpClientUserInfoURL()).then(res=> res.data);
-        },
-        staleTime: 3*60*1000,
-        retry: 3 // retry the failed queries
-    });//TODO write pending component
-    const userInfo: UserInfoDomain = data ?
-        new UserInfoDomain(data.name, data.email, data.picture) :
-        new UserInfoDomain('', '', '');
+    const {userInfo,userInfo_isFetching,userInfo_isError} = useQuery_userInfo();
+    if (userInfo_isFetching) {
+        return (
+            <div className='flex justify-center items-center h-screen'>
+                <LoadingSpinner/>
+            </div>)
+    }
     return (
         <DashboardLayout userInfo={userInfo}>
             <div className='pr-4'>
