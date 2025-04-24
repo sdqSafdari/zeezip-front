@@ -54,8 +54,9 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     onError:(error,fileId)=>{
             console.error(JSON.stringify(error))
     },
-    onSuccess:(data)=>{
-            queryClient.invalidateQueries({queryKey:['user']});
+    onSuccess:(data,fileId)=>{
+        queryClient.invalidateQueries({queryKey:['user',"userFiles",getParentRelativePath(fileId)]});
+        queryClient.invalidateQueries({queryKey:['user',"userMetrics"]});
     }});
 
     function handleDownload(relativeFileId:string){

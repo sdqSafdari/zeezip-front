@@ -34,6 +34,7 @@ class FileWithProgress {
     progress: number;
     status: 'pending' | 'uploading' | 'completed' | 'error';
     abortController: AbortController;
+    relativePath:string;
 
     constructor(file: File, progress: number, status: "pending" | "uploading" | "completed" | "error", abortController: AbortController) {
         this.file = file;
@@ -51,9 +52,9 @@ class FileWithProgress {
     public isWaitingForServer():boolean{
         return this.status=='uploading' && this.progress==100;
     }
-    public buildCustomHeader(relativePath:string){
+    public buildCustomHeader(){
         return {"X-File-Size":this.file.size,
-        "X-File-Path":relativePath,
+        "X-File-Path":this.relativePath,
         "X-File-Name": encodeURIComponent(this.file.name)}
     }
 }
@@ -69,7 +70,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
         const axiosRequestConfig :AxiosRequestConfig= {};
         fileWithProgress.status = 'uploading' as const;
         axiosRequestConfig.signal = fileWithProgress.abortController.signal;
-        axiosRequestConfig.headers = fileWithProgress.buildCustomHeader(relativePath);
+        axiosRequestConfig.headers = fileWithProgress.buildCustomHeader();
         axiosRequestConfig.onUploadProgress= (progressEvent)=>{
             const total = progressEvent.total;
             const current = progressEvent.loaded;
@@ -95,7 +96,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
                createAxiosRequestConfig(fileWithProgress));
 
         },
-        onSuccess: (responseEntity,fileWithProgress) => {
+        onSuccess: (responseEntity,fileWithProgress:FileWithProgress) => {
             const {data}=responseEntity;
 
             setFiles(prevFiles =>
@@ -107,7 +108,8 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
                 })
             )
             // pass data to FileMetadataTable
-            queryClient.invalidateQueries({queryKey:['user']});
+            queryClient.invalidateQueries({queryKey:['user',"userFiles",fileWithProgress.relativePath]});
+            queryClient.invalidateQueries({queryKey:['user',"userMetrics"]});
         },
         onError: (error,fileWithProgress) => {
             fileWithProgress.status='error';
@@ -171,6 +173,7 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
         if (isVolumeLimitReachedRef.current || isTrafficLimitReachedRef.current) return;
 
         for (const file of files) {
+            file.relativePath=relativePath;
             uploadFilesMutation.mutate(file);
         }
     }
