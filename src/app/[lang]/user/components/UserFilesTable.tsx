@@ -146,7 +146,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
         if (relativePath.endsWith('/')){
             return relativePath.substring(0,relativePath.slice(0,-1).lastIndexOf('/')+1);
         } else {
-            return relativePath.substring(0,relativePath.lastIndexOf('/'));
+            return relativePath.substring(0,relativePath.lastIndexOf('/')+1);
         }
     }
 
