@@ -11,9 +11,10 @@ import {RotateCw} from "lucide-react";
 import {MutableRefObject, useRef} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
 import UserAccountDomain from "@/app/[lang]/user/queries/UserAccountDomain";
+import useMutation_tryResetPlan from "@/app/[lang]/user/queries/UserPlanResetMutation";
 
 export default function UserMetrics({userAccount,isFetching,isError}:{userAccount:UserAccountDomain,isFetching:boolean,isError:boolean}){
-    const queryClient = useQueryClient();
+    const tryResetPlan = useMutation_tryResetPlan();
     const refreshButtonRef:MutableRefObject<undefined | HTMLButtonElement> = useRef();
 
     const userMetric = userAccount;
@@ -75,7 +76,7 @@ export default function UserMetrics({userAccount,isFetching,isError}:{userAccoun
                       variant="outline"
                       ref={refreshButtonRef as MutableRefObject<HTMLButtonElement>}
                       className='flex items-center justify-center rounded-full p-0 h-[2.4rem] w-[2.4rem] hover:text-green-700'
-                      onClick={()=>refreshMetrics(refreshButtonRef,queryClient)}
+                      onClick={()=>refreshMetrics(refreshButtonRef,tryResetPlan)}
               >
                   <RotateCw className='h-[1.2rem] w-[1.2rem]'/>
               </Button>
@@ -83,8 +84,8 @@ export default function UserMetrics({userAccount,isFetching,isError}:{userAccoun
       </div>
     );
 }
-function refreshMetrics(refreshButtonRef,queryClient){
+function refreshMetrics(refreshButtonRef,tryResetPlan){
     refreshButtonRef.current.disabled = true;
-    queryClient.invalidateQueries({queryKey: ['user', 'userMetrics']});
+    tryResetPlan.mutate();
     setTimeout(() => refreshButtonRef.current.disabled = false, 1000 * 10);
 }

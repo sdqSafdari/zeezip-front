@@ -59,6 +59,9 @@ export function createHttpClientUserFileURL(): string{
 export function createHttpClientUserMetricsURL(): string{
     return '/protected/user/account/info';
 }
+export function createHttpClientTryResetPlanURL():string{
+    return '/protected/user/account/try-reset';
+}
 export function createHttpClientUserDirURL():string{
     return '/bff/private/dir';
 }

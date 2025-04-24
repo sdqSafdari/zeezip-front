@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import {useRef, useState} from "react"
 import { Calendar, CreditCard, Download, HardDrive, Home, RefreshCw, Settings, User, Wifi } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,9 +10,12 @@ import {formatFileSize} from "@/app/utils/FileUtils";
 import useQuery_userAccount from "@/app/[lang]/user/queries/UserAccountInfoQuery";
 import useQuery_userInfo from "@/app/[lang]/user/queries/UserInfoQuery";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
+import useMutation_tryResetPlan from "@/app/[lang]/user/queries/UserPlanResetMutation";
 
 export default function UserAccountInfo() {
     const [activeTab, setActiveTab] = useState("overview")
+    const tryResetPlan = useMutation_tryResetPlan();
+    const refreshButton = useRef(null);
     const {userAccount, userAccount_isFetching, userAccount_isError } = useQuery_userAccount();
     const {userInfo, userInfo_isFetching, userInfo_isError} = useQuery_userInfo();
 
@@ -21,6 +24,11 @@ export default function UserAccountInfo() {
             <div className='flex justify-center items-center h-full'>
                 <LoadingSpinner/>
             </div>)
+    }
+    const handleRefresh = ()=>{
+        refreshButton.current.disabled = true;
+        tryResetPlan.mutate();
+        setTimeout(() => refreshButton.current.disabled = false, 1000 * 10);
     }
 
     // Calculate percentages for progress bars
@@ -38,7 +46,7 @@ export default function UserAccountInfo() {
                 <div className="flex flex-col gap-4 md:gap-8">
                     <div className="flex items-center justify-between">
                         <h1 className="text-2xl font-bold tracking-tight">Account</h1>
-                        <Button variant="outline" size="sm" className="hidden md:flex">
+                        <Button ref={refreshButton} variant="outline" size="sm" className="hidden md:flex" onClick={handleRefresh}>
                             <RefreshCw className="mr-2 h-4 w-4" />
                             Refresh
                         </Button>
