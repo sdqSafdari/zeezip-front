@@ -11,7 +11,7 @@ interface UserInfoResponse{
     picture: string;
 }
 export default function useQuery_userInfo(){
-    const {data,isFetching,isError}:{data:UserInfoDomain} = useQuery({
+    const {data,isFetching,isError,isPending}:{data:UserInfoDomain} = useQuery({
         queryKey: ['user','userData'], // used as cache key
         queryFn: ({queryKey}) => {
             return axios.get(createHttpClientUserInfoURL())
@@ -26,6 +26,7 @@ export default function useQuery_userInfo(){
     return {
         userInfo:data,
         userInfo_isFetching:isFetching,
-        userInfo_isError:isError
+        userInfo_isError:isError,
+        userInfo_isPending:isPending
     }
 }

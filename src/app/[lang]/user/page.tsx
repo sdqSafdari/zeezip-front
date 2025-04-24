@@ -21,8 +21,8 @@ interface UserInfoResponse{
 export default function UserDashboard() {
     const [relativePath, setRelativePath] = useState("/");
     const {userAccount,userAccount_isError,userAccount_isFetching} = useQuery_userAccount();
-    const {userInfo,userInfo_isFetching,userInfo_isError} = useQuery_userInfo();
-    if (userInfo_isFetching) {
+    const {userInfo,userInfo_isFetching,userInfo_isError,userInfo_isPending} = useQuery_userInfo();
+    if (userInfo_isPending) {
         return (
             <div className='flex justify-center items-center h-screen'>
                 <LoadingSpinner/>
