@@ -74,29 +74,26 @@
         "title": "Free",
         "subtitle": "Get started with basic features",
         "price": "$0",
-        "features": ["5GB Storage", "Basic Twitter downloads", "Basic Instagram downloads"]
+        "features": ["1GB Cloud Storage", "2GB Cloud Storage Traffic", "Half gigabyte of Audio/Video stream download"]
       },
       "pro": {
-        "title": "Pro",
-        "subtitle": "Perfect for regular users",
-        "price": "$9.99",
+        "title": "Basic",
+        "subtitle": "Suitable for surfing the internet",
+        "price": "$4.99",
         "features": [
-          "100GB Storage",
-          "Advanced Twitter downloads",
-          "Advanced Instagram downloads",
-          "Faster download speeds"
+          "50GB Cloud Storage",
+          "200GB Cloud Storage Traffic",
+          "50GB of Audio/Video stream download"
         ]
       },
       "business": {
-        "title": "Business",
-        "subtitle": "For teams and businesses",
-        "price": "$29.99",
+        "title": "Pro",
+        "subtitle": "Perfect for pro users",
+        "price": "$9.99",
         "features": [
-          "1TB Storage",
-          "Premium Twitter downloads",
-          "Premium Instagram downloads",
-          "Team collaboration",
-          "Priority support"
+          "500GB Cloud Storage",
+          "2TB Cloud Storage Traffic",
+          "500GB of Audio/Video stream download"
         ]
       }
     }
