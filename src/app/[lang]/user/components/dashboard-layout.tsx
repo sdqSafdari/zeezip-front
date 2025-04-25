@@ -11,7 +11,7 @@ import {
     SidebarProvider,
     SidebarFooter,
 } from "@/components/ui/sidebar"
-import { FileText, Home, Settings, Upload, User } from "lucide-react"
+import {FileText, Home, Settings, TvMinimalPlay, Upload, User} from "lucide-react"
 import Header from "./header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import UserInfoDomain from "@/app/[lang]/user/queries/UserInfoDomain";
@@ -19,9 +19,34 @@ import ZzipPureLogoSVG from "@/app/svg/zzip-logo-pure.svg";
 import Link from "next/link";
 import Image from "next/image";
 import ZzipLogoSVG from "@/app/svg/zzip-logo.svg";
+import {useParams, usePathname} from "next/navigation";
 
 
 export default function DashboardLayout({ children, userInfo }: { children: ReactNode,userInfo:UserInfoDomain }) {
+    const pathname = usePathname();
+    const params = useParams();
+
+    const routes = [
+        {
+            name: "Dashboard",
+            href: `/${params.lang}/user`,
+            icon: <Home className="mr-2 h-4 w-4"/>
+        },
+        {
+            name: "My Files",
+            href: `/${params.lang}/user/files`,
+            icon: <FileText className="mr-2 h-4 w-4"/>
+        },
+        {
+            name: "Stream Download",
+            href: `/${params.lang}/user/stream-download`,
+            icon: <TvMinimalPlay className="mr-2 h-4 w-4"/>
+        }, {
+            name: "Account",
+            href: `/${params.lang}/user/account`,
+            icon: <User className="mr-2 h-4 w-4"/>
+        }
+    ]
     return (
         <SidebarProvider>
             <div className="flex h-screen w-full">
@@ -33,30 +58,19 @@ export default function DashboardLayout({ children, userInfo }: { children: Reac
                     </SidebarHeader>
                     <SidebarContent>
                         <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link href={'/user'}>
-                                        <Home className="mr-2 h-4 w-4" />
-                                        Dashboard
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link href="/user/files">
-                                        <FileText className="mr-2 h-4 w-4" />
-                                        My Files
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link href="/user/account">
-                                        <User className="mr-2 h-4 w-4" />
-                                        Account
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
+                            {routes.map(route=>{
+                                const selectedItemClass= pathname === route.href ? 'bg-gradient-to-r from-blue-500/50 via-blue-600/40 to-transparent text-white hover:text-white' : '';
+                                return(
+                                <SidebarMenuItem key={route.href}>
+                                    <SidebarMenuButton asChild>
+                                        <Link href={route.href} className={selectedItemClass}>
+                                            {route.icon}
+                                            {route.name}
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                                );
+                            })}
                         </SidebarMenu>
                     </SidebarContent>
                     <SidebarFooter>
