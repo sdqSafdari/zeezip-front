@@ -12,6 +12,14 @@ import {getStaticServerSideBaseURL} from "@/app/utils/LinkUtils";
 import SmallScreenNavMenu from "@/app/[lang]/SmallScreenNavMenu";
 
 export async function generateMetadata({ params }) {
+    const translations = {
+        en: {
+            description: 'file sharing With zzip and stay anonymous and free. share files, upload files, transfer files, and send files easily.'
+        },
+        fa: {
+            description: 'فایل های خود را به صورت ناشناس و رایگان به اشتراک بگذارید. اشتراک گذاری فایل، آپلود فایل، انتقال فایل به راحتی.'
+        }
+    }
     const beforeProxyBaseURL = getStaticServerSideBaseURL();
     return {
         alternates: {
@@ -19,7 +27,8 @@ export async function generateMetadata({ params }) {
                 'en': `${beforeProxyBaseURL}/en/public-share`,
                 'fa': `${beforeProxyBaseURL}/fa/public-share`,
             },
-        }
+        },
+        description: translations[params.lang].description
     }
 }
 
