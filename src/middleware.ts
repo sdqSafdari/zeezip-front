@@ -36,8 +36,13 @@ export function middleware(request: NextRequest) {
 
         // e.g. incoming request is /products
         // The new URL is now /en/products or /fa/products depending on the locale
+        const proto = request.headers.get('X-Forwarded-Proto') || 'https';
+        const host = request.headers.get('X-Forwarded-Host') || request.headers.get('host');
+
+        // construct full URL with original proto and host
+        const baseUrl = `${proto}://${host}`;
         return NextResponse.redirect(
-            new URL(`/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`, request.url),
+            new URL(`/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`, baseUrl),
         )
     }
 }
