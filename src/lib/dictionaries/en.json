@@ -16,8 +16,8 @@
     "langSwitcher": "Language"
   },
   "hero": {
-    "title": "Save audio and video straight to your personal cloud.",
-    "subtitle": "Download Audio/Video streams from many platforms such as TED talks, SoundCloud, Instagram, ... — all with zzip.",
+    "title": "Cloud Storage with Audio/Video Streams Download",
+    "subtitle": "Download Audio/Video streams from many platforms such as TED talks, SoundCloud, Instagram, ... and put it directly inside your cloud storage— all with zzip.",
     "startFree": "Start for Free",
     "learnMore": "Learn More",
     "imageAlt": "Cloud Storage Dashboard"
@@ -26,7 +26,7 @@
     "title": "Powerful Features",
     "subtitle": "Everything you need to store, download, and share your files with confidence.",
     "cloud": {
-      "title": "Cloud Storage",
+      "title": "Economical Cloud Storage",
       "description": "Securely store your files in the cloud and access them from anywhere, on any device."
     },
     "stream": {
