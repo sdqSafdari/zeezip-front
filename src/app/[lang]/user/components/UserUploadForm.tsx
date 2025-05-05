@@ -185,8 +185,8 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
 
     return (
         <Card className="w-full md:w-1/3 md:basis-2/5 border-[#7f7669] bg-transparent">
-            <CardHeader>
-                <CardTitle className='text-green-700'>Upload Box</CardTitle>
+            <CardHeader className="p-4">
+                <CardTitle className='text-green-700 text-base md:text-lg'>Upload Box</CardTitle>
             </CardHeader>
             <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-4">

@@ -19,6 +19,7 @@ import {formatFileSize, formatUTCTimeToLocal} from "@/app/utils/FileUtils";
 import MakeDirectoryModal from "@/app/[lang]/user/components/MakeDirectoryModal";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 import FileActions from "@/app/[lang]/user/components/FileActions";
+import {cn} from "@/lib/utils";
 
 export interface UserFileMetadata{
     id:string;
@@ -153,9 +154,9 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     return (
         <Card className='border-[#7f7669] my-8'>
             <CardHeader>
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                        <CardTitle className='text-green-700'>Private Storage</CardTitle>
+                <div className="flex items-end justify-between">
+                    <div className={cn("flex items-end justify-start gap-4 space-x-4 w-1/4",selectedCount>0 && "w-1/2")}>
+                        <CardTitle className='text-green-700 max-w-1/2 text-base md:text-lg'>Private Storage</CardTitle>
                         <MakeDirectoryModal relativePath={relativePath}/>
                         {selectedCount > 0 && (
                             <DropdownMenu>
@@ -177,8 +178,8 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                             </DropdownMenu>
                         )}
                     </div>
-                    <div className="flex items-center space-x-2 text-sm">
-            <span className="text-muted-foreground">
+                    <div className="flex flex-col md:flex-row items-end space-x-2 text-sm">
+            <span className="text-muted-foreground text-sm md:text-base">
               Showing {startIndex + 1}-{Math.min(endIndex, totalFiles)} of {totalFiles}
             </span>
                         <Select

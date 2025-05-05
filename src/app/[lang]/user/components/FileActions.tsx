@@ -17,12 +17,12 @@ export default function FileActions({userFile,relativePath,handleFileDelete,hand
                                       open={showDeleteDialog}/>
                         <Button
                             variant="outline"
+                            size="icon"
                             onClick={(e) => {
                                 setShowDeleteDialog(true);
                             }}
                         >
-                            <Trash2 className="mr-2 h-4 w-4"/>
-                            Delete
+                            <Trash2 className="h-4 w-4"/>
                         </Button>
             </>
         );

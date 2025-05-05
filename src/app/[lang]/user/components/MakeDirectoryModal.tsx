@@ -58,8 +58,8 @@ export default function MakeDirectoryModal({relativePath}){
         <Dialog open={isNewFolderDialogOpen} onOpenChange={setIsNewFolderDialogOpen}>
         <DialogTrigger asChild>
             <Button variant="outline" size="sm" className="h-8 border-blue-700 border-2">
-                <FolderPlus className="mr-2 h-4 w-4" />
-                New Folder
+                <FolderPlus className="h-4 w-4" />
+                <span className="hidden md:inline">New Folder</span>
             </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
