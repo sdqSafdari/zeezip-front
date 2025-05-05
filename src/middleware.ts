@@ -54,6 +54,6 @@ export const config = {
     // - _next/image (image optimization files)
     // - favicon.ico (favicon file)
     // - and files with extensions (.jpg, .png, etc.)
-    matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico|favicon.svg|.*\\..*).*)"],
 }
 
