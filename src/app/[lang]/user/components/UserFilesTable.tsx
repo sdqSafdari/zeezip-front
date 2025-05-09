@@ -155,13 +155,15 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
         <Card className='border-[#7f7669] my-8'>
             <CardHeader>
                 <div className="flex items-end justify-between">
-                    <div className={cn("flex items-end justify-start gap-4 space-x-4 w-1/4",selectedCount>0 && "w-1/2")}>
-                        <CardTitle className='text-green-700 max-w-1/2 text-base md:text-lg'>Private Storage</CardTitle>
-                        <MakeDirectoryModal relativePath={relativePath}/>
+                    <div className="flex items-end justify-start gap-4">
+                        <CardTitle className='text-green-700 text-base md:text-lg'>Private Storage</CardTitle>
+                        <div className={selectedCount > 0 ? "hidden lg:block" : ""}>
+                            <MakeDirectoryModal relativePath={relativePath}/>
+                        </div>
                         {selectedCount > 0 && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" size="sm" className="h-8">
+                                    <Button variant="outline" size="sm" className="h-8 border-2">
                                         Actions ({selectedCount})
                                     </Button>
                                 </DropdownMenuTrigger>
