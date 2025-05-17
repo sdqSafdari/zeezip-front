@@ -48,7 +48,7 @@ export function createHttpClientCaptchaURL():string{
 }
 
 export function createHttpClientUserInfoURL():string{
-    return "/protected/user/info"
+    return "/protected/iam/info"
 }
 export function createHttpClientUserFilesListURL(): string {
     return "/bff/private/file/list";
@@ -57,10 +57,10 @@ export function createHttpClientUserFileURL(): string{
     return `/bff/private/file`;
 }
 export function createHttpClientUserMetricsURL(): string{
-    return '/protected/user/account/info';
+    return '/protected/iam/account/info';
 }
 export function createHttpClientTryResetPlanURL():string{
-    return '/protected/user/account/try-reset';
+    return '/protected/iam/account/try-reset';
 }
 export function createHttpClientUserDirURL():string{
     return '/bff/private/dir';

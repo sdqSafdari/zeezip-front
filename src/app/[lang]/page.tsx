@@ -21,7 +21,7 @@ import SmallScreenNavMenu from "@/app/[lang]/SmallScreenNavMenu";
 export async function generateMetadata({ params }) {
     const translations = {
         en: {
-            description: 'Cheap cloud storage with Audio/Video Stream download capability. Download audio/video streams directly to your cloud storage. Access & share your media library from anywhere.'
+            description: 'Cloud storage with Audio/Video Stream download capability. Download audio/video streams directly to your cloud storage. Access & share your media library from anywhere.'
         },
         fa: {
             description: 'فضای ابری مقرون به صرفه به همراه امکان دانلود از پلفرم های چند رسانه‌ای. به راحتی استریم های صوتی/تصویری را در فضای ابری خود ذخیره کنید. انواغ فایل‌ها را در فضای ابری خود ذخیره کنید و به اشتراک بگذارید. '
