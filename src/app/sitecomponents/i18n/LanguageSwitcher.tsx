@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Globe } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 import {cn} from "@/lib/utils";
+import Cookies from 'js-cookie';
 
 export function LanguageSwitcher({ currentLang,children,className }: { currentLang: string,children?:React.ReactNode,className?:string }) {
     const router = useRouter()
@@ -17,7 +18,15 @@ export function LanguageSwitcher({ currentLang,children,className }: { currentLa
         const pathWithoutLang = pathname?.split("/").slice(2).join("/") || ""
         const newPath = `/${lang}/${pathWithoutLang}`
 
-        router.push(newPath)
+        Cookies.set('lang',lang,{
+            path: '/',
+            // No expiration makes it a session cookie that persists until deleted
+            // But to make it truly persistent across sessions, set a far future date
+            expires: 365 * 10, // 10 years ~ "permanent"
+            sameSite: 'Lax',
+            secure: true,
+        });
+        router.push(newPath);
     }
 
     return (

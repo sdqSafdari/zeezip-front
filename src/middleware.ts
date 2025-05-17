@@ -9,6 +9,10 @@ const defaultLocale = "en"
 
 // Get the preferred locale from the request
 function getLocale(request: NextRequest): string {
+    if (request.cookies.has('lang')){
+        const lang = request.cookies.get('lang').value;
+        return match(lang,locales,defaultLocale);
+    }
     // Negotiator expects a plain object, so we need to convert headers
     const negotiatorHeaders: Record<string, string> = {}
     request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
@@ -54,6 +58,6 @@ export const config = {
     // - _next/image (image optimization files)
     // - favicon.ico (favicon file)
     // - and files with extensions (.jpg, .png, etc.)
-    matcher: ["/((?!api|_next/static|_next/image|favicon.ico|favicon.svg|.*\\..*).*)"],
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico|favicon.svg|favicon.png|.*\\..*).*)"],
 }
 
