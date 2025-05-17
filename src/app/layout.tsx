@@ -19,10 +19,10 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ZZIP",
+  title: "zzip",
   description: "Share your Files securely. With zzip stay anonymous and free.",
   icons:{
-    icon: "/favicon.svg"
+    icon: "/favicon.png"
   },
   verification: {
     google: "QIt7PX8I0BiYcdfKKM5bXQQKFp98goUT5uvBKvWDWPw"
