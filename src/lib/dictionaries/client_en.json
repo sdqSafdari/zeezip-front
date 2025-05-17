@@ -19,5 +19,18 @@
       "completeTheCaptcha": "Please complete the CAPTCHA!",
       "limitReached200Mb": "200Mb limit reached!"
     }
+  },
+  "errorFallback": {
+    "unauthorized": {
+      "title": "You aren't logged in.",
+      "description": "You aren't logged in or your session has expired.",
+      "instruction": "You will be redirected to the login page shortly."
+    },
+    "general": {
+      "title": "An error occurred",
+      "description": "Something Went Wrong!",
+      "instruction": "Please contact support!",
+      "tryAgain": "Try again"
+    }
   }
 }

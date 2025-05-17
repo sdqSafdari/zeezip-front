@@ -15,7 +15,16 @@ function makeQueryClient() {
                 // With SSR, we usually want to set some default staleTime
                 // above 0 to avoid refetching immediately on the client
                 staleTime: 60 * 1000,
+                throwOnError: (error) => {  // to throw errors on next rendering and handle it with `Error Boundaries`
+                    // Only throw if it's a 401
+                    return (error as any)?.response?.status == 401
+                }
             },
+            mutations: {
+                throwOnError: (error) => {
+                    return (error as any)?.response?.status === 401
+                }
+            }
         },
     });
 }

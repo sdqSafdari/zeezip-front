@@ -22,6 +22,19 @@ export type ClientDictionary = {
             completeTheCaptcha: string
             limitReached200Mb: string
         }
+    },
+    errorFallback: {
+        unauthorized: {
+            title: string
+            description: string
+            instruction: string
+        },
+        general: {
+            title: string
+            description: string
+            instruction: string
+            tryAgain: string
+        }
     }
 }
 
