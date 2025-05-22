@@ -2,13 +2,13 @@
 
 import * as React from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 import {Check, Upload, X} from "lucide-react"
 import UploadProgressBar from "@/app/sitecomponents/upload/UploadProgressBar";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios, {AxiosHeaders, AxiosRequestConfig} from "axios";
-import {MutableRefObject, useRef, useState} from "react";
-import {formatFileSize} from "@/app/utils/FileUtils";
+import {MutableRefObject, useCallback, useRef, useState} from "react";
+import {formatFileSize, formatFileSizeWithLocale} from "@/app/utils/FileUtils";
 import SuccessfulTick from "@/app/sitecomponents/upload/SuccessfulTick";
 import DownloadPageLinkComponent from "@/app/sitecomponents/upload/DownloadPageLinkComponent";
 import {
@@ -28,6 +28,9 @@ import {bool} from "prop-types";
 import {Progress} from "@/components/ui/progress";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 import UserAccountDomain from "@/app/[lang]/user/queries/UserAccountDomain";
+import {cn} from "@/lib/utils";
+import {useParams} from "next/navigation";
+import {formatMessage, getClientDashboardDictionary} from "@/lib/ClientDashboardDictionary";
 
 class FileWithProgress {
     file:File;
@@ -64,6 +67,10 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     const isTrafficLimitReachedRef = useRef(false);
     const isVolumeLimitReachedRef = useRef(false);
+    const [isDragging, setIsDragging] = useState(false);
+    const params = useParams();
+    const clientDashboardDictionary = getClientDashboardDictionary(params.lang);
+
 
     const queryClient = useQueryClient();
     function createAxiosRequestConfig(fileWithProgress:FileWithProgress):AxiosRequestConfig{
@@ -136,8 +143,13 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
+            addFiles(event.target.files);
+        }
+    }
+    function addFiles(newFiles){
+        if (newFiles){
             const fileNames = new Set(files.map(file=>file.file.name));
-            const filteredFiles:FileWithProgress[] = Array.from(event.target.files || []).filter(file => !fileNames.has(file.name)).map(sFile =>
+            const filteredFiles:FileWithProgress[] = Array.from(newFiles || []).filter(file => !fileNames.has(file.name)).map(sFile =>
                 (new FileWithProgress(
                         sFile,
                         0,
@@ -177,6 +189,37 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
             uploadFilesMutation.mutate(file);
         }
     }
+
+    const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    }, []);
+
+    const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    }, []);
+
+    const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!isDragging) setIsDragging(true);
+    }, [isDragging]);
+
+    const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            addFiles(e.dataTransfer.files);
+            e.dataTransfer.clearData();
+        }
+    }, []);
+
+
     const totalSize = files.filter(fileWithProgress=>fileWithProgress.status == 'pending').reduce((acc, file) => acc + file.file.size, 0);
     if (userAccount) {
         isTrafficLimitReachedRef.current = userAccount.isTrafficLimitReached(totalSize);
@@ -184,59 +227,57 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
     }
 
     return (
-        <Card className="w-full md:w-1/3 md:basis-2/5 border-[#7f7669] bg-transparent">
-            <CardHeader className="p-4">
-                <CardTitle className='text-green-700 text-base md:text-lg'>Upload Box</CardTitle>
+        <Card className={cn("w-full md:w-1/3 md:basis-2/5 border-2 border-dashed border-primary/20 bg-background/50",isDragging?"bg-primary/50":"")}
+              onDragEnterCapture={handleDragEnter}
+              onDragLeaveCapture={handleDragLeave}
+              onDragOverCapture={handleDragOver}
+              onDropCapture={handleDrop}
+        >
+            <CardHeader className="text-center">
+                <CardTitle
+                    className="text-2xl text-primary">{clientDashboardDictionary.upload.box.title}</CardTitle>
+                <CardDescription className="text-lg">{clientDashboardDictionary.upload.box.subtitle}</CardDescription>
             </CardHeader>
             <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-4">
                     <div className="flex flex-col items-center justify-center space-y-2">
-                            <>
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            onChange={handleFileChange}
-                            className="hidden"
-                            multiple
-                            id="file-upload"
-                        />
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="lg"
-                            className="w-full h-32 border-2 border-[#7f7669] border-dashed"
-                            onClick={handleUploadClick}
-                        >
-                            <div className="flex flex-col items-center space-y-2">
-                                {files.length > 0 ?
-                                    <>
-                                        <Upload className='h-8 w-8 text-green-700'/>
-                                        <span className="text-lg font-bold text-green-700">Upload More</span>
-                                    </>
-                                    :
-                                    <>
-                                        <Upload className="h-8 w-8"/>
-                                        <span>Click to upload files</span>
-                                    </>
-                                }
+                        <>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                onChange={handleFileChange}
+                                className="hidden"
+                                multiple
+                                id="file-upload"
+                            />
+                            <div
+                                className="w-full h-32"
+                            >
+                                <div className="flex flex-col items-center space-y-2 cursor-pointer hover:text-primary"
+                                     onClick={handleUploadClick}>
+                                        <>
+                                            <Upload className="h-8 w-8"/>
+                                            <span
+                                                className="text-lg font-medium">{clientDashboardDictionary.upload.box.clickToSelectFiles}</span>
+                                        </>
+                                </div>
                             </div>
-                        </Button>
-                            </>
+                        </>
                     </div>
                     {files.length > 0 && (
                         <div className="space-y-2">
                             <h3 className="font-medium">Selected Files:</h3>
                             <ul className="space-y-2">
                                 {files.map((fileWithProgress, index) =>
-                                (
-                                    <li key={index} className="rounded-md bg-secondary p-2">
-                                        <div className="flex items-start justify-between text-sm">
-                                            <div className="flex flex-col">
+                                        (
+                                            <li key={index} className="rounded-md bg-secondary p-2">
+                                                <div className="flex items-start justify-between text-sm">
+                                                    <div className="flex flex-col">
                                                 <span
                                                     className="font-medium truncate max-w-[200px]">{fileWithProgress.file.name}</span>
-                                                <span
-                                                    className="text-muted-foreground">{formatFileSize(fileWithProgress.file.size)}</span>
-                                            </div>
+                                                        <span
+                                                            className="text-muted-foreground">{formatFileSize(fileWithProgress.file.size)}</span>
+                                                    </div>
                                             {fileWithProgress.isWaitingForServer()?<LoadingSpinner className='p-2 border-4 border-b-green-700 border-t-green-700' />:
                                             <Button
                                                 type="button"
@@ -260,13 +301,13 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
                                 )
                                 )}
                                 {isTrafficLimitReachedRef.current ?
-                                        <li className="flex items-center justify-center text-lg bg-destructive rounded-md p-3">
-                                            <span className="font-medium truncate max-w-[200px]">Traffic limit reached!</span>
+                                        <li className="flex items-center justify-center text-sm bg-destructive rounded-md p-3">
+                                            <span className="font-medium truncate">{clientDashboardDictionary.upload.event.trafficLimitReached}</span>
                                         </li>
                                         :null}
                                 {isVolumeLimitReachedRef.current ?
-                                    <li className="flex items-center justify-center text-lg bg-destructive rounded-md p-3">
-                                        <span className="font-medium truncate max-w-[200px]">Storage limit reached!</span>
+                                    <li className="flex items-center justify-center text-sm bg-destructive rounded-md p-3">
+                                        <span className="font-medium truncate">{clientDashboardDictionary.upload.event.volumeLimitReached}</span>
                                     </li>
                                     :null}
                                 <Toaster />
@@ -274,15 +315,17 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
                         </div>
                     )}
                 </CardContent>
-                <CardFooter>
+                <CardFooter className={params.lang === "fa" ? "font-persian rtl" : ""}>
                         <div className='w-full'>
-                            <div className='font-medium mb-1'>Uploaded to {decodeURIComponent(relativePath)}</div>
+                            <div className='font-medium mb-1 border-2 rounded-md p-3 my-2'>{clientDashboardDictionary.upload.box.uploadPath}
+                                <span className="text-primary">{decodeURIComponent(relativePath)}</span>
+                            </div>
                                 <div className='w-full flex space-x-1'>
                                     <Button type="submit"
                                             className="text-center p-2 flex-grow"
                                             disabled={totalSize<1 || !userAccount || isTrafficLimitReachedRef.current || isVolumeLimitReachedRef.current}
                                     >
-                                        {`Upload All: ${formatFileSize(totalSize)}`}
+                                        {`${clientDashboardDictionary.upload.box.upload}: ${formatFileSizeWithLocale(totalSize,params.lang)}`}
                                     </Button>
                                 </div>
                         </div>

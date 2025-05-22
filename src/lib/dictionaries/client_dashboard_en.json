@@ -1,0 +1,21 @@
+{
+  "upload": {
+    "box": {
+      "title": "Drag & Drop Files Here",
+      "subtitle": "You can upload multiple files",
+      "maxSize": "Max free upload size: 200MB",
+      "clickToSelectFiles": "or click to browse",
+      "selectedFiles": "Selected Files:",
+      "upload": "upload",
+      "uploading": "uploading",
+      "cancel": "cancel",
+      "uploadMore": "upload more",
+      "successfulUpload": "Files are successfully uploaded.",
+      "uploadPath": "Your files will be uploaded to the following path: "
+    },
+    "event": {
+      "trafficLimitReached": "Traffic Limit Reached!",
+      "volumeLimitReached": "Volume Limit Reached!"
+    }
+  }
+}
