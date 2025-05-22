@@ -17,5 +17,12 @@
       "trafficLimitReached": "Traffic Limit Reached!",
       "volumeLimitReached": "Volume Limit Reached!"
     }
+  },
+  "metrics": {
+    "storage": "Storage Overview",
+    "traffic": "Traffic Overview",
+    "used": "used",
+    "free": "free",
+    "remained": "remained"
   }
 }

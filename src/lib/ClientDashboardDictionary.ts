@@ -24,6 +24,13 @@ export type ClientDashboardDictionary = {
             volumeLimitReached: string
         }
     }
+    metrics: {
+        storage: string
+        traffic: string
+        used: string
+        free: string
+        remained: string
+    }
     files: {
 
     }

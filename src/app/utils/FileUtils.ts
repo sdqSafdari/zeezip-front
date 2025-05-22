@@ -11,7 +11,7 @@ export function formatFileSize(bytes: number): string {
 }
 export function formatFileSizeWithLocale(bytes: number, locale: string){
     if (locale == 'en') {
-        formatFileSize(bytes);
+       return  formatFileSize(bytes);
     } else if ( bytes == 0 ){
         return `0 ${units.fa[0]}`
     } else {

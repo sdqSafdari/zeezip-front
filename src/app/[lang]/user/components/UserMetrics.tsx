@@ -5,26 +5,31 @@ import axios from "axios";
 import {createHttpClientUserInfoURL, createHttpClientUserMetricsURL} from "@/app/utils/LinkUtils";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Progress} from "@/components/ui/progress";
-import {formatFileSize} from "@/app/utils/FileUtils";
+import {formatFileSize, formatFileSizeWithLocale} from "@/app/utils/FileUtils";
 import {Button} from "@/components/ui/button";
 import {RotateCw} from "lucide-react";
 import {MutableRefObject, useRef} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
 import UserAccountDomain from "@/app/[lang]/user/queries/UserAccountDomain";
 import useMutation_tryResetPlan from "@/app/[lang]/user/queries/UserPlanResetMutation";
+import {useParams} from "next/navigation";
+import {getClientDashboardDictionary} from "@/lib/ClientDashboardDictionary";
 
 export default function UserMetrics({userAccount,isFetching,isError}:{userAccount:UserAccountDomain,isFetching:boolean,isError:boolean}){
     const tryResetPlan = useMutation_tryResetPlan();
     const refreshButtonRef:MutableRefObject<undefined | HTMLButtonElement> = useRef();
+    const params = useParams();
 
+    const locale:string= params.lang ?? 'en';
+    const clientDashboardDictionary = getClientDashboardDictionary(locale);
     const userMetric = userAccount;
 
     return(
       <div className='hidden md:flex items-start justify-start gap-4'>
-          <div>
+          <div className={locale === "fa" ? "font-persian rtl" : ""}>
               <Card>
                   <CardHeader>
-                      <CardTitle>Storage Overview</CardTitle>
+                      <CardTitle>{clientDashboardDictionary.metrics.storage}</CardTitle>
                   </CardHeader>
                   <CardContent>
                       <div className="space-y-4">
@@ -37,19 +42,19 @@ export default function UserMetrics({userAccount,isFetching,isError}:{userAccoun
                               :
                               <>
                                   <Progress value={Math.floor(userMetric.usedVolume * 100 / userMetric.allowedVolume)}
-                                            className="h-2 w-full"/>
-                                  <div>{formatFileSize(userMetric.usedVolume)} used</div>
-                                  <div>{formatFileSize(userMetric.allowedVolume - userMetric.usedVolume)} free</div>
+                                            className={`h-2 w-full ${locale=='fa' && 'scale-x-[-1]'}`}/>
+                                  <div>{`${formatFileSizeWithLocale(userMetric.usedVolume,locale)} ${clientDashboardDictionary.metrics.used}`}</div>
+                                  <div>{`${formatFileSizeWithLocale(userMetric.allowedVolume - userMetric.usedVolume,locale)} ${clientDashboardDictionary.metrics.free}`}</div>
                               </>
                           }
                       </div>
                   </CardContent>
               </Card>
           </div>
-          <div>
+          <div className={locale === "fa" ? "font-persian rtl" : ""}>
               <Card>
                   <CardHeader>
-                      <CardTitle>Traffic Overview</CardTitle>
+                      <CardTitle>{clientDashboardDictionary.metrics.traffic}</CardTitle>
                   </CardHeader>
                   <CardContent>
                       <div className="space-y-4">
@@ -62,9 +67,9 @@ export default function UserMetrics({userAccount,isFetching,isError}:{userAccoun
                               :
                               <>
                                   <Progress value={Math.floor(userMetric.usedTraffic * 100 / userMetric.allowedTraffic)}
-                                            className="h-2 w-full"/>
-                                  <div>{formatFileSize(userMetric.usedTraffic)} used</div>
-                                  <div>{formatFileSize(userMetric.allowedTraffic - userMetric.usedTraffic)} remained</div>
+                                            className={`h-2 w-full ${locale=='fa' && 'scale-x-[-1]'}`}/>
+                                  <div>{`${formatFileSizeWithLocale(userMetric.usedTraffic,locale)} ${clientDashboardDictionary.metrics.used}`}</div>
+                                  <div>{`${formatFileSizeWithLocale(userMetric.allowedTraffic - userMetric.usedTraffic,locale)} ${clientDashboardDictionary.metrics.remained}`}</div>
                               </>
                           }
                       </div>
