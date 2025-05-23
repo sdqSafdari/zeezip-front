@@ -149,7 +149,12 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
     function addFiles(newFiles){
         if (newFiles){
             const fileNames = new Set(files.map(file=>file.file.name));
-            const filteredFiles:FileWithProgress[] = Array.from(newFiles || []).filter(file => !fileNames.has(file.name)).map(sFile =>
+            const filteredFiles:FileWithProgress[] = Array.from(newFiles || [])
+                .filter((file, index, self) =>
+                    index === self.findIndex(f => f.name === file.name)
+                )
+                .filter(file => !fileNames.has(file.name))
+                .map(sFile =>
                 (new FileWithProgress(
                         sFile,
                         0,
@@ -184,7 +189,8 @@ export default function UserUploadForm({relativePath,userAccount}:{relativePath:
         if(!userAccount)return;
         if (isVolumeLimitReachedRef.current || isTrafficLimitReachedRef.current) return;
 
-        for (const file of files) {
+        const pendingFiles = files.filter(fileWithProgress=>fileWithProgress.status == 'pending');
+        for (const file of pendingFiles) {
             file.relativePath=relativePath;
             uploadFilesMutation.mutate(file);
         }
