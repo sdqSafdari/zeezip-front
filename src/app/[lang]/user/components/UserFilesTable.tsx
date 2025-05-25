@@ -20,6 +20,8 @@ import MakeDirectoryModal from "@/app/[lang]/user/components/MakeDirectoryModal"
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 import FileActions from "@/app/[lang]/user/components/FileActions";
 import {cn} from "@/lib/utils";
+import {useParams} from "next/navigation";
+import {DEFAULT_LOCALE, formatUTCTimeWithLocale} from "@/app/utils/TimeUtils";
 
 export interface UserFileMetadata{
     id:string;
@@ -34,6 +36,9 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     const [pageSize, setPageSize] = useState(10)
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set())
     const queryClient:QueryClient = useQueryClient();
+    const params = useParams();
+    const locale:string = params.lang ?? DEFAULT_LOCALE;
+
     const {data, status, isPlaceholderData,isFetching, isSuccess}:{data:UserFileMetadata[],status:string} = useQuery({
         queryKey: ['user',"userFiles",relativePath],
         queryFn: context => {
@@ -278,7 +283,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                                     </div>
                                 </TableCell>
                                 <TableCell>{file.directory?"":formatFileSize(file.size)}</TableCell>
-                                <TableCell>{file.directory?"":formatUTCTimeToLocal(file.lastModified)}</TableCell>
+                                <TableCell>{file.directory?"":formatUTCTimeWithLocale(file.lastModified,locale)}</TableCell>
                                 <TableCell>
                                     <FileActions handleDownload={handleDownload}
                                                  handleFileDelete={handleFileDelete}
