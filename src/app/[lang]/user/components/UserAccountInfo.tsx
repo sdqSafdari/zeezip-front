@@ -11,6 +11,8 @@ import useQuery_userAccount from "@/app/[lang]/user/queries/UserAccountInfoQuery
 import useQuery_userInfo from "@/app/[lang]/user/queries/UserInfoQuery";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 import useMutation_tryResetPlan from "@/app/[lang]/user/queries/UserPlanResetMutation";
+import {useParams} from "next/navigation";
+import {DEFAULT_LOCALE} from "@/app/utils/TimeUtils";
 
 export default function UserAccountInfo() {
     const [activeTab, setActiveTab] = useState("overview")
@@ -18,6 +20,7 @@ export default function UserAccountInfo() {
     const refreshButton = useRef(null);
     const {userAccount, userAccount_isFetching, userAccount_isError } = useQuery_userAccount();
     const {userInfo, userInfo_isFetching, userInfo_isError} = useQuery_userInfo();
+    const params = useParams();
 
     if (userInfo_isFetching || userAccount_isFetching) {
         return (
@@ -25,6 +28,7 @@ export default function UserAccountInfo() {
                 <LoadingSpinner/>
             </div>)
     }
+    const locale:string = params.lang ?? DEFAULT_LOCALE;
     const handleRefresh = ()=>{
         refreshButton.current.disabled = true;
         tryResetPlan.mutate();
@@ -67,7 +71,7 @@ export default function UserAccountInfo() {
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">{userAccount.accountPlan}</div>
-                                        <p className="text-xs text-muted-foreground">Renews on {userAccount.getPlanEndsInBrowserLocale()}</p>
+                                        <p className="text-xs text-muted-foreground">Renews on {userAccount.getPlanEndsWithLocale(locale)}</p>
                                     </CardContent>
                                 </Card>
 
@@ -89,7 +93,7 @@ export default function UserAccountInfo() {
                                         <Calendar className="h-4 w-4 text-muted-foreground" />
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="text-2xl font-bold">{userAccount.getNextResetInBrowserLocale()}</div>
+                                        <div className="text-2xl">{userAccount.getNextPlanResetWithLocale(locale)}</div>
                                         <p className="text-xs text-muted-foreground">Traffic limits will reset</p>
                                     </CardContent>
                                 </Card>
@@ -148,11 +152,11 @@ export default function UserAccountInfo() {
                                             </div>
                                             <div>
                                                 <p className="text-sm font-medium text-muted-foreground">Plan Ends</p>
-                                                <p>{userAccount.getPlanEndsInBrowserLocale()}</p>
+                                                <p>{userAccount.getPlanEndsWithLocale(locale)}</p>
                                             </div>
                                             <div>
                                                 <p className="text-sm font-medium text-muted-foreground">Plan Reset</p>
-                                                <p>{userAccount.getNextResetInBrowserLocale()}</p>
+                                                <p>{userAccount.getNextPlanResetWithLocale(locale)}</p>
                                             </div>
                                         </div>
                                         <Button className="w-full">Upgrade Plan</Button>

@@ -1,3 +1,5 @@
+import {formatUTCTimeWithLocale} from "@/app/utils/TimeUtils";
+
 export default class UserAccountDomain{
     accountPlan:string;
     usedVolume:number;
@@ -8,6 +10,7 @@ export default class UserAccountDomain{
     allowedStreamDownloadTraffic:number;
     planEnds:string;
     planReset:string;
+    nextPlanReset:string;
 
     isVolumeLimitReached(totalSize:number):boolean{
         return this.usedVolume+totalSize>this.allowedVolume;
@@ -15,32 +18,14 @@ export default class UserAccountDomain{
     isTrafficLimitReached(totalSize:number):boolean{
         return this.usedTraffic+totalSize>this.allowedTraffic;
     }
-    getNextResetInBrowserLocale(){
-      return this.#convertToBrowserLocal(this.planReset,30);
+    getNextPlanResetWithLocale(locale:string){
+      return formatUTCTimeWithLocale(this.nextPlanReset,locale);
     }
-    getPlanEndsInBrowserLocale(){
+    getPlanEndsWithLocale(locale:string){
         if (this.planEnds) {
-            return this.#convertToBrowserLocal(this.planEnds, 0);
+            return formatUTCTimeWithLocale(this.planEnds, locale);
         } else {
             return "Never";
         }
-    }
-    #convertToBrowserLocal(isoUTCtime:string,daysToAdd:number){
-        // Create Date object from ISO string
-        const utcTime = new Date(isoUTCtime);
-
-        // Add days
-        utcTime.setDate(utcTime.getDate() + daysToAdd);
-
-        // Format for local display
-        return utcTime.toLocaleString(undefined, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            timeZoneName: 'short',
-        }); // Uses browser's locale and timezone
     }
 }
