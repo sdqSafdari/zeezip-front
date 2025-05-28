@@ -46,12 +46,13 @@ export function ErrorFallback({ error, resetErrorBoundary }: Props) {
                         clientDictionary.errorFallback.unauthorized.instruction :
                         clientDictionary.errorFallback.general.instruction}
                 </p>
-
+                {unauthorized ? null :
                 <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
                     <Button onClick={resetErrorBoundary} variant="outline">
                         {clientDictionary.errorFallback.general.tryAgain}
                     </Button>
                 </div>
+                }
             </div>
         </div>
     )
