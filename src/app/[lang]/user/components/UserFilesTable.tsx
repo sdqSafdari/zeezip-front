@@ -161,7 +161,10 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
             <CardHeader>
                 <div className="flex items-end justify-between">
                     <div className="flex items-end justify-start gap-4">
-                        <CardTitle className='text-green-700 text-base md:text-lg'>Private Storage</CardTitle>
+                        <CardTitle className='text-green-700 text-base md:text-lg'>Private
+                            <br className="md:hidden" />
+                            <span className="md:ml-1">Storage</span>
+                        </CardTitle>
                         <div className={selectedCount > 0 ? "hidden lg:block" : ""}>
                             <MakeDirectoryModal relativePath={relativePath}/>
                         </div>
