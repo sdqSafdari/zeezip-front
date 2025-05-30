@@ -24,5 +24,18 @@
     "used": "used",
     "free": "free",
     "remained": "remained"
+  },
+  "files": {
+    "storage_L1": "Private",
+    "storage_L2": "Storage",
+    "actions": "Actions",
+    "newDir": {
+      "title": "New Folder",
+      "modal_title": "New Folder Creation",
+      "description": "Enter a name for your new folder. It will be created at the following location:"
+    },
+    "showing": "Showing",
+    "showing_of": "of",
+    "showing_fileNumber": "files"
   }
 }

@@ -24,5 +24,18 @@
     "used": "مصرف شده",
     "free": "آزاد",
     "remained": "باقی مانده"
+  },
+  "files": {
+    "storage_L1": "فضای شخصی ",
+    "storage_L2": "ابری",
+    "actions": "عملیات",
+    "newDir": {
+      "title": "پوشه جدید",
+      "modal_title": "ساخت پوشه جدید",
+      "description": ":نام پوشه جدید را وارد کنید. پوشه جدید در مسیر روبه‌رو ساخته میشود"
+    },
+    "showing": "نشان‌دادن",
+    "showing_of": "از",
+    "showing_fileNumber": "عدد فایل"
   }
 }

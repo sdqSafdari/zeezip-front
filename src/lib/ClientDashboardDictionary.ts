@@ -32,6 +32,18 @@ export type ClientDashboardDictionary = {
         remained: string
     }
     files: {
+        storage_L1: string
+        storage_L2: string
+        actions: string
+        newDir: {
+            title: string
+            modal_title: string
+            description: string
+        }
+        showing: string
+        showing_of: string
+        showing_fileNumber: string
+
 
     }
 

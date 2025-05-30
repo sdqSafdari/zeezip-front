@@ -18,6 +18,7 @@ import axios, {AxiosRequestConfig} from "axios";
 import {createHttpClientUserDirURL} from "@/app/utils/LinkUtils";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
 import {Alert, AlertDescription} from "@/components/ui/alert";
+import {getClientDashboardDictionary} from "@/lib/ClientDashboardDictionary";
 
 class CreateDirectoryDto{
     relativePath:string;
@@ -28,11 +29,12 @@ class CreateDirectoryDto{
         this.directoryName = directoryName;
     }
 }
-export default function MakeDirectoryModal({relativePath}){
+export default function MakeDirectoryModal({relativePath,locale}){
     const [newFolderName, setNewFolderName] = useState<string>(null);
     const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false)
     const inputRef = useRef(null);
     const queryClient = useQueryClient();
+    const clientDashboardDictionary = getClientDashboardDictionary(locale);
 
     const relativePathRevised= relativePath ? relativePath : "/";
     const createDirectoryMutation = useMutation({
@@ -59,14 +61,14 @@ export default function MakeDirectoryModal({relativePath}){
         <DialogTrigger asChild>
             <Button variant="outline" size="sm" className="h-8 border-2">
                 <FolderPlus className="h-4 w-4 text-blue-700" />
-                <span className="hidden md:inline">New Folder</span>
+                <span className="hidden md:inline text-lg">{clientDashboardDictionary.files.newDir.title}</span>
             </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Create New Folder</DialogTitle>
-                <DialogDescription>
-                    Enter a name for your new folder. It will be created at the following location:
+                <DialogTitle>{clientDashboardDictionary.files.newDir.modal_title}</DialogTitle>
+                <DialogDescription className="text-base">
+                    {clientDashboardDictionary.files.newDir.description}
                     <div className='text-blue-700'>{relativePath}</div>
                 </DialogDescription>
             </DialogHeader>

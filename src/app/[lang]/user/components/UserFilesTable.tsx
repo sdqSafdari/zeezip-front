@@ -22,6 +22,7 @@ import FileActions from "@/app/[lang]/user/components/FileActions";
 import {cn} from "@/lib/utils";
 import {useParams} from "next/navigation";
 import {DEFAULT_LOCALE, formatUTCTimeWithLocale} from "@/app/utils/TimeUtils";
+import {getClientDashboardDictionary} from "@/lib/ClientDashboardDictionary";
 
 export interface UserFileMetadata{
     id:string;
@@ -37,8 +38,9 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set())
     const queryClient:QueryClient = useQueryClient();
     const params = useParams();
-    const locale:string = params.lang ?? DEFAULT_LOCALE;
+    const locale:string = params.lang as string ?? DEFAULT_LOCALE;
 
+    const clientDashboardDictionary = getClientDashboardDictionary(locale);
     const {data, status, isPlaceholderData,isFetching, isSuccess}:{data:UserFileMetadata[],status:string} = useQuery({
         queryKey: ['user',"userFiles",relativePath],
         queryFn: context => {
@@ -161,18 +163,18 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
             <CardHeader>
                 <div className="flex items-end justify-between">
                     <div className="flex items-end justify-start gap-4">
-                        <CardTitle className='text-green-700 text-base md:text-lg'>Private
+                        <CardTitle className='text-green-700 text-base md:text-2xl'>{clientDashboardDictionary.files.storage_L1}
                             <br className="md:hidden" />
-                            <span className="md:ml-1">Storage</span>
+                            <span className="md:ml-1">{clientDashboardDictionary.files.storage_L2}</span>
                         </CardTitle>
                         <div className={selectedCount > 0 ? "hidden lg:block" : ""}>
-                            <MakeDirectoryModal relativePath={relativePath}/>
+                            <MakeDirectoryModal relativePath={relativePath} locale={locale}/>
                         </div>
                         {selectedCount > 0 && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="outline" size="sm" className="h-8 border-2">
-                                        Actions ({selectedCount})
+                                        {clientDashboardDictionary.files.actions} ({selectedCount})
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
@@ -190,7 +192,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                     </div>
                     <div className="flex flex-col md:flex-row items-end space-x-2 text-sm">
             <span className="text-muted-foreground text-sm md:text-base">
-              Showing {startIndex + 1}-{Math.min(endIndex, totalFiles)} of {totalFiles}
+              {clientDashboardDictionary.files.showing} {startIndex + 1}-{Math.min(endIndex, totalFiles)} {clientDashboardDictionary.files.showing_of} {totalFiles} {clientDashboardDictionary.files.showing_fileNumber}
             </span>
                         <Select
                             value={pageSize.toString()}
