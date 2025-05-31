@@ -28,7 +28,11 @@
   "files": {
     "storage_L1": "Private",
     "storage_L2": "Storage",
-    "actions": "Actions",
+    "actions": {
+      "title": "Actions",
+      "download_zip": "Download Zip",
+      "deselect": "Deselect"
+    },
     "newDir": {
       "title": "New Folder",
       "modal_title": "New Folder Creation",

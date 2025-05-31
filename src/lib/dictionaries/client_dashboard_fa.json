@@ -28,7 +28,11 @@
   "files": {
     "storage_L1": "فضای شخصی ",
     "storage_L2": "ابری",
-    "actions": "عملیات",
+    "actions": {
+      "title": "عملیات",
+      "download_zip": "دانلود زیپ",
+      "deselect": "لغو انتخاب"
+    },
     "newDir": {
       "title": "پوشه جدید",
       "modal_title": "ساخت پوشه جدید",

@@ -98,7 +98,7 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     const startIndex = (currentPage - 1) * pageSize
     const endIndex = startIndex + pageSize
     const currentFiles = userFiles.slice(startIndex, endIndex)
-    const currentFilesWithoutDirs = currentFiles.filter(file=>!file.directory);
+    const currentFilesWithoutDirs = currentFiles.filter(file=>!file.directory && file.size>0);
 
     const isAllCurrentPageSelected = currentFilesWithoutDirs.length==0 ? false  :currentFilesWithoutDirs.every((file) => selectedFiles.has(file.id))
     const isSomeCurrentPageSelected = currentFiles.some((file) => selectedFiles.has(file.id))
@@ -194,15 +194,15 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="outline" size="sm" className="h-8 border-2">
-                                        {clientDashboardDictionary.files.actions} ({selectedCount})
+                                        {clientDashboardDictionary.files.actions.title} ({selectedCount})
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
-                                    <DropdownMenuItem onClick={handleBulkDownload} className="text-green-700">
+                                    <DropdownMenuItem onClick={handleBulkDownload} className="text-green-700 md:text-base">
                                         <FileArchive className="mr-2 h-4 w-4"/>
                                         Download Zip
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={handleBulkDeselect} className="">
+                                    <DropdownMenuItem onClick={handleBulkDeselect} className="md:text-base">
                                         <MousePointerClick className="mr-2 h-4 w-4"/>
                                         Deselect
                                     </DropdownMenuItem>
