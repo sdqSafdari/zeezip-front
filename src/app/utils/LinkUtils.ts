@@ -30,6 +30,13 @@ export function createDirectUserFileDownloadLink(relativeFileId:string):string{
     const baseURL:string=window.location.origin;
     return `${baseURL}${createHttpClientUserFileURL()}?id=${encodeURIComponent(relativeFileId)}`;
 }
+export function createDirectUserFilesArchiveDownloadLink(relativeFileIds:string[]):string{
+    if (!window)
+        return "";
+    const baseURL:string=window.location.origin;
+    const constructedQueryParam = relativeFileIds.map(relativeFileId=>encodeURIComponent(relativeFileId)).join("&id=");
+    return `${baseURL}${createHttpClientUserBulkDownloadZipURL()}?id=${constructedQueryParam}`;
+}
 
 export function createHttpClientListFilesMetadataURL(groupId:string):string{
     return `/bff/public/file/metadata/${groupId}`;
@@ -55,6 +62,9 @@ export function createHttpClientUserFilesListURL(): string {
 }
 export function createHttpClientUserFileURL(): string{
     return `/bff/private/file`;
+}
+export function createHttpClientUserBulkDownloadZipURL(): string{
+    return `/bff/private/bulk/zip`;
 }
 export function createHttpClientUserMetricsURL(): string{
     return '/protected/iam/account/info';

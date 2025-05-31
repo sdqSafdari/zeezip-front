@@ -2,7 +2,17 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {FileIcon, MoreVertical, ChevronLeft, ChevronRight, Download, Trash2, Folder} from "lucide-react"
+import {
+    FileIcon,
+    MoreVertical,
+    ChevronLeft,
+    ChevronRight,
+    Download,
+    Trash2,
+    Folder,
+    FileArchive,
+    MousePointer, MousePointerClick
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -13,7 +23,7 @@ import axios, {AxiosRequestConfig} from "axios";
 import {
     createHttpClientUserFileURL,
     createHttpClientUserFilesListURL,
-    createHttpClientUserStoreFileURL, createDirectUserFileDownloadLink
+    createHttpClientUserStoreFileURL, createDirectUserFileDownloadLink, createDirectUserFilesArchiveDownloadLink
 } from "@/app/utils/LinkUtils";
 import {formatFileSize, formatUTCTimeToLocal} from "@/app/utils/FileUtils";
 import MakeDirectoryModal from "@/app/[lang]/user/components/MakeDirectoryModal";
@@ -124,9 +134,9 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
         })
     }, [])
 
-    const handleBulkDelete = useCallback(() => {
+    const handleBulkDeselect = useCallback(() => {
         // Implement bulk delete logic here
-        console.log("Deleting files:", Array.from(selectedFiles))
+        //console.log("Deleting files:", Array.from(selectedFiles))
         // After successful deletion, clear selection
         setSelectedFiles(new Set())
     }, [selectedFiles])
@@ -134,6 +144,16 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
     const handleBulkDownload = useCallback(() => {
         // Implement bulk download logic here
         console.log("Downloading files:", Array.from(selectedFiles))
+        if (!document){
+            return;
+        }
+        const directUserFilesArchiveDownloadLink = createDirectUserFilesArchiveDownloadLink(Array.from(selectedFiles));
+        const a = document.createElement('a');
+        a.href = directUserFilesArchiveDownloadLink;
+        a.download="file";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }, [selectedFiles]);
 
     const handleFileDelete = (fileId:string)=>{
@@ -178,13 +198,13 @@ export default function UserFilesTable({relativePath, setRelativePath}) {
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
-                                    <DropdownMenuItem onClick={handleBulkDownload}>
-                                        <Download className="mr-2 h-4 w-4" />
-                                        Download
+                                    <DropdownMenuItem onClick={handleBulkDownload} className="text-green-700">
+                                        <FileArchive className="mr-2 h-4 w-4"/>
+                                        Download Zip
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={handleBulkDelete} className="text-destructive focus:text-destructive">
-                                        <Trash2 className="mr-2 h-4 w-4" />
-                                        Delete
+                                    <DropdownMenuItem onClick={handleBulkDeselect} className="">
+                                        <MousePointerClick className="mr-2 h-4 w-4"/>
+                                        Deselect
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
