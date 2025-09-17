@@ -169,4 +169,5 @@ body {
 }
 .direction-ltr {
   direction: ltr;
+  text-align: left;
 }

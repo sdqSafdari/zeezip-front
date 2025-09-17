@@ -2,6 +2,14 @@ import Client_EN from "./dictionaries/client_en.json";
 import Client_FA from "./dictionaries/client_fa.json";
 
 export type ClientDictionary = {
+    publicStream: {
+        loadStream: string
+        inputUrl: string
+        event: {
+            infoExtractionFailed: string
+        }
+
+    }
     publicShare: {
         dropzone: {
             title: string

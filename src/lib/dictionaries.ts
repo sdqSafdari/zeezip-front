@@ -47,13 +47,6 @@ export type Dictionary = {
             title: string
             description: string
         }>
-        tryIt: {
-            title: string
-            subtitle: string
-            placeholder: string
-            button: string
-            example: string
-        }
     }
     pricing: {
         title: string

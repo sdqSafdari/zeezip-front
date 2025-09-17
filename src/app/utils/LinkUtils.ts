@@ -75,3 +75,6 @@ export function createHttpClientTryResetPlanURL():string{
 export function createHttpClientUserDirURL():string{
     return '/bff/private/dir';
 }
+export function createHttpClientStreamInfoURL():string{
+    return '/bff/stream/info';
+}

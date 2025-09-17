@@ -1,4 +1,12 @@
 {
+  "publicStream": {
+    "loadStream": "Load Playlist/Track",
+    "inputUrl": "Enter playlist URL (e.g., SoundCloud, BandCamp)",
+    "event": {
+      "infoExtractionFailed": "Music[s] Processing is failed!"
+    }
+
+  },
   "publicShare": {
     "dropzone": {
       "title": "Drag & Drop Files Here",

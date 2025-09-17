@@ -8,10 +8,6 @@ import UserDashboard from "@/app/[lang]/user/UserDashboard";
 export default function UserPage() {
 
     return (
-        <ErrorBoundary
-            fallbackRender={(props) => <ErrorFallback {...props} />}
-        >
             <UserDashboard/>
-        </ErrorBoundary>
     )
 }

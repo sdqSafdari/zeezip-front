@@ -1,4 +1,12 @@
 {
+  "publicStream": {
+    "loadStream": "پردازش پلی‌لیست یا تک آهنگ",
+    "inputUrl": "یک URL ساندکلود یا بندکمپ برای دانلود وارد کنید",
+    "event": {
+      "infoExtractionFailed": "پردازش پلی‌لیست به خطا خورد"
+    }
+
+  },
   "publicShare": {
     "dropzone": {
       "title": "فایل‌ها را اینجا بکشید و رها کنید",

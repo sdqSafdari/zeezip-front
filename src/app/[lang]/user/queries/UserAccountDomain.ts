@@ -8,6 +8,8 @@ export default class UserAccountDomain{
     allowedTraffic:number;
     usedStreamDownloadTraffic:number;
     allowedStreamDownloadTraffic:number;
+    downloadedNumberOfStreams:number;
+    allowedNumberOfStreamsToDownload:number;
     planEnds:string;
     planReset:string;
     nextPlanReset:string;

@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "zzip - Cloud Storage with Media Streams Download, Audio/Video Streams Download",
-    "description": "Store your files and download media from Instagram, Soundcloud, and linkedin with ease."
+    "title": "zzip - your music playground in the cloud, Soundcloud and Bandcamp Download",
+    "description": "Zzip is your music playground in the cloud. Import SoundCloud playlists, Bandcamp albums, or upload MP3s. Build endless playlists, stream anywhere, and keep the beat alive."
   },
   "nav": {
     "features": "Features",
@@ -16,35 +16,35 @@
     "langSwitcher": "Language"
   },
   "hero": {
-    "title": "Cloud Storage with Audio/Video Streams Download",
-    "subtitle": "Download Audio/Video streams from many platforms such as TED talks, SoundCloud, Instagram, ... and put it directly inside your cloud storage— all with zzip.",
+    "title": "Create your Personal Music Playlist in the Cloud",
+    "subtitle": "Mix SoundCloud playlists, Bandcamp albums, and your own MP3s into one endless library. Build playlists, stream anywhere, and keep the beat alive.",
     "startFree": "Start for Free",
     "learnMore": "Learn More",
     "imageAlt": "Cloud Storage Dashboard"
   },
   "features": {
     "title": "Powerful Features",
-    "subtitle": "Everything you need to store, download, and share your files with confidence.",
+    "subtitle": "Everything you need to build and enjoy your music library.",
     "cloud": {
-      "title": "Economical Cloud Storage",
-      "description": "Securely store your files in the cloud and access them from anywhere, on any device."
+      "title": "Endless Tunes in the Cloud",
+      "description": "Stack up thousands of tracks without worry. Your beats, albums, and playlists live safely in the cloud—ready to play anytime, anywhere."
     },
     "stream": {
-      "title": "Stream Platform Support",
-      "description": "Easily download Audio/Video from many stream platforms such as SoundCloud,TED, and more."
+      "title": "Plug & Play Imports",
+      "description": "Pull in playlists and albums straight from SoundCloud and Bandcamp. No hassle, just more music in your collection."
     },
     "zip": {
-      "title": "Zip Everything",
-      "description": "Bundle and share your downloads in one simple link."
+      "title": "Zip & Go",
+      "description": "Pack up your favorite playlists or your whole library into a neat ZIP and take them with you in one click."
     }
   },
   "howItWorks": {
     "title": "How It Works",
-    "subtitle": "Download content from media streams in three simple steps.",
+    "subtitle": "Download content from SoundCloud and BandCamp in three simple steps.",
     "steps": [
       {
         "title": "Copy the URL",
-        "description": "Copy the URL of the Instagram or SoundCloud Audio/Video content you want to download."
+        "description": "Copy the URL of the BandCamp or SoundCloud Playlist/Album you want to download."
       },
       {
         "title": "Paste in zzip",
@@ -54,14 +54,7 @@
         "title": "Save to Your Cloud",
         "description": "The content is automatically saved to your cloud storage for easy access."
       }
-    ],
-    "tryIt": {
-      "title": "Try It Now",
-      "subtitle": "Enter a SoundCloud or Instagram URL to download",
-      "placeholder": "Paste URL here...",
-      "button": "Download",
-      "example": "Example: https://twitter.com/username/status/1234567890"
-    }
+    ]
   },
   "pricing": {
     "title": "Simple, Transparent Pricing",
