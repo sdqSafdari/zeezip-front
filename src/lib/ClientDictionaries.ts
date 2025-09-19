@@ -5,6 +5,9 @@ export type ClientDictionary = {
     publicStream: {
         loadStream: string
         inputUrl: string
+        moreTracks: string
+        wholePlaylist: string
+        loginToDownload: string
         event: {
             infoExtractionFailed: string
         }

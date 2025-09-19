@@ -9,10 +9,14 @@ import { Play, Clock, User, ExternalLink, Crown } from "lucide-react"
 import Image from "next/image"
 import {StreamModel, StreamEntry} from "@/app/sitecomponents/stream/StreamDto";
 import {formatFileSize} from "@/app/utils/FileUtils";
+import {getClientDictionary} from "@/lib/ClientDictionaries";
+import {formatMessage} from "@/app/utils/I18nUtils";
+import Link from "next/link";
 
 
-export default function StreamInfoTable({ streamModel }: {streamModel : StreamModel}) {
+export default function StreamInfoTable({ streamModel, lang }: {streamModel : StreamModel, lang?: string}) {
     const [showUpgradeAlert, setShowUpgradeAlert] = useState(false)
+    const clientDictionary = getClientDictionary(lang);
 
     const hiddenTracksCount = streamModel.playlistCount - streamModel.entries.length;
 
@@ -103,33 +107,39 @@ export default function StreamInfoTable({ streamModel }: {streamModel : StreamMo
                                     ))}
                                 </div>
 
-                        {/* Duration */}
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                            <Clock className="w-3 h-3" />
-                        {entryDuration(track.duration)}
+                                {/* Duration */}
+                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    <Clock className="w-3 h-3"/>
+                                    {entryDuration(track.duration)}
+                                </div>
+
+                                {/* Release Date */}
+                                <div
+                                    className="hidden md:block text-sm text-muted-foreground">{entryReleaseDate(track.releaseDate)}</div>
+
+                                {/* External Link */}
+                                <Button variant="ghost" size="sm"
+                                        onClick={() => window.open(track.webpageUrl, "_blank")}>
+                                    <ExternalLink className="w-4 h-4"/>
+                                </Button>
+                            </div>
+                        ))}
                     </div>
 
-                    {/* Release Date */}
-                    <div
-                        className="hidden md:block text-sm text-muted-foreground">{entryReleaseDate(track.releaseDate)}</div>
-
-                    {/* External Link */}
-                    <Button variant="ghost" size="sm" onClick={() => window.open(track.webpageUrl, "_blank")}>
-                        <ExternalLink className="w-4 h-4"/>
-                    </Button>
-        </div>
-))}
-</div>
-{
-    hiddenTracksCount > 0 &&
-    <div className="mt-6 p-6 border-2 border-dashed border-muted-foreground/20 rounded-lg text-center">
-        <Crown className="w-8 h-8 mx-auto mb-3 text-amber-600"/>
-        <h3 className="font-semibold mb-2">{hiddenTracksCount} more tracks available</h3>
-        <p className="text-muted-foreground mb-4">
-            Upgrade to Premium to unlock the complete playlist with all {streamModel.playlistCount} tracks.
-        </p>
-                        </div>
-                    }
+                    <div className="mt-6 p-6 border-2 border-dashed border-muted-foreground/20 rounded-lg text-center">
+                        {
+                            hiddenTracksCount > 0 && <>
+                                <Crown className="w-8 h-8 mx-auto mb-3 text-amber-600"/>
+                                <h3 className="font-semibold mb-2">{formatMessage(clientDictionary.publicStream.moreTracks, String(hiddenTracksCount))}</h3>
+                                <p className="text-muted-foreground mb-4">
+                                    {formatMessage(clientDictionary.publicStream.wholePlaylist, String(streamModel.playlistCount))}
+                                </p>
+                            </>
+                        }
+                        <Button size="lg" className="bg-purple-600 hover:bg-purple-700" asChild>
+                            <Link href={`/${lang}/login`}>{clientDictionary.publicStream.loginToDownload}</Link>
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
         </div>

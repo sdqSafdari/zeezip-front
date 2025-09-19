@@ -2,6 +2,9 @@
   "publicStream": {
     "loadStream": "Load Playlist/Track",
     "inputUrl": "Enter playlist URL (e.g., SoundCloud, BandCamp)",
+    "moreTracks": "{0} more tracks available",
+    "wholePlaylist": "Upgrade to Premium to download the complete playlist with all {0} tracks",
+    "loginToDownload": "Login to Download",
     "event": {
       "infoExtractionFailed": "Music[s] Processing is failed!"
     }

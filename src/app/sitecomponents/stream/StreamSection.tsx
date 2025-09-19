@@ -72,7 +72,7 @@ export default function StreamSection({lang}:{lang? : string}) {
     }
     return (
         <>
-            <Card className="max-w-2xl mx-auto mb-3">
+            <Card className="mx-auto mb-3">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Search className="w-5 h-5"/>
@@ -100,7 +100,7 @@ export default function StreamSection({lang}:{lang? : string}) {
                 </CardContent>
             </Card>
             {currentStreamInfo &&
-                <StreamInfoTable streamModel={currentStreamInfo}/>
+                <StreamInfoTable streamModel={currentStreamInfo} lang={lang}/>
             }
             <Toaster />
         </>);

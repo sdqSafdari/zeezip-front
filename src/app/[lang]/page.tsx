@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
             description: 'Zzip lets you collect all your music in one place. Import SoundCloud and Bandcamp, upload MP3s, create playlists, and stream from your private cloud storage. Your music, your control.'
         },
         fa: {
-            description: 'فضای ابری مقرون به صرفه به همراه امکان دانلود از پلفرم های چند رسانه‌ای. به راحتی استریم های صوتی/تصویری را در فضای ابری خود ذخیره کنید. انواغ فایل‌ها را در فضای ابری خود ذخیره کنید و به اشتراک بگذارید. '
+            description: "پلی‌لیست مورد علاقه خود را از آهنگ های ساندکلود یا بندکمپ یا آهنگ‌هایی که خودتان آپلود میکنید، در فضای ابری بسازید."
         }
     }
     const beforeProxyBaseURL = getStaticServerSideBaseURL();
@@ -119,10 +119,6 @@ export default async function LandingPage({
                     </div>
                 </section>
 
-                <section id="stream" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-                    <StreamSection lang={params.lang}/>
-                </section>
-
                     <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
                         <div className="container mx-auto px-4 md:px-6">
                             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -163,87 +159,57 @@ export default async function LandingPage({
                         </div>
                     </section>
 
-                    {/**
-                     public-share section
-                     */}
-                    <section className="w-full py-12 md:py-24 lg:py-32 border-t">
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="grid gap-10 lg:grid-cols-2 lg:gap-12 items-center">
-                                <div className="flex flex-col justify-center space-y-4">
-                                    <div className="space-y-2">
-                                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">{dict.fileSharing.title}</h2>
-                                        <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed">
-                                            {dict.fileSharing.description}
-                                        </p>
-                                    </div>
-                                    <div className="space-y-4">
-                                        <ul className="space-y-2">
-                                            {dict.fileSharing.features.map((feature, index) => (
-                                                <li key={index} className="flex items-center gap-2">
-                                                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0"/>
-                                                    <span>{feature}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <Button size="lg" asChild>
-                                            <Link href={`/${params.lang}/public-share/`}>
-                                                {dict.fileSharing.uploadNow}
-                                                <Upload className="ml-2 h-4 w-4"/>
-                                            </Link>
-                                        </Button>
-                                    </div>
+                    {/* try yourself section*/}
+                <section className="w-full py-12 md:py-24 lg:py-32">
+                    <div className="container mx-auto px-4 md:px-6">
+                        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12 items-start">
+                            <div className="flex flex-col justify-center space-y-4">
+                                <div className="space-y-2">
+                                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">{dict.howItWorks.title}</h2>
+                                    <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed">{dict.howItWorks.subtitle}</p>
                                 </div>
+                                <ul className="grid gap-6">
+                                    <li className="flex items-start gap-4">
+                                        <div
+                                            className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                                            1
+                                        </div>
+                                        <div className="space-y-1">
+                                            <h3 className="text-xl font-bold">{dict.howItWorks.steps[0].title}</h3>
+                                            <p className="text-muted-foreground">{dict.howItWorks.steps[0].description}</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start gap-4">
+                                        <div
+                                            className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                                            2
+                                        </div>
+                                        <div className="space-y-1">
+                                            <h3 className="text-xl font-bold">{dict.howItWorks.steps[1].title}</h3>
+                                            <p className="text-muted-foreground">{dict.howItWorks.steps[1].description}</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start gap-4">
+                                        <div
+                                            className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                                            3
+                                        </div>
+                                        <div className="space-y-1">
+                                            <h3 className="text-xl font-bold">{dict.howItWorks.steps[2].title}</h3>
+                                            <p className="text-muted-foreground">{dict.howItWorks.steps[2].description}</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <StreamSection lang={params.lang}/>
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </section>
 
-                    <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
-                                <div className="flex flex-col justify-center space-y-4">
-                                    <div className="space-y-2">
-                                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">{dict.howItWorks.title}</h2>
-                                        <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed">{dict.howItWorks.subtitle}</p>
-                                    </div>
-                                    <ul className="grid gap-6">
-                                        <li className="flex items-start gap-4">
-                                            <div
-                                                className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                                                1
-                                            </div>
-                                            <div className="space-y-1">
-                                                <h3 className="text-xl font-bold">{dict.howItWorks.steps[0].title}</h3>
-                                                <p className="text-muted-foreground">{dict.howItWorks.steps[0].description}</p>
-                                            </div>
-                                        </li>
-                                        <li className="flex items-start gap-4">
-                                            <div
-                                                className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                                                2
-                                            </div>
-                                            <div className="space-y-1">
-                                                <h3 className="text-xl font-bold">{dict.howItWorks.steps[1].title}</h3>
-                                                <p className="text-muted-foreground">{dict.howItWorks.steps[1].description}</p>
-                                            </div>
-                                        </li>
-                                        <li className="flex items-start gap-4">
-                                            <div
-                                                className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                                                3
-                                            </div>
-                                            <div className="space-y-1">
-                                                <h3 className="text-xl font-bold">{dict.howItWorks.steps[2].title}</h3>
-                                                <p className="text-muted-foreground">{dict.howItWorks.steps[2].description}</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="pricing" className="w-full py-12 md:py-24 lg:py-32">
-                        <div className="container mx-auto px-4 md:px-6">
+                <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+                    <div className="container mx-auto px-4 md:px-6">
                             <div className="flex flex-col items-center justify-center space-y-4 text-center">
                                 <div className="space-y-2">
                                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">{dict.pricing.title}</h2>

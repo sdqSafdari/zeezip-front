@@ -2,6 +2,9 @@
   "publicStream": {
     "loadStream": "پردازش پلی‌لیست یا تک آهنگ",
     "inputUrl": "یک URL ساندکلود یا بندکمپ برای دانلود وارد کنید",
+    "moreTracks": "میدونی {0} ترک بیشتر وجود داره؟",
+    "wholePlaylist": "اشتراک تهیه کن تا همه‌ی {0} ترک پلی‌لیست رو بتونی دانلود کنی",
+    "loginToDownload": "برای دانلود وارد حساب کاربریت شو",
     "event": {
       "infoExtractionFailed": "پردازش پلی‌لیست به خطا خورد"
     }
@@ -24,7 +27,7 @@
     "event": {
       "uploadFailed": "آپلود فایل ها با خطا مواجه شد!",
       "uploadCanceled": "آپلود با موفقیت متوقف شد!",
-      "completeTheCaptcha": "لطفا کپچا را کامل کنید!",
+      "completeTheCaptcha": "لطفا کپچا رو کامل کن!",
       "limitReached200Mb": ".سقف آپلود رایگان ۲۰۰ مگابایت پر شده"
     }
 
