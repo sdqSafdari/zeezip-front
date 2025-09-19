@@ -12,6 +12,7 @@ import {formatFileSize} from "@/app/utils/FileUtils";
 import {getClientDictionary} from "@/lib/ClientDictionaries";
 import {formatMessage} from "@/app/utils/I18nUtils";
 import Link from "next/link";
+import {formatSeconds} from "@/app/utils/TimeUtils";
 
 
 export default function StreamInfoTable({ streamModel, lang }: {streamModel : StreamModel, lang?: string}) {
@@ -19,13 +20,6 @@ export default function StreamInfoTable({ streamModel, lang }: {streamModel : St
     const clientDictionary = getClientDictionary(lang);
 
     const hiddenTracksCount = streamModel.playlistCount - streamModel.entries.length;
-
-    const entryDuration = (seconds: number) => {
-        const minutes = Math.floor(seconds / 60)
-        const remainingSeconds = Math.floor(seconds % 60)
-        return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`
-    }
-
     const entryReleaseDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString("en-US", {
             year: "numeric",
@@ -110,7 +104,7 @@ export default function StreamInfoTable({ streamModel, lang }: {streamModel : St
                                 {/* Duration */}
                                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
                                     <Clock className="w-3 h-3"/>
-                                    {entryDuration(track.duration)}
+                                    {formatSeconds(track.duration)}
                                 </div>
 
                                 {/* Release Date */}

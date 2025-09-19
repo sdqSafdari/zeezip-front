@@ -1,4 +1,17 @@
 {
+  "stream": {
+    "loadStream": "Load Playlist/Track",
+    "inputUrl": "Enter playlist URL (e.g., SoundCloud, BandCamp)",
+    "moreTracks": "{0} more tracks available",
+    "wholePlaylist": "Upgrade to Premium to download the complete playlist with all {0} tracks",
+    "trafficLimitReached": "Music Download Traffic Limit Reached! available Traffic: {0}",
+    "numberLimitReached": "Music Download Number Limit Reached! available Number: {0}",
+    "downloadToCloud": "Download All to Cloud- {0}",
+    "event": {
+      "infoExtractionFailed": "Music[s] Processing is failed!"
+    }
+
+  },
   "upload": {
     "box": {
       "title": "Drag & Drop Files Here",

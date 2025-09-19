@@ -2,6 +2,19 @@ import Client_EN from "./dictionaries/client_dashboard_en.json";
 import Client_FA from "./dictionaries/client_dashboard_fa.json";
 
 export type ClientDashboardDictionary = {
+    stream: {
+        loadStream: string
+        inputUrl: string
+        moreTracks: string
+        wholePlaylist: string
+        trafficLimitReached: string
+        numberLimitReached: string
+        downloadToCloud: string
+        event: {
+            infoExtractionFailed: string
+        }
+
+    }
     upload: {
         box: {
             title: string
