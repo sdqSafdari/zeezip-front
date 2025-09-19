@@ -61,63 +61,69 @@ export default function StreamInfoTable({ streamModel, lang }: {streamModel : St
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
-                        {streamModel.entries.map((track, index) => (
-                            <div
-                                key={track.id}
-                                className="flex items-center gap-4 p-4 rounded-lg border hover:bg-muted/50 transition-colors"
-                            >
-                                {/* Track Number */}
-                                <div className="w-8 text-center text-muted-foreground font-mono">{index + 1}</div>
-
-                                {/* Thumbnail */}
-                                <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
-                                    <img
-                                        src={track.thumbnail || "/placeholder.svg"}
-                                        alt={track.title}
-                                        className="object-cover"
-                                        sizes="48px"
-                                    />
-                                </div>
-
-                                {/* Track Info */}
-                                <div className="flex-1 min-w-0">
-                                    <h3 className="font-medium truncate">{track.title}</h3>
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                        <User className="w-3 h-3"/>
-                                        <span className="truncate">{track.artist || track.uploader}</span>
-                                    </div>
-                                </div>
-
-                                {/* Track available formats */}
-                                <div className="flex flex-wrap gap-1">
-                                    {track.formats?.map((format, formatIndex) => (
-                                        <Badge
-                                            key={formatIndex}
-                                            variant="outline"
-                                            className={`text-xs border-purple-200 text-purple-700 hover:bg-purple-50`}
-                                        >
-                                            {format.fileExtension.toUpperCase()} • {formatFileSize(format.bytes)} • {`${format.abr}kbps`}
-                                        </Badge>
-                                    ))}
-                                </div>
-
-                                {/* Duration */}
-                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                    <Clock className="w-3 h-3"/>
-                                    {formatSeconds(track.duration)}
-                                </div>
-
-                                {/* Release Date */}
+                        {streamModel.entries.map((entry, index) => {
+                            return (
                                 <div
-                                    className="hidden md:block text-sm text-muted-foreground">{entryReleaseDate(track.releaseDate)}</div>
+                                    key={entry.id}
+                                    className={`flex items-start gap-4 p-4 rounded-lg border transition-colors hover:bg-muted/50`}
+                                >
+                                    {/* Track Number */}
+                                    <div
+                                        className="w-8 text-center text-muted-foreground font-mono pt-1">{index + 1}</div>
 
-                                {/* External Link */}
-                                <Button variant="ghost" size="sm"
-                                        onClick={() => window.open(track.webpageUrl, "_blank")}>
-                                    <ExternalLink className="w-4 h-4"/>
-                                </Button>
-                            </div>
-                        ))}
+                                    {/* Thumbnail */}
+                                    <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
+                                        <img
+                                            src={entry.thumbnail || "/placeholder.svg"}
+                                            alt={entry.title}
+                                            fill
+                                            className="object-cover"
+                                            sizes="48px"
+                                        />
+                                    </div>
+
+                                    {/* Track Info */}
+                                    <div className="flex-1 min-w-0 space-y-2">
+                                        <div>
+                                            <h3 className="font-medium truncate">{entry.title}</h3>
+                                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                                <User className="w-3 h-3"/>
+                                                <span className="truncate">{entry.artist || entry.uploader}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-wrap gap-1">
+                                            {entry.formats?.map((format, formatIndex) => {
+                                                return (
+                                                    <Badge
+                                                        key={formatIndex}
+                                                        variant="outline"
+                                                        className={`text-xs border-purple-200 text-purple-700 cursor-pointer transition-colors hover:bg-muted`}
+                                                    >
+                                                        {format.fileExtension.toUpperCase()} • {formatFileSize(format.bytes)} • {`${format.abr}kbps`}
+                                                    </Badge>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Duration and Date */}
+                                    <div className="flex flex-col items-end gap-1 text-sm text-muted-foreground">
+                                        <div className="flex items-center gap-1">
+                                            <Clock className="w-3 h-3"/>
+                                            {formatSeconds(entry.duration)}
+                                        </div>
+                                        <div className="hidden md:block">{entryReleaseDate(entry.releaseDate)}</div>
+                                    </div>
+
+                                    {/* External Link */}
+                                    <Button variant="ghost" size="sm"
+                                            onClick={() => window.open(entry.webpageUrl, "_blank")}>
+                                        <ExternalLink className="w-4 h-4"/>
+                                    </Button>
+                                </div>
+                            )
+                        })}
                     </div>
 
                     <div className="mt-6 p-6 border-2 border-dashed border-muted-foreground/20 rounded-lg text-center">
