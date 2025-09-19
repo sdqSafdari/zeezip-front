@@ -60,8 +60,13 @@ export default function UserStreamInfoTable({ streamModel, lang }: {streamModel 
     const handleFormatSelect = (entryId: string, format: StreamFormat) => {
         setSelectedFormats((prev) => {
             const newMap = new Map(prev); //clone map
-            newMap.set(entryId, format)
-            return newMap
+            const prevFormat = newMap.get(entryId);
+            if (prevFormat?.id === format.id){
+                newMap.delete(entryId);
+            } else {
+                newMap.set(entryId, format);
+            }
+            return newMap;
         })
     }
     const hiddenTracksCount = streamModel.playlistCount - streamModel.entries.length;
@@ -106,27 +111,31 @@ export default function UserStreamInfoTable({ streamModel, lang }: {streamModel 
                 <CardContent>
                     <div className="space-y-4">
                         {streamModel.entries.map((entry, index) => {
-                                const selectedFormat = selectedFormats.get(entry.id)
-                                return (
+                            const selectedFormat = selectedFormats.get(entry.id)
+                            return (
+                                <div
+                                    key={entry.id}
+                                    className={`flex items-start gap-4 p-4 rounded-lg border transition-colors
+                                            hover:bg-purple-50 dark:hover:bg-purple-950/20 border-purple-100`}
+                                >
+                                    {/* Track Number */}
                                     <div
-                                        key={entry.id}
-                                        className="flex items-start gap-4 p-4 rounded-lg border transition-colors hover:bg-purple-50 dark:hover:bg-purple-950/20 border-purple-100"
-                                    >
-                                        {/* Track Number */}
-                                        <div className="w-8 text-center text-muted-foreground font-mono">{index + 1}</div>
+                                        className="w-8 text-center text-muted-foreground font-mono pt-1">{index + 1}</div>
 
-                                        {/* Thumbnail */}
-                                        <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
-                                            <img
-                                                src={entry.thumbnail || "/placeholder.svg"}
-                                                alt={entry.title}
-                                                className="object-cover"
-                                                sizes="48px"
-                                            />
-                                        </div>
+                                    {/* Thumbnail */}
+                                    <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
+                                        <img
+                                            src={entry.thumbnail || "/placeholder.svg"}
+                                            alt={entry.title}
+                                            fill
+                                            className="object-cover"
+                                            sizes="48px"
+                                        />
+                                    </div>
 
-                                        {/* Track Info */}
-                                        <div className="flex-1 min-w-0">
+                                    {/* Track Info */}
+                                    <div className="flex-1 min-w-0 space-y-2">
+                                        <div>
                                             <h3 className="font-medium truncate">{entry.title}</h3>
                                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                                 <User className="w-3 h-3"/>
@@ -137,36 +146,34 @@ export default function UserStreamInfoTable({ streamModel, lang }: {streamModel 
                                         {/* Track available formats */}
                                         <div className="flex flex-wrap gap-1">
                                             {entry.formats?.map((format, formatIndex) => {
-                                                    const isSelected = selectedFormat?.id === format.id;
-                                                    return (
-                                                        <Badge
-                                                            key={formatIndex}
-                                                            variant={isSelected ? "default" : "outline"}
-                                                            className={`text-xs cursor-pointer transition-colors ${
-                                                                isSelected
+                                                const isSelected = selectedFormat?.id === format.id;
+                                                return (
+                                                    <Badge
+                                                        key={formatIndex}
+                                                        variant={isSelected ? "default" : "outline"}
+                                                        className={`text-xs cursor-pointer transition-colors ${
+                                                             isSelected
                                                                     ? "bg-purple-600 hover:bg-purple-700 text-white"
                                                                     : "border-purple-200 text-purple-700 hover:bg-purple-50"
-                                                            }`}
-                                                            onClick={() => handleFormatSelect(entry.id, format)}
-                                                        >
-                                                            {format.fileExtension.toUpperCase()} • {formatFileSize(format.bytes)} • {`${format.abr}kbps`}
-                                                            {isSelected && " ✓"}
-                                                        </Badge>
-
-                                                    );
-                                                }
-                                            )}
+                                                                }`}
+                                                        onClick={() => handleFormatSelect(entry.id, format)}
+                                                    >
+                                                        {format.fileExtension.toUpperCase()} • {formatFileSize(format.bytes)} • {`${format.abr}kbps`}
+                                                        {isSelected && " ✓"}
+                                                    </Badge>
+                                                )
+                                            })}
                                         </div>
+                                    </div>
 
-                                        {/* Duration */}
-                                        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    {/* Duration and Date */}
+                                    <div className="flex flex-col items-end gap-1 text-sm text-muted-foreground">
+                                        <div className="flex items-center gap-1">
                                             <Clock className="w-3 h-3"/>
                                             {formatSeconds(entry.duration)}
                                         </div>
-
-                                        {/* Release Date */}
-                                        <div
-                                            className="hidden md:block text-sm text-muted-foreground">{entryReleaseDate(entry.releaseDate)}</div>
+                                        <div className="hidden md:block">{entryReleaseDate(entry.releaseDate)}</div>
+                                    </div>
 
                                         {/* External Link */}
                                         <Button variant="ghost" size="sm"
@@ -190,17 +197,17 @@ export default function UserStreamInfoTable({ streamModel, lang }: {streamModel 
                             </>
                         }
                         {isUserStreamDownloadTrafficLimitReached &&
-                            <li className="flex items-center justify-center text-sm bg-destructive rounded-md p-3 m-4">
+                            <li className="flex items-center justify-center text-sm bg-destructive rounded-md p-3 m-4 md:text-base">
                                 <span className="font-medium truncate">{formatMessageBidi(lang, clientDashboardDictionary.stream.trafficLimitReached, formatFileSize(userAllowedStreamDownloadTraffic))}</span>
                             </li>
                             }
                         {isUserNumberOfStreamsLimitReached &&
-                            <li className="flex items-center justify-center text-sm bg-destructive rounded-md p-3 m-4">
+                            <li className="flex items-center justify-center text-sm bg-destructive rounded-md p-3 m-4 md:text-base">
                                 <span className="font-medium truncate">{formatMessageBidi(lang, clientDashboardDictionary.stream.numberLimitReached, String(userAllowedNumberOfStreams))}</span>
                             </li>
                             }
                         <div className='flex justify-center'>
-                            <Button size="lg" className="bg-purple-600 hover:bg-purple-700"
+                            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 md:text-base"
                                     disabled={!userAllowedToDownload}>
                                 {formatMessageBidi(lang, clientDashboardDictionary.stream.downloadToCloud, formatFileSize(totalsize))}
                             </Button>

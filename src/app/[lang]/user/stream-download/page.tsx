@@ -61,7 +61,7 @@ function StreamDownload({lang}){
                     </p>
                 </div>
                 <div className={`flex justify-center ${lang === "fa" ? "font-persian rtl" : ""}`}>
-                    <div className='w-full md:w-1/2'>
+                    <div className='w-full md:w-3/4'>
                         <UserStreamSection lang={lang}/>
                     </div>
                 </div>

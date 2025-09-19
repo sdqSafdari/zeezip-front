@@ -72,7 +72,7 @@ export default function UserStreamSection({lang}:{lang? : string}) {
     }
     return (
         <>
-            <Card className="mx-auto mb-3">
+            <Card className="mx-auto mb-3 w-3/4">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Search className="w-5 h-5"/>
