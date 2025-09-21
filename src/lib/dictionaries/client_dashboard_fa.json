@@ -35,6 +35,8 @@
   "metrics": {
     "storage": "فضای ابری",
     "traffic": "ترافیک مصرفی",
+    "stream": "حجم دانلود",
+    "numberOfStream": "تعداد دانلودها",
     "used": "مصرف شده",
     "free": "آزاد",
     "remained": "باقی مانده"

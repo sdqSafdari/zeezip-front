@@ -35,6 +35,8 @@
   "metrics": {
     "storage": "Storage Overview",
     "traffic": "Traffic Overview",
+    "stream": "Download Traffic",
+    "numberOfStream": "Number of Downloads",
     "used": "used",
     "free": "free",
     "remained": "remained"

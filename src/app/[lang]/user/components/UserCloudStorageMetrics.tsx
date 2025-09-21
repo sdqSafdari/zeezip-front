@@ -15,7 +15,7 @@ import useMutation_tryResetPlan from "@/app/[lang]/user/queries/UserPlanResetMut
 import {useParams} from "next/navigation";
 import {getClientDashboardDictionary} from "@/lib/ClientDashboardDictionary";
 
-export default function UserMetrics({userAccount,isFetching,isError}:{userAccount:UserAccountDomain,isFetching:boolean,isError:boolean}){
+export default function UserCloudStorageMetrics({userAccount,isFetching,isError}:{userAccount:UserAccountDomain,isFetching:boolean,isError:boolean}){
     const tryResetPlan = useMutation_tryResetPlan();
     const refreshButtonRef:MutableRefObject<undefined | HTMLButtonElement> = useRef();
     const params = useParams();

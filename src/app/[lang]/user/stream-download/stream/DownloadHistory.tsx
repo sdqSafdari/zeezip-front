@@ -47,6 +47,9 @@ const getStateBadgeColor = (state: string, isPremium: boolean) => {
 
 export function DownloadHistory({downloadHistory, onBack}: { downloadHistory: StreamHistoryDomain[], onBack?: ()=>void}) {
     const isPremium = true;
+    if (downloadHistory.length === 0){
+        return null;
+    }
 
     return (
         <div className="space-y-6">
@@ -62,84 +65,77 @@ export function DownloadHistory({downloadHistory, onBack}: { downloadHistory: St
                 </h2>
             </div>
 
-            {downloadHistory.length === 0 ? (
-                <Card>
-                    <CardContent className="text-center py-8">
-                        <Download className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                        <p className="text-muted-foreground">No downloads yet</p>
-                    </CardContent>
-                </Card>
-            ) : (
-                <div className="space-y-6">
-                    {downloadHistory.map((stream, streamIndex) => (
-                        <Card key={stream.streamId} className={isPremium ? "border-purple-200 dark:border-purple-800" : ""}>
-                            <CardHeader>
-                                <div className="flex items-start justify-between">
-                                    <div className="space-y-2">
-                                        <CardTitle className="flex items-center gap-2">
-                                            {getStateIcon(stream.state)}
-                                            {stream.title}
-                                        </CardTitle>
-                                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                            <span>Created: {new Date(stream.createdAt).toLocaleString()}</span>
-                                            <span>•</span>
-                                            <span>{stream.playlistCount} tracks</span>
-                                        </div>
+            <div className="space-y-6">
+                {downloadHistory.map((stream, streamIndex) => (
+                    <Card key={stream.streamId} className={isPremium ? "border-purple-200 dark:border-purple-800" : ""}>
+                        <CardHeader>
+                            <div className="flex items-start justify-between">
+                                <div className="space-y-2">
+                                    <CardTitle className="flex items-center gap-2">
+                                        {getStateIcon(stream.state)}
+                                        {stream.title}
+                                    </CardTitle>
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <span>Created: {new Date(stream.createdAt).toLocaleString()}</span>
+                                        <span>•</span>
+                                        <span>{stream.playlistCount} tracks</span>
                                     </div>
-                                    <Badge className={getStateBadgeColor(stream.state, isPremium)}>
-                                        {stream.state.replace(/_/g, " ")}
-                                    </Badge>
                                 </div>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                {stream.description && (
-                                    <p className="text-sm text-muted-foreground line-clamp-2">{stream.description}</p>
-                                )}
+                                <Badge className={getStateBadgeColor(stream.state, isPremium)}>
+                                    {stream.state.replace(/_/g, " ")}
+                                </Badge>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            {stream.description && (
+                                <p className="text-sm text-muted-foreground line-clamp-2">{stream.description}</p>
+                            )}
 
-                                <div className="space-y-3">
-                                    <h4 className="font-medium">Track Downloads</h4>
-                                    {stream.entries.map((entry, entryIndex) => (
-                                        <div key={entry.streamEntryId} className="flex items-center gap-4 p-3 rounded-lg bg-muted/50">
-                                            <img
-                                                src={entry.thumbnail || "/placeholder.svg"}
-                                                alt={entry.title}
-                                                className="w-12 h-12 rounded object-cover"
-                                            />
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    {getStateIcon(entry.state)}
-                                                    <h5 className="font-medium truncate">{entry.title}</h5>
-                                                    <Badge className={getStateBadgeColor(entry.state, isPremium)}>
-                                                        {entry.state.replace(/_/g, " ")}
-                                                    </Badge>
-                                                </div>
-                                                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                                    <span>{entry.artist}</span>
-                                                    <span>•</span>
-                                                    <span>{formatSeconds(entry.duration)}</span>
-                                                    <span>•</span>
-                                                    <span>
+                            <div className="space-y-3">
+                                <h4 className="font-medium">Track Downloads</h4>
+                                {stream.entries.map((entry, entryIndex) => (
+                                    <div key={entry.streamEntryId}
+                                         className="flex items-center gap-4 p-3 rounded-lg bg-muted/50">
+                                        <img
+                                            src={entry.thumbnail || "/placeholder.svg"}
+                                            alt={entry.title}
+                                            className="w-12 h-12 rounded object-cover"
+                                        />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                {getStateIcon(entry.state)}
+                                                <h5 className="font-medium truncate">{entry.title}</h5>
+                                                <Badge className={getStateBadgeColor(entry.state, isPremium)}>
+                                                    {entry.state.replace(/_/g, " ")}
+                                                </Badge>
+                                            </div>
+                                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                                <span>{entry.artist}</span>
+                                                <span>•</span>
+                                                <span>{formatSeconds(entry.duration)}</span>
+                                                <span>•</span>
+                                                <span>
                             {entry.format.extension.toUpperCase()} • {formatFileSize(entry.format.bytes)} • {`${entry.format.abr}kbps`}
                           </span>
-                                                </div>
-                                                {entry.state === "IN_PROGRESS" && (
-                                                    <div className="mt-2">
-                                                        <Progress
-                                                            value={Number.parseInt(entry.progress)}
-                                                            className={`h-2 ${isPremium ? "[&>div]:bg-purple-600" : ""}`}
-                                                        />
-                                                        <span className="text-xs text-muted-foreground">{entry.progress}%</span>
-                                                    </div>
-                                                )}
                                             </div>
+                                            {entry.state === "IN_PROGRESS" && (
+                                                <div className="mt-2">
+                                                    <Progress
+                                                        value={Number.parseInt(entry.progress)}
+                                                        className={`h-2 ${isPremium ? "[&>div]:bg-purple-600" : ""}`}
+                                                    />
+                                                    <span
+                                                        className="text-xs text-muted-foreground">{entry.progress}%</span>
+                                                </div>
+                                            )}
                                         </div>
-                                    ))}
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            )}
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
         </div>
     )
 }

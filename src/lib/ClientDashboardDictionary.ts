@@ -41,6 +41,8 @@ export type ClientDashboardDictionary = {
     metrics: {
         storage: string
         traffic: string
+        stream: string
+        numberOfStream: string
         used: string
         free: string
         remained: string

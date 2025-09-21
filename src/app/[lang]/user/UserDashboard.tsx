@@ -3,7 +3,7 @@
 import UserUploadForm from "@/app/[lang]/user/components/UserUploadForm";
 import DashboardLayout from "@/app/[lang]/user/components/dashboard-layout";
 import UserFilesTable from "@/app/[lang]/user/components/UserFilesTable";
-import UserMetrics from "@/app/[lang]/user/components/UserMetrics";
+import UserCloudStorageMetrics from "@/app/[lang]/user/components/UserCloudStorageMetrics";
 import {useState} from "react";
 import useQuery_userAccount from "@/app/[lang]/user/queries/UserAccountInfoQuery";
 import useQuery_userInfo from "@/app/[lang]/user/queries/UserInfoQuery";
@@ -24,7 +24,7 @@ export default function UserDashboard() {
             <div className='pr-4'>
                 <div className='flex items-start justify-start gap-8  my-8 w-full'>
                     <UserUploadForm relativePath={relativePath} userAccount={userAccount}/>
-                    <UserMetrics userAccount={userAccount} isFetching={userAccount_isFetching} isError={userAccount_isError }/>
+                    <UserCloudStorageMetrics userAccount={userAccount} isFetching={userAccount_isFetching} isError={userAccount_isError }/>
                 </div>
                 <UserFilesTable relativePath={relativePath} setRelativePath={setRelativePath}/>
             </div>
