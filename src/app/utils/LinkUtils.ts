@@ -78,3 +78,9 @@ export function createHttpClientUserDirURL():string{
 export function createHttpClientStreamInfoURL():string{
     return '/bff/stream/info';
 }
+export function createHttpClientStreamDownloadURL():string{
+    return '/bff/stream/download';
+}
+export function createHttpClientStreamHistoryURL():string{
+    return '/bff/stream/history/list';
+}

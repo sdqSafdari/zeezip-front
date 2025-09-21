@@ -8,7 +8,8 @@
     "numberLimitReached": "Music Download Number Limit Reached! available Number: {0}",
     "downloadToCloud": "Download All to Cloud- {0}",
     "event": {
-      "infoExtractionFailed": "Music[s] Processing is failed!"
+      "infoExtractionFailed": "Music[s] Processing is failed!",
+      "downloadFailed": "Music[s] Download Request get rejected!"
     }
 
   },

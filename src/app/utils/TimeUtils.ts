@@ -47,3 +47,11 @@ export function formatUTCTimeWithLocale(isoUTCTime,locale){
         });
     }
 }
+
+export function isWithinLastTwoHours(isoUTCTime: string): boolean {
+    const date = new Date(isoUTCTime);         // parse ISO string
+    const now = Date.now();                    // current timestamp (ms)
+    const twoHoursAgo = now - 2 * 60 * 60 * 1000;
+
+    return date.getTime() >= twoHoursAgo && date.getTime() <= now;
+}

@@ -21,7 +21,7 @@ import UserStreamInfoTable from "@/app/[lang]/user/stream-download/stream/UserSt
 interface StreamInfoRequest {
     url: string
 }
-export default function UserStreamSection({lang}:{lang? : string}) {
+export default function UserStreamSection({lang}:{lang : string}) {
     const [currentStreamInfo, setCurrentStreamInfo] = useState<StreamModel>(null);
     const [streamUri, setStreamUri] = useState<String>(null);
     const [captcha, setCaptcha] = useState<CaptchaDto>(null);

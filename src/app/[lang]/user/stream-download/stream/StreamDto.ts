@@ -5,6 +5,7 @@ export class StreamModel {
     description: string
     playlistCount: number
     entries: StreamEntry[]
+    authenticationTag: string
 }
 
 export class StreamEntry {

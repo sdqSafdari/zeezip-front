@@ -4,7 +4,7 @@ import {useEffect, useMemo, useState} from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Play, Clock, User, ExternalLink, Crown } from "lucide-react"
+import {Play, Clock, User, ExternalLink, Crown, Folder} from "lucide-react"
 import {formatFileSize} from "@/app/utils/FileUtils";
 import {formatMessage, formatMessageBidi} from "@/app/utils/I18nUtils";
 import useQuery_userAccount from "@/app/[lang]/user/queries/UserAccountInfoQuery";
@@ -14,11 +14,25 @@ import {StreamFormat, StreamModel} from "@/app/[lang]/user/stream-download/strea
 import {formatSeconds} from "@/app/utils/TimeUtils";
 import entry from "next/dist/server/typescript/rules/entry";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
+import {Input} from "@/components/ui/input";
+import {QueryClient, useMutation, useQueryClient} from "@tanstack/react-query";
+import axios, {AxiosRequestConfig} from "axios";
+import {createHttpClientStreamDownloadURL, createHttpClientStreamInfoURL} from "@/app/utils/LinkUtils";
+import {toast} from "@/hooks/use-toast";
 
+interface StreamDownloadDto {
+    stream: StreamModel
+    selectedEntries: {entryId:string,formatId:string}[]
+    storagePath: string
+
+}
 
 export default function UserStreamInfoTable({ streamModel, lang }: {streamModel : StreamModel, lang?: string}) {
     const [showUpgradeAlert, setShowUpgradeAlert] = useState(false)
+    const [isDownloading, setIsDownloading] = useState(false);
+    const [storagePath, setStoragePath] = useState(streamModel.title ? `/${streamModel.title}` : "/");
     const [selectedFormats, setSelectedFormats] = useState<Map<String, StreamFormat>>(new Map());
+    const queryClient:QueryClient = useQueryClient();
 
     const clientDashboardDictionary = getClientDashboardDictionary(lang);
     const {
@@ -27,6 +41,31 @@ export default function UserStreamInfoTable({ streamModel, lang }: {streamModel 
         userAccount_isError,
         userAccount_isPending
     } = useQuery_userAccount();
+
+    const downloadStreamMutation = useMutation({
+        mutationFn: (streamDownloadDto: StreamDownloadDto) => {
+            return axios.post(createHttpClientStreamDownloadURL(), streamDownloadDto, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                } as AxiosRequestConfig
+            )
+                .then(response => response.data);
+        },
+        onSuccess: (responseBody) => {
+            setIsDownloading(true);
+            queryClient.invalidateQueries({queryKey:['user','streamHistory']});
+        },
+        onError: error => {
+            toast({
+                title: clientDashboardDictionary.stream.event.downloadFailed,
+                description: error.response.data?.title,
+                className: 'text-red-600'
+            })
+            setIsDownloading(false);
+        }
+    });
+
 
     useEffect(() => {// imitate component did mount class-component-lifecycle method
         const initialSelections = new Map<string, StreamFormat>();
@@ -69,6 +108,20 @@ export default function UserStreamInfoTable({ streamModel, lang }: {streamModel 
             return newMap;
         })
     }
+    const handleDownload = () => {
+        setIsDownloading(true);
+        const selectedEntries = Array.from(selectedFormats, ([entryId, format]) => ({
+            entryId: entryId,
+            formatId: format.id,
+        }));
+        const downloadDto = {
+            stream: streamModel,
+            selectedEntries: selectedEntries,
+            storagePath: storagePath
+        }
+        downloadStreamMutation.mutate(downloadDto);
+    }
+
     const hiddenTracksCount = streamModel.playlistCount - streamModel.entries.length;
     const userAllowedStreamDownloadTraffic = userAccount.allowedStreamDownloadTraffic - userAccount.usedStreamDownloadTraffic;
     const userAllowedNumberOfStreams = userAccount.allowedNumberOfStreamsToDownload - userAccount.downloadedNumberOfStreams;
@@ -206,9 +259,22 @@ export default function UserStreamInfoTable({ streamModel, lang }: {streamModel 
                                 <span className="font-medium truncate">{formatMessageBidi(lang, clientDashboardDictionary.stream.numberLimitReached, String(userAllowedNumberOfStreams))}</span>
                             </li>
                             }
-                        <div className='flex justify-center'>
+                        <div className='flex flex-col justify-center gap-4'>
+                            <div className="flex items-center gap-2 direction-ltr">
+                                <Folder className="w-4 h-4 text-muted-foreground"/>
+                                <Input
+                                    type="text"
+                                    placeholder="Storage path"
+                                    value={storagePath}
+                                    disabled={!userAllowedToDownload || isDownloading}
+                                    onChange={(e) => setStoragePath(e.target.value)}
+                                    className={"border-purple-200 focus:border-purple-400"}
+                                />
+                            </div>
                             <Button size="lg" className="bg-purple-600 hover:bg-purple-700 md:text-base"
-                                    disabled={!userAllowedToDownload}>
+                                    disabled={!userAllowedToDownload || isDownloading}
+                                    onClick={handleDownload}
+                            >
                                 {formatMessageBidi(lang, clientDashboardDictionary.stream.downloadToCloud, formatFileSize(totalsize))}
                             </Button>
                         </div>

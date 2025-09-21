@@ -12,6 +12,7 @@ export type ClientDashboardDictionary = {
         downloadToCloud: string
         event: {
             infoExtractionFailed: string
+            downloadFailed: string
         }
 
     }
