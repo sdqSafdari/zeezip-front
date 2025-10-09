@@ -1,6 +1,6 @@
 "use client"
 
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {QueryClient, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
 import {createHttpClientUserInfoURL, createHttpClientUserMetricsURL} from "@/app/utils/LinkUtils";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
@@ -11,16 +11,15 @@ import {RotateCw} from "lucide-react";
 import {MutableRefObject, useRef} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
 import UserAccountDomain from "@/app/[lang]/user/queries/UserAccountDomain";
-import useMutation_tryResetPlan from "@/app/[lang]/user/queries/UserPlanResetMutation";
 import {useParams} from "next/navigation";
 import {getClientDashboardDictionary} from "@/lib/ClientDashboardDictionary";
 
 export default function UserCloudStorageMetrics({userAccount,isFetching,isError}:{userAccount:UserAccountDomain,isFetching:boolean,isError:boolean}){
-    const tryResetPlan = useMutation_tryResetPlan();
+    const queryClient:QueryClient = useQueryClient();
     const refreshButtonRef:MutableRefObject<undefined | HTMLButtonElement> = useRef();
     const params = useParams();
 
-    const locale:string= params.lang ?? 'en';
+    const locale:string= params.lang as string ?? 'en';
     const clientDashboardDictionary = getClientDashboardDictionary(locale);
     const userMetric = userAccount;
 
@@ -41,10 +40,10 @@ export default function UserCloudStorageMetrics({userAccount,isFetching,isError}
                               </>
                               :
                               <>
-                                  <Progress value={Math.floor(userMetric.usedVolume * 100 / userMetric.allowedVolume)}
+                                  <Progress value={Math.floor(userMetric.usedVolume * 100 / userMetric.allowedResource.allowedVolume)}
                                             className={`h-2 w-full ${locale=='fa' && 'scale-x-[-1]'}`}/>
                                   <div>{`${formatFileSizeWithLocale(userMetric.usedVolume,locale)} ${clientDashboardDictionary.metrics.used}`}</div>
-                                  <div>{`${formatFileSizeWithLocale(userMetric.allowedVolume - userMetric.usedVolume,locale)} ${clientDashboardDictionary.metrics.free}`}</div>
+                                  <div>{`${formatFileSizeWithLocale(userMetric.allowedResource.allowedVolume - userMetric.usedVolume,locale)} ${clientDashboardDictionary.metrics.free}`}</div>
                               </>
                           }
                       </div>
@@ -66,10 +65,10 @@ export default function UserCloudStorageMetrics({userAccount,isFetching,isError}
                               </>
                               :
                               <>
-                                  <Progress value={Math.floor(userMetric.usedTraffic * 100 / userMetric.allowedTraffic)}
+                                  <Progress value={Math.floor(userMetric.usedTrafficResource.usedTraffic * 100 / userMetric.allowedResource.allowedTraffic)}
                                             className={`h-2 w-full ${locale=='fa' && 'scale-x-[-1]'}`}/>
-                                  <div>{`${formatFileSizeWithLocale(userMetric.usedTraffic,locale)} ${clientDashboardDictionary.metrics.used}`}</div>
-                                  <div>{`${formatFileSizeWithLocale(userMetric.allowedTraffic - userMetric.usedTraffic,locale)} ${clientDashboardDictionary.metrics.remained}`}</div>
+                                  <div>{`${formatFileSizeWithLocale(userMetric.usedTrafficResource.usedTraffic,locale)} ${clientDashboardDictionary.metrics.used}`}</div>
+                                  <div>{`${formatFileSizeWithLocale(userMetric.allowedResource.allowedTraffic - userMetric.usedTrafficResource.usedTraffic,locale)} ${clientDashboardDictionary.metrics.remained}`}</div>
                               </>
                           }
                       </div>
@@ -81,7 +80,7 @@ export default function UserCloudStorageMetrics({userAccount,isFetching,isError}
                       variant="outline"
                       ref={refreshButtonRef as MutableRefObject<HTMLButtonElement>}
                       className='flex items-center justify-center rounded-full p-0 h-[2.4rem] w-[2.4rem] hover:text-green-700'
-                      onClick={()=>refreshMetrics(refreshButtonRef,tryResetPlan)}
+                      onClick={()=>refreshMetrics(refreshButtonRef, queryClient)}
               >
                   <RotateCw className='h-[1.2rem] w-[1.2rem]'/>
               </Button>
@@ -89,8 +88,8 @@ export default function UserCloudStorageMetrics({userAccount,isFetching,isError}
       </div>
     );
 }
-function refreshMetrics(refreshButtonRef,tryResetPlan){
+function refreshMetrics(refreshButtonRef, queryClient){
     refreshButtonRef.current.disabled = true;
-    tryResetPlan.mutate();
+    queryClient.invalidateQueries({queryKey:['user',"userMetrics"]});
     setTimeout(() => refreshButtonRef.current.disabled = false, 1000 * 10);
 }

@@ -1,33 +1,35 @@
-import {formatUTCTimeWithLocale} from "@/app/utils/TimeUtils";
 
 export default class UserAccountDomain{
-    accountPlan:string;
     usedVolume:number;
-    usedTraffic:number;
-    allowedVolume:number;
-    allowedTraffic:number;
-    usedStreamDownloadTraffic:number;
-    allowedStreamDownloadTraffic:number;
-    downloadedNumberOfStreams:number;
-    allowedNumberOfStreamsToDownload:number;
-    planEnds:string;
-    planReset:string;
-    nextPlanReset:string;
+    authorities:string[];
+    usedTrafficResource:UsedTrafficResource;
+    allowedResource:AllowedResource;
+    subscriptions:UserSubscription[];
+    recentlyExpiredSubscriptions:UserSubscription[];
 
     isVolumeLimitReached(totalSize:number):boolean{
-        return this.usedVolume+totalSize>this.allowedVolume;
+        return this.usedVolume+totalSize>this.allowedResource.allowedVolume;
     }
     isTrafficLimitReached(totalSize:number):boolean{
-        return this.usedTraffic+totalSize>this.allowedTraffic;
+        return this.usedTrafficResource.usedTraffic+totalSize>this.allowedResource.allowedTraffic;
     }
-    getNextPlanResetWithLocale(locale:string){
-      return formatUTCTimeWithLocale(this.nextPlanReset,locale);
-    }
-    getPlanEndsWithLocale(locale:string){
-        if (this.planEnds) {
-            return formatUTCTimeWithLocale(this.planEnds, locale);
-        } else {
-            return "Never";
-        }
-    }
+}
+export interface UsedTrafficResource {
+    usedTraffic:number;
+    usedStreamDownloadTraffic:number;
+    downloadedNumberOfStreams:number;
+}
+export interface AllowedResource {
+    allowedVolume:number;
+    allowedTraffic:number;
+    allowedStreamDownloadTraffic:number;
+    allowedNumberOfStreamsToDownload:number;
+}
+export interface UserSubscription {
+    planCode:string;
+    precedence:number;
+    allowedResource:AllowedResource;
+    usedTrafficResource:UsedTrafficResource;
+    planStartTime:string;
+    planEndsTime:string;
 }

@@ -123,8 +123,8 @@ export default function UserStreamInfoTable({ streamModel, lang }: {streamModel 
     }
 
     const hiddenTracksCount = streamModel.playlistCount - streamModel.entries.length;
-    const userAllowedStreamDownloadTraffic = userAccount.allowedStreamDownloadTraffic - userAccount.usedStreamDownloadTraffic;
-    const userAllowedNumberOfStreams = userAccount.allowedNumberOfStreamsToDownload - userAccount.downloadedNumberOfStreams;
+    const userAllowedStreamDownloadTraffic = userAccount.allowedResource.allowedStreamDownloadTraffic - userAccount.usedTrafficResource.usedStreamDownloadTraffic;
+    const userAllowedNumberOfStreams = userAccount.allowedResource.allowedNumberOfStreamsToDownload - userAccount.usedTrafficResource.downloadedNumberOfStreams;
     const isUserStreamDownloadTrafficLimitReached = totalsize > userAllowedStreamDownloadTraffic ;
     const isUserNumberOfStreamsLimitReached = selectedFormats.size > userAllowedNumberOfStreams;
     const userAllowedToDownload = (!isUserStreamDownloadTrafficLimitReached) &&

@@ -1,22 +1,36 @@
 "use client"
 
 import {useRef, useState} from "react"
-import { Calendar, CreditCard, Download, HardDrive, Home, RefreshCw, Settings, User, Wifi } from "lucide-react"
+import {
+    AlertCircle,
+    Calendar,
+    CreditCard,
+    Database,
+    Download,
+    HardDrive,
+    Home, PlayCircle,
+    RefreshCw,
+    Settings, TrendingUp,
+    User,
+    Wifi
+} from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {formatFileSize} from "@/app/utils/FileUtils";
+import {formatFileSize, formatFileSizeWithLocale} from "@/app/utils/FileUtils";
 import useQuery_userAccount from "@/app/[lang]/user/queries/UserAccountInfoQuery";
 import useQuery_userInfo from "@/app/[lang]/user/queries/UserInfoQuery";
 import LoadingSpinner from "@/app/sitecomponents/loading/LoadingSpineer";
-import useMutation_tryResetPlan from "@/app/[lang]/user/queries/UserPlanResetMutation";
 import {useParams} from "next/navigation";
-import {DEFAULT_LOCALE} from "@/app/utils/TimeUtils";
+import {DEFAULT_LOCALE, formatUTCDateWithLocale, formatUTCTimeWithLocale} from "@/app/utils/TimeUtils";
+import {Badge} from "@/components/ui/badge";
+import {QueryClient, useQueryClient} from "@tanstack/react-query";
+import {formatMessageBidi} from "@/app/utils/I18nUtils";
 
 export default function UserAccountInfo() {
     const [activeTab, setActiveTab] = useState("overview")
-    const tryResetPlan = useMutation_tryResetPlan();
+    const queryClient:QueryClient = useQueryClient();
     const refreshButton = useRef(null);
     const {userAccount, userAccount_isFetching, userAccount_isError } = useQuery_userAccount();
     const {userInfo, userInfo_isFetching, userInfo_isError} = useQuery_userInfo();
@@ -28,157 +42,238 @@ export default function UserAccountInfo() {
                 <LoadingSpinner/>
             </div>)
     }
-    const locale:string = params.lang ?? DEFAULT_LOCALE;
+    const locale:string = params.lang as string ?? DEFAULT_LOCALE;
     const handleRefresh = ()=>{
         refreshButton.current.disabled = true;
-        tryResetPlan.mutate();
+        queryClient.invalidateQueries({queryKey:['user',"userMetrics"]});
         setTimeout(() => refreshButton.current.disabled = false, 1000 * 10);
     }
+    const calculatePercentage = (used: number, allowed: number) => {
+        if (allowed === 0) return 0
+        return Math.min((used / allowed) * 100, 100)
+    }
 
-    // Calculate percentages for progress bars
-    const volumePercentage = Math.min(100, (userAccount.usedVolume / userAccount.allowedVolume) * 100)
-    const trafficPercentage = Math.min(100, (userAccount.usedTraffic / userAccount.allowedTraffic) * 100)
-    const streamPercentage = Math.min(
-        100,
-        (userAccount.usedStreamDownloadTraffic / userAccount.allowedStreamDownloadTraffic) * 100,
+    const volumePercentage = calculatePercentage(userAccount.usedVolume, userAccount.allowedResource.allowedVolume)
+    const trafficPercentage = calculatePercentage(
+        userAccount.usedTrafficResource.usedTraffic,
+        userAccount.allowedResource.allowedTraffic,
+    )
+    const streamTrafficPercentage = calculatePercentage(
+        userAccount.usedTrafficResource.usedStreamDownloadTraffic,
+        userAccount.allowedResource.allowedStreamDownloadTraffic,
+    )
+    const streamsPercentage = calculatePercentage(
+        userAccount.usedTrafficResource.downloadedNumberOfStreams,
+        userAccount.allowedResource.allowedNumberOfStreamsToDownload,
     )
 
+    const isVolumeWarning = volumePercentage > 80
+    const isTrafficWarning = trafficPercentage > 80
+
     return (
-        <div className="flex min-h-screen flex-col md:flex-row">
-            {/* Main content */}
-            <main className="flex-1 p-4 md:p-6">
-                <div className="flex flex-col gap-4 md:gap-8">
-                    <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-bold tracking-tight">Account</h1>
-                        <Button ref={refreshButton} variant="outline" size="sm" className="hidden md:flex" onClick={handleRefresh}>
-                            <RefreshCw className="mr-2 h-4 w-4" />
-                            Refresh
-                        </Button>
-                    </div>
+        <div className="space-y-6">
+            {/* Resource Usage Overview */}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <Card className="border-border/50 bg-card/50 backdrop-blur">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Storage Volume</CardTitle>
+                        <Database className="h-4 w-4 text-chart-1" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-foreground">{formatFileSizeWithLocale(userAccount.usedVolume, locale)}</div>
+                        <p className="text-xs text-muted-foreground">of {formatFileSizeWithLocale(userAccount.allowedResource.allowedVolume, locale)}</p>
+                        <Progress
+                            value={volumePercentage}
+                            className="mt-3 h-2"
+                            indicatorClassName={isVolumeWarning ? "bg-destructive" : "bg-chart-1"}
+                        />
+                        <p className="mt-2 text-xs text-muted-foreground">{volumePercentage.toFixed(1)}% used</p>
+                    </CardContent>
+                </Card>
 
-                    <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-                        <TabsList>
-                            <TabsTrigger value="overview">Overview</TabsTrigger>
-                            <TabsTrigger value="billing">Billing</TabsTrigger>
-                        </TabsList>
+                <Card className="border-border/50 bg-card/50 backdrop-blur">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Traffic Usage</CardTitle>
+                        <TrendingUp className="h-4 w-4 text-chart-2" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-foreground">
+                            {formatFileSizeWithLocale(userAccount.usedTrafficResource.usedTraffic, locale)}
+                        </div>
+                        <p className="text-xs text-muted-foreground">of {formatFileSizeWithLocale(userAccount.allowedResource.allowedTraffic, locale)}</p>
+                        <Progress
+                            value={trafficPercentage}
+                            className="mt-3 h-2"
+                            indicatorClassName={isTrafficWarning ? "bg-destructive" : "bg-chart-2"}
+                        />
+                        <p className="mt-2 text-xs text-muted-foreground">{trafficPercentage.toFixed(1)}% used</p>
+                    </CardContent>
+                </Card>
 
-                        <TabsContent value="overview" className="space-y-4">
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-sm font-medium">Account Plan</CardTitle>
-                                        <CreditCard className="h-4 w-4 text-muted-foreground" />
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="text-2xl font-bold">{userAccount.accountPlan}</div>
-                                        <p className="text-xs text-muted-foreground">Renews on {userAccount.getPlanEndsWithLocale(locale)}</p>
-                                    </CardContent>
-                                </Card>
+                <Card className="border-border/50 bg-card/50 backdrop-blur">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Stream Traffic</CardTitle>
+                        <Download className="h-4 w-4 text-chart-3" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-foreground">
+                            {formatFileSizeWithLocale(userAccount.usedTrafficResource.usedStreamDownloadTraffic, locale)}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            of {formatFileSizeWithLocale(userAccount.allowedResource.allowedStreamDownloadTraffic, locale)}
+                        </p>
+                        <Progress value={streamTrafficPercentage} className="mt-3 h-2" indicatorClassName="bg-chart-3" />
+                        <p className="mt-2 text-xs text-muted-foreground">{streamTrafficPercentage.toFixed(1)}% used</p>
+                    </CardContent>
+                </Card>
 
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-sm font-medium">Storage Usage</CardTitle>
-                                        <HardDrive className="h-4 w-4 text-muted-foreground" />
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="text-2xl font-bold">{formatFileSize(userAccount.usedVolume)}</div>
-                                        <p className="text-xs text-muted-foreground">of {formatFileSize(userAccount.allowedVolume)} used</p>
-                                        <Progress value={volumePercentage} className="mt-2" />
-                                    </CardContent>
-                                </Card>
+                <Card className="border-border/50 bg-card/50 backdrop-blur">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Streams Downloaded</CardTitle>
+                        <PlayCircle className="h-4 w-4 text-chart-4" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-foreground">
+                            {userAccount.usedTrafficResource.downloadedNumberOfStreams}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            of {userAccount.allowedResource.allowedNumberOfStreamsToDownload}
+                        </p>
+                        <Progress value={streamsPercentage} className="mt-3 h-2" indicatorClassName="bg-chart-4" />
+                        <p className="mt-2 text-xs text-muted-foreground">{streamsPercentage.toFixed(1)}% used</p>
+                    </CardContent>
+                </Card>
+            </div>
 
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-sm font-medium">Next Reset</CardTitle>
-                                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="text-2xl">{userAccount.getNextPlanResetWithLocale(locale)}</div>
-                                        <p className="text-xs text-muted-foreground">Traffic limits will reset</p>
-                                    </CardContent>
-                                </Card>
-                            </div>
+            {/* Warnings */}
+            {(isVolumeWarning || isTrafficWarning) && (
+                <Card className="border-destructive/50 bg-destructive/5">
+                    <CardContent className="flex items-start gap-3 pt-6">
+                        <AlertCircle className="h-5 w-5 text-destructive" />
+                        <div className="space-y-1">
+                            <p className="text-sm font-medium text-foreground">Resource Usage Warning</p>
+                            <p className="text-sm text-muted-foreground">
+                                {isVolumeWarning && "Storage volume is above 80%. "}
+                                {isTrafficWarning && "Traffic usage is above 80%. "}
+                                Consider upgrading your plan or managing your resources.
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
 
-                            <div className="grid gap-4 md:grid-cols-2">
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Traffic Usage</CardTitle>
-                                        <CardDescription>Your network traffic consumption</CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="space-y-6">
-                                        <div className="space-y-2">
-                                            <div className="flex items-center justify-between text-sm">
-                                                <div className="flex items-center">
-                                                    <Wifi className="mr-2 h-4 w-4 text-muted-foreground" />
-                                                    <span>General Traffic</span>
-                                                </div>
-                                                <span>
-                          {formatFileSize(userAccount.usedTraffic)} / {formatFileSize(userAccount.allowedTraffic)}
-                        </span>
+            {/* Active Subscriptions */}
+            <Card className="border-border/50">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-foreground">
+                        <Calendar className="h-5 w-5" />
+                        Active Subscriptions
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {userAccount.subscriptions.length === 0 ? (
+                        <p className="text-sm text-muted-foreground">No active subscriptions</p>
+                    ) : (
+                        <div className="space-y-4">
+                            {userAccount.subscriptions.map((subscription, index) => (
+                                <div key={index} className="rounded-lg border border-border/50 bg-muted/20 p-4">
+                                    <div className="flex items-start justify-between">
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-2">
+                                                <h4 className="font-semibold text-foreground">{subscription.planCode}</h4>
+                                                <Badge variant="secondary" className="text-xs">
+                                                    Priority {subscription.precedence}
+                                                </Badge>
                                             </div>
-                                            <Progress value={trafficPercentage} />
+                                            <p className="text-sm text-muted-foreground">
+                                                {formatMessageBidi(locale, '{0} - {1}',formatUTCDateWithLocale(subscription.planStartTime, locale), formatUTCDateWithLocale(subscription.planEndsTime, locale))}
+                                            </p>
                                         </div>
+                                    </div>
 
-                                        <div className="space-y-2">
-                                            <div className="flex items-center justify-between text-sm">
-                                                <div className="flex items-center">
-                                                    <Download className="mr-2 h-4 w-4 text-muted-foreground" />
-                                                    <span>Stream Download</span>
-                                                </div>
-                                                <span>
-                          {formatFileSize(userAccount.usedStreamDownloadTraffic)} /{" "}
-                                                    {formatFileSize(userAccount.allowedStreamDownloadTraffic)}
-                        </span>
-                                            </div>
-                                            <Progress value={streamPercentage} />
+                                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                                        <div className="space-y-1">
+                                            <p className="text-xs text-muted-foreground">Volume Allowance</p>
+                                            <p className="text-sm font-medium text-foreground">
+                                                {formatFileSizeWithLocale(subscription.allowedResource.allowedVolume, locale)}
+                                            </p>
                                         </div>
-                                    </CardContent>
-                                </Card>
-
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Account Summary</CardTitle>
-                                        <CardDescription>Your account details and limits</CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="space-y-4">
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Name</p>
-                                                <p>{userInfo.name}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Email</p>
-                                                <p>{userInfo.email}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Plan Ends</p>
-                                                <p>{userAccount.getPlanEndsWithLocale(locale)}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Plan Reset</p>
-                                                <p>{userAccount.getNextPlanResetWithLocale(locale)}</p>
-                                            </div>
+                                        <div className="space-y-1">
+                                            <p className="text-xs text-muted-foreground">Traffic Allowance</p>
+                                            <p className="text-sm font-medium text-foreground">
+                                                {formatFileSizeWithLocale(subscription.allowedResource.allowedTraffic, locale)}
+                                            </p>
                                         </div>
-                                        <Button className="w-full">Upgrade Plan</Button>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </TabsContent>
+                                        <div className="space-y-1">
+                                            <p className="text-xs text-muted-foreground">Stream Traffic</p>
+                                            <p className="text-sm font-medium text-foreground">
+                                                {formatFileSizeWithLocale(subscription.allowedResource.allowedStreamDownloadTraffic, locale)}
+                                            </p>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <p className="text-xs text-muted-foreground">Stream Downloads</p>
+                                            <p className="text-sm font-medium text-foreground">
+                                                {subscription.allowedResource.allowedNumberOfStreamsToDownload} streams
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
 
-                        <TabsContent value="billing" className="space-y-4">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Billing Information</CardTitle>
-                                    <CardDescription>Manage your billing and subscription</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-blue-700">This section is under develop!</p>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                    </Tabs>
-                </div>
-            </main>
+            {/* Recently Expired Subscriptions */}
+            {userAccount.recentlyExpiredSubscriptions.length > 0 && (
+                <Card className="border-border/50">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-foreground">
+                            <Calendar className="h-5 w-5 text-muted-foreground" />
+                            Recently Expired Subscriptions
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            {userAccount.recentlyExpiredSubscriptions.map((subscription, index) => (
+                                <div key={index} className="rounded-lg border border-border/50 bg-muted/10 p-4 opacity-60">
+                                    <div className="flex items-start justify-between">
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-2">
+                                                <h4 className="font-semibold text-foreground">{subscription.planCode}</h4>
+                                                <Badge variant="outline" className="text-xs">
+                                                    Expired
+                                                </Badge>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground">
+                                                {formatUTCDateWithLocale(subscription.planStartTime, locale)} - {formatUTCDateWithLocale(subscription.planEndsTime, locale)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
+
+            {/* Authorities */}
+            {userAccount.authorities.length > 0 && (
+                <Card className="border-border/50">
+                    <CardHeader>
+                        <CardTitle className="text-foreground">Authorities</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-wrap gap-2">
+                            {userAccount.authorities.map((authority, index) => (
+                                <Badge key={index} variant="secondary">
+                                    {authority}
+                                </Badge>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
         </div>
     )
 }

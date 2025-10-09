@@ -48,6 +48,33 @@ export function formatUTCTimeWithLocale(isoUTCTime,locale){
     }
 }
 
+export function formatUTCDateWithLocale(isoUTCTime,locale){
+    // Create a Date object from the ISO UTC time string
+    const date = new Date(isoUTCTime);
+
+    if (locale == 'fa'){
+        const dateTimeFormat = new Intl.DateTimeFormat('fa-IR-u-nu-latn',timeOptions);
+        const dateTimeFormatParts = dateTimeFormat.formatToParts(date);
+        const dateParts = {
+            day: dateTimeFormatParts.find(p=>p.type === 'day').value,
+            month: dateTimeFormatParts.find(p=>p.type === 'month').value,
+            year: dateTimeFormatParts.find(p=>p.type === 'year').value,
+            weekday: dateTimeFormatParts.find(p=>p.type === 'weekday').value
+        }
+        return `${dateParts.weekday}، ${toPersianDigits(dateParts.day)} ${dateParts.month} ${toPersianDigits(dateParts.year)}`;
+    } else {
+        return date.toLocaleString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+}
+
+function toPersianDigits(str: string): string {
+    return str.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[parseInt(d)]);
+}
+
 export function isWithinLastTwoHours(isoUTCTime: string): boolean {
     const date = new Date(isoUTCTime);         // parse ISO string
     const now = Date.now();                    // current timestamp (ms)
