@@ -1,0 +1,18 @@
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nginx-dev-proxy
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    networks:
+      - devnet
+    # optional: mount your nginx.conf for quick editing without rebuild
+    # volumes:
+    #   - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+networks:
+  devnet:
+    driver: bridge
